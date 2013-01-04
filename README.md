@@ -2,7 +2,7 @@
 ## Usage
 
 ```javascript
-var Schema = require('jugglingdb').Schema;
+var Schema = require('caminte').Schema;
 var schema = new Schema('redis2', {port: 6379}); //port number depends on your configuration
 // define models
 var Post = schema.define('Post', {
