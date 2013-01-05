@@ -1,7 +1,7 @@
-juggling = require('../index')
-Schema = juggling.Schema
-AbstractClass = juggling.AbstractClass
-Validatable = juggling.Validatable
+caminte = require('../index')
+Schema = caminte.Schema
+AbstractClass = caminte.AbstractClass
+Validatable = caminte.Validatable
 
 require('./spec_helper').init module.exports
 
@@ -25,7 +25,7 @@ validAttributes =
     state: ''
     age: 26
     gender: 'male'
-    domain: '1602'
+    domain: 'master'
     createdByAdmin: false
     createdByScript: true
 
@@ -35,7 +35,7 @@ getValidAttributes = ->
     state: ''
     age: 26
     gender: 'male'
-    domain: '1602'
+    domain: 'master'
     createdByAdmin: false
     createdByScript: true
 
