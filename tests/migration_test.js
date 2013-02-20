@@ -214,7 +214,7 @@ it('should check actuality of schema', function(test) {
     });
   });
 });
-
+/*
 it('should add single-column index', function(test) {
   User.defineProperty('email', {
     type: String,
@@ -235,7 +235,7 @@ it('should add single-column index', function(test) {
     });
   });
 });
-/*
+
 it('should change type of single-column index', function(test) {
   User.defineProperty('email', {
     type: String,
