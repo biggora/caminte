@@ -1,68 +1,116 @@
-require('./spec_helper').init(exports);
 
 var Schema = require('../index').Schema;
 var Text = Schema.Text;
 
-var schemas = {
-    // riak: {},
-    mysql: {
-        database: 'myapp_test',
-        username: 'root'
-    },
-    postgres:  {
-        database: 'myapp_test',
-        username: 'postgres'
-    },
-    sqlite3:   {
-        database: ':memory:'
-    },
-    neo4j:     { url: 'http://localhost:7474/' },
-    // mongoose:  { url: 'mongodb://travis:test@localhost:27017/myapp' },
-    mongodb:   { url: 'mongodb://travis:test@localhost:27017/myapp' },
-    redis2:     {},
-    memory:    {},
-    cradle:    {}
-};
+// var schemas = {
+//     // riak: {},
+//     mysql: {
+//         database: 'myapp_test',
+//         username: 'root'
+//     },
+//     postgres:  {
+//         database: 'myapp_test',
+//         username: 'postgres'
+//     },
+//     sqlite3:   {
+//         database: ':memory:'
+//     },
+//     neo4j:     { url: 'http://localhost:7474/' },
+//     // mongoose:  { url: 'mongodb://travis:test@localhost:27017/myapp' },
+//     mongodb:   { url: 'mongodb://travis:test@localhost:27017/myapp' },
+//     redis2:     {},
+//     memory:    {},
+//     cradle:    {},
+//     nano: { url: 'http://localhost:5984/nano-test' }
+// };
 
-var specificTest = getSpecificTests();
-var testPerformed = false;
 var nbSchemaRequests = 0;
 
-Object.keys(schemas).forEach(function (schemaName) {
-    if (process.env.ONLY && process.env.ONLY !== schemaName) return;
-    if (process.env.EXCEPT && ~process.env.EXCEPT.indexOf(schemaName)) return;
-    performTestFor(schemaName);
-});
+var batch;
+var schemaName;
 
-if (process.env.ONLY && !testPerformed) {
-    performTestFor(process.env.ONLY);
+function it(name, cases) {
+    batch[schemaName][name] = cases;
 }
 
-function performTestFor(schemaName) {
-    testPerformed = true;
-    context(schemaName, function () {
-        var schema = new Schema(schemaName, schemas[schemaName] || {});
+function skip(name) {
+    delete batch[schemaName][name];
+}
 
-        it('should connect to database', function (test) {
-            if (schema.connected) return test.done();
-            schema.on('connected', test.done);
-        });
+module.exports = function testSchema(exportCasesHere, schema) {
 
-        schema.log = function (a) {
-            console.log(a);
-            nbSchemaRequests++;
-        };
+    batch = exportCasesHere;
+    schemaName = schema.name;
+    if (schema.name.match(/^\/.*\/test\/\.\.$/)) {
+        schemaName = schemaName.split('/').slice(-3).shift();
+    }
+    var start;
 
-        testOrm(schema);
-        if (specificTest[schemaName]) specificTest[schemaName](schema);
+    batch['should connect to database'] = function (test) {
+        start = Date.now();
+        if (schema.connected) return test.done();
+        schema.on('connected', test.done);
+    };
+
+    schema.log = function (a) {
+        console.log(a);
+        nbSchemaRequests++;
+    };
+
+    batch[schemaName] = {};
+
+    testOrm(schema);
+
+    batch['all tests done'] = function (test) {
+        test.done();
+        process.nextTick(allTestsDone);
+    };
+
+    function allTestsDone() {
+        schema.disconnect();
+        console.log('Test done in %dms\n', Date.now() - start);
+    }
+
+};
+
+Object.defineProperty(module.exports, 'it', {
+    writable: true,
+    enumerable: false,
+    configurable: true,
+    value: it
+});
+
+Object.defineProperty(module.exports, 'skip', {
+    writable: true,
+    enumerable: false,
+    configurable: true,
+    value: skip
+});
+
+function clearAndCreate(model, data, callback) {
+    var createdItems = [];
+    model.destroyAll(function () {
+        nextItem(null, null);
     });
+
+    var itemIndex = 0;
+    function nextItem(err, lastItem) {
+        if (lastItem !== null) {
+            createdItems.push(lastItem);
+        }
+        if (itemIndex >= data.length) {
+            callback(createdItems);
+            return;
+        }
+        model.create(data[itemIndex], nextItem);
+        itemIndex++;
+    }
 }
 
 function testOrm(schema) {
     var requestsAreCounted = schema.name !== 'mongodb';
 
-    var Post, User, Passport;
-    var start = Date.now();
+    var Post, User, Passport, Log, Dog;
 
     it('should define class', function (test) {
 
@@ -73,17 +121,34 @@ function testOrm(schema) {
             approved:     Boolean,
             joinedAt:     Date,
             age:          Number,
-            passwd:    { type: String, index: true },
+            passwd:    { type: String, index: true }
+        });
+
+        Dog = schema.define('Dog', {
+            name        : { type: String, limit: 64, allowNull: false }
+        });
+
+        Log = schema.define('Log', {
+            ownerId     : { type: Number, allowNull: true },
+            name         : { type: String, limit: 64, allowNull: false }
+        });
+
+        Log.belongsTo(Dog,  {as: 'owner',  foreignKey: 'ownerId'});
+
+        schema.extendModel('User', {
             settings:  { type: Schema.JSON },
             extra:      Object
         });
+
+        var newuser = new User({settings: {hey: 'you'}});
+        test.ok(newuser.settings);
 
         Post = schema.define('Post', {
             title:     { type: String, length: 255, index: true },
             subject:   { type: String },
             content:   { type: Text },
             date:      { type: Date,    default: function () { return new Date }, index: true },
-            published: { type: Boolean, default: false },
+            published: { type: Boolean, default: false, index: true },
             likes:     [],
             related:   [RelatedPost]
         }, {table: 'posts'});
@@ -123,6 +188,7 @@ function testOrm(schema) {
         });
 
         Passport.belongsTo(User, {as: 'owner', foreignKey: 'ownerId'});
+        User.hasMany(Passport,   {as: 'passports', foreignKey: 'ownerId'});
 
         var user = new User;
 
@@ -165,9 +231,12 @@ function testOrm(schema) {
         test.done();
     });
 
-    it('should be expoted to JSON', function (test) {
-        test.equal(JSON.stringify(new Post({id: 1, title: 'hello, json', date: 1})),
-        '{"title":"hello, json","subject":null,"content":null,"date":1,"published":false,"likes":[],"related":[],"id":1,"userId":null}');
+    it('should be exported to JSON', function (test) {
+        var outString = '{"title":"hello, json","subject":null,"content":null,"date":1,"published":false,"likes":[],"related":[],"id":1,"userId":null}'
+        if (schema.name === 'nano')
+            outString = '{"title":"hello, json","subject":null,"content":null,"date":1,"published":false,"likes":[],"related":[],"_rev":null,"id":1,"userId":null}'
+        
+        test.equal(JSON.stringify(new Post({id: 1, title: 'hello, json', date: 1})),outString);
         test.done();
     });
 
@@ -347,13 +416,11 @@ function testOrm(schema) {
             post.updateAttribute('title', 'New title', function () {
                 test.equal(post.title, 'New title');
                 test.ok(!post.propertyChanged('title'));
-                console.log('hahaha', post.content, post.__data.content);
                 test.equal(post.content, 'New content', 'dirty state saved');
                 test.ok(post.propertyChanged('content'));
                 post.reload(function (err, post) {
                     test.equal(post.title, 'New title');
                     test.ok(!post.propertyChanged('title'), 'title not changed');
-                    console.log(post.content);
                     test.equal(post.content, 'content', 'real value turned back');
                     test.ok(!post.propertyChanged('content'), 'content unchanged');
                     test.done();
@@ -369,7 +436,6 @@ function testOrm(schema) {
             test.ok(countOfposts > 0);
             test.ok(posts[0] instanceof Post);
             countOfpostsFiltered = posts.filter(function (p) {
-                console.log(p.title);
                 return p.title === 'title';
             }).length;
             test.done();
@@ -424,13 +490,38 @@ function testOrm(schema) {
 
 
     it('should find records filtered with multiple attributes', function (test) {
-        Post.create({title: 'title', content: 'content', published: true, date: 1}, function (err, post) {
-            Post.all({where: {title: 'title', date: 1}}, function (err, res) {
-                test.ok(res.length > 0, 'Exact match with string returns dataset');
+        var d = new Date;
+        Post.create({title: 'title', content: 'content', published: true, date: d}, function (err, post) {
+            Post.all({where: {title: 'title', date: d, published: true}}, function (err, res) {
+                test.equals(res.length, 1, 'Filtering Posts returns one post');
                 test.done();
             });
         });
     });
+
+    if (
+        !schema.name.match(/redis/) &&
+            schema.name !== 'memory' &&
+            schema.name !== 'neo4j' &&
+            schema.name !== 'cradle'
+        )
+    it('relations key is working', function (test) {
+        test.ok(User.relations, 'Relations key should be defined');
+        test.ok(User.relations.posts, 'posts relation should exist on User');
+        test.equal(User.relations.posts.type, 'hasMany', 'Type of hasMany relation is hasMany');
+        test.equal(User.relations.posts.multiple, true, 'hasMany relations are multiple');
+        test.equal(User.relations.posts.keyFrom, 'id', 'keyFrom is primary key of model table');
+        test.equal(User.relations.posts.keyTo, 'userId', 'keyTo is foreign key of related model table');
+
+        test.ok(Post.relations, 'Relations key should be defined');
+        test.ok(Post.relations.author, 'author relation should exist on Post');
+        test.equal(Post.relations.author.type, 'belongsTo', 'Type of belongsTo relation is belongsTo');
+        test.equal(Post.relations.author.multiple, false, 'belongsTo relations are not multiple');
+        test.equal(Post.relations.author.keyFrom, 'userId', 'keyFrom is foreign key of model table');
+        test.equal(Post.relations.author.keyTo, 'id', 'keyTo is primary key of related model table');
+        test.done();
+    });
+
 
     it('should handle hasMany relationship', function (test) {
         User.create(function (err, u) {
@@ -440,58 +531,62 @@ function testOrm(schema) {
             test.ok(u.posts.create, 'Method defined: posts.create');
             u.posts.create(function (err, post) {
                 if (err) return console.log(err);
-                // test.ok(post.author(), u.id);
                 u.posts(function (err, posts) {
-                    test.equal(posts.pop().id, post.id);
+                    test.equal(posts.pop().id.toString(), post.id.toString());
                     test.done();
                 });
             });
         });
     });
 
+    it('should navigate variations of belongsTo regardless of column name', function(test){
 
-    if (
-        !schema.name.match(/redis/) &&
-            schema.name !== 'memory' &&
-            schema.name !== 'neo4j' &&
-            schema.name !== 'cradle' &&
-            schema.name !== 'mongodb'
-        )
-    it('hasMany should support additional conditions', function (test) {
-
-        // Finding one post with an existing author associated
-        Post.all(function (err, posts) {
-            // We try to get the first post with a userId != NULL
-            for (var i = 0; i < posts.length; i++) {
-                var post = posts[i];
-                if (post.userId !== null) {
-                    // We could get the user with belongs to relationship but it is better if there is no interactions.
-                    User.find(post.userId, function(err, user) {
-                        user.posts({where: {id: post.id}}, function(err, posts) {
-                            test.equal(posts.length, 1, 'There should be only 1 post.');
-                            test.done();
-                        });
-                    });
-                    break;
-                }
-            }
+        Dog.create({name: 'theDog'}, function(err, obj){
+            test.ok(obj instanceof Dog);
+            Log.create({name: 'theLog', ownerId: obj.id}, function(err, obj){
+                test.ok(obj instanceof Log);
+                obj.owner(function(err, obj){
+                    test.ok(!err, 'Should not have an error.'); // Before cba174b this would be 'Error: Permission denied'
+                    if(err){
+                        console.log('Found: ' + err);
+                    }
+                    test.ok(obj, 'Should not find null or undefined.'); // Before cba174b this could be null or undefined.
+                    test.ok(obj instanceof Dog, 'Should find a Dog.');
+                    if(obj){ // Since test won't stop on fail, have to check before accessing obj.name.
+                        test.ok(obj.name, 'Should have a name.');
+                    }
+                    if(obj && obj.name){
+                        test.equal(obj.name, 'theDog', 'The owner of theLog is theDog.');
+                    }
+                    test.done();
+                });
+            });
         });
     });
 
+    it('hasMany should support additional conditions', function (test) {
 
-    if (
-        !schema.name.match(/redis/) &&
-            schema.name !== 'memory' &&
-            schema.name !== 'neo4j' &&
-            schema.name !== 'cradle'
-        )
+        User.create(function (e, u) {
+            u.posts.create({}, function (e, p) {
+                u.posts({where: {id: p.id}}, function (e, posts) {
+                    test.equal(posts.length, 1, 'There should be only 1 post.');
+                    test.done();
+                });
+            });
+        });
+
+    });
+
     it('hasMany should be cached', function (test) {
+        //User.create(function (e, u) {
+        //    u.posts.create({}, function (e, p) {
+        // find all posts for a user.
         // Finding one post with an existing author associated
         Post.all(function (err, posts) {
             // We try to get the first post with a userId != NULL
             for (var i = 0; i < posts.length; i++) {
                 var post = posts[i];
-                if (post.userId !== null) {
+                if (post.userId) {
                     // We could get the user with belongs to relationship but it is better if there is no interactions.
                     User.find(post.userId, function(err, user) {
                         User.create(function(err, voidUser) {
@@ -586,6 +681,235 @@ function testOrm(schema) {
         function done() {
             if (--wait === 0) test.done();
         };
+    });
+
+    if (
+            schema.name === 'mysql' ||
+            schema.name === 'sqlite3' ||
+            schema.name === 'postgres'
+        )
+    it('should handle include function', function (test) {
+        var createdUsers = [];
+        var createdPassports = [];
+        var createdPosts = [];
+        var context = null;
+
+        createUsers();
+        function createUsers() {
+            clearAndCreate(
+                User,
+                [
+                    {name: 'User A', age: 21},
+                    {name: 'User B', age: 22},
+                    {name: 'User C', age: 23},
+                    {name: 'User D', age: 24},
+                    {name: 'User E', age: 25}
+                ],
+                function(items) {
+                    createdUsers = items;
+                    createPassports();
+                }
+            );
+        }
+
+        function createPassports() {
+            clearAndCreate(
+                Passport,
+                [
+                    {number: '1', ownerId: createdUsers[0].id},
+                    {number: '2', ownerId: createdUsers[1].id},
+                    {number: '3'}
+                ],
+                function(items) {
+                    createdPassports = items;
+                    createPosts();
+                }
+            );
+        }
+
+        function createPosts() {
+            clearAndCreate(
+                Post,
+                [
+                    {title: 'Post A', userId: createdUsers[0].id},
+                    {title: 'Post B', userId: createdUsers[0].id},
+                    {title: 'Post C', userId: createdUsers[0].id},
+                    {title: 'Post D', userId: createdUsers[1].id},
+                    {title: 'Post E'}
+                ],
+                function(items) {
+                    createdPosts = items;
+                    makeTests();
+                }
+            );
+        }
+
+        function makeTests() {
+            var unitTests = [
+                function() {
+                    context = ' (belongsTo simple string from passports to users)';
+                    Passport.all({include: 'owner'}, testPassportsUser);
+                },
+                function() {
+                    context = ' (belongsTo simple string from posts to users)';
+                    Post.all({include: 'author'}, testPostsUser);
+                },
+                function() {
+                    context = ' (belongsTo simple array)';
+                    Passport.all({include: ['owner']}, testPassportsUser);
+                },
+                function() {
+                    context = ' (hasMany simple string from users to posts)';
+                    User.all({include: 'posts'}, testUsersPosts);
+                },
+                function() {
+                    context = ' (hasMany simple string from users to passports)';
+                    User.all({include: 'passports'}, testUsersPassports);
+                },
+                function() {
+                    context = ' (hasMany simple array)';
+                    User.all({include: ['posts']}, testUsersPosts);
+                },
+                function() {
+                    context = ' (Passports - User - Posts in object)';
+                    Passport.all({include: {'owner': 'posts'}}, testPassportsUserPosts);
+                },
+                function() {
+                    context = ' (Passports - User - Posts in array)';
+                    Passport.all({include: [{'owner': 'posts'}]}, testPassportsUserPosts);
+                },
+                function() {
+                    context = ' (Passports - User - Posts - User)';
+                    Passport.all({include: {'owner': {'posts': 'author'}}}, testPassportsUserPosts);
+                },
+                function() {
+                    context = ' (User - Posts AND Passports)';
+                    User.all({include: ['posts', 'passports']}, testUsersPostsAndPassports);
+                }
+            ];
+
+            function testPassportsUser(err, passports, callback) {
+                testBelongsTo(passports, 'owner', callback);
+            }
+
+            function testPostsUser(err, posts, callback) {
+                testBelongsTo(posts, 'author', callback);
+            }
+
+            function testBelongsTo(items, relationName, callback) {
+                if (typeof callback === 'undefined') {
+                    callback = nextUnitTest;
+                }
+                var nbInitialRequests = nbSchemaRequests;
+                var nbItemsRemaining = items.length;
+
+                for (var i = 0; i < items.length; i++) {
+                    testItem(items[i]);
+                }
+
+                function testItem(item) {
+                    var relation = item.constructor.relations[relationName];
+                    var modelNameFrom = item.constructor.modelName;
+                    var modelNameTo = relation.modelTo.modelName;
+                    item[relationName](function(err, relatedItem) {
+                        if (relatedItem !== null) {
+                            test.equal(relatedItem[relation.keyTo], item[relation.keyFrom], modelNameTo + '\'s instance match ' + modelNameFrom + '\'s instance' + context);
+                        } else {
+                            test.ok(item[relation.keyFrom] == null, 'User match passport even when user is null.' + context);
+                        }
+                        nbItemsRemaining--;
+                        if (nbItemsRemaining == 0) {
+                            requestsAreCounted && test.equal(nbSchemaRequests, nbInitialRequests, 'No more request have been executed for loading ' + relationName + ' relation' + context)
+                            callback();
+                        }
+                    });
+                }
+            }
+
+            function testUsersPosts(err, users, expectedUserNumber, callback) {
+                if (typeof expectedUserNumber === 'undefined') {
+                    expectedUserNumber = 5;
+                }
+                test.equal(users.length, expectedUserNumber, 'Exactly ' + expectedUserNumber + ' users returned by query' + context);
+                testHasMany(users, 'posts', callback);
+            }
+
+            function testUsersPassports(err, users, callback) {
+                testHasMany(users, 'passports', callback);
+            }
+
+            function testHasMany(items, relationName, callback) {
+                if (typeof callback === 'undefined') {
+                    callback = nextUnitTest;
+                }
+                var nbInitialRequests = nbSchemaRequests;
+                var nbItemRemaining = items.length;
+                for (var i = 0; i < items.length; i++) {
+                    testItem(items[i]);
+                }
+
+                function testItem(item) {
+                    var relation = item.constructor.relations[relationName];
+                    var modelNameFrom = item.constructor.modelName;
+                    var modelNameTo = relation.modelTo.modelName;
+                    item[relationName](function(err, relatedItems) {
+                        for (var j = 0; j < relatedItems.length; j++) {
+                            test.equal(relatedItems[j][relation.keyTo], item[relation.keyFrom], modelNameTo + '\'s instances match ' + modelNameFrom + '\'s instance' + context);
+                        }
+                        nbItemRemaining--;
+                        if (nbItemRemaining == 0) {
+                            requestsAreCounted && test.equal(nbSchemaRequests, nbInitialRequests, 'No more request have been executed for loading ' + relationName + ' relation' + context)
+                            callback();
+                        }
+                    });
+                }
+            }
+
+            function testPassportsUserPosts(err, passports) {
+                testPassportsUser(err, passports, function() {
+                    var nbPassportsRemaining = passports.length;
+                    for (var i = 0; i < passports.length; i++) {
+                        if (passports[i].ownerId !== null) {
+                            passports[i].owner(function(err, user) {
+                                testUsersPosts(null, [user], 1, function() {
+                                    nextPassport();
+                                });
+                            });
+                        } else {
+                            nextPassport();
+                        }
+                    }
+                    function nextPassport() {
+                        nbPassportsRemaining--
+                        if (nbPassportsRemaining == 0) {
+                            nextUnitTest();
+                        }
+                    }
+                });
+            }
+
+            function testUsersPostsAndPassports(err, users) {
+                testUsersPosts(err, users, 5, function() {
+                    testUsersPassports(err, users, function() {
+                        nextUnitTest();
+                    });
+                });
+            }
+
+            var testNum = 0;
+            function nextUnitTest() {
+                if (testNum >= unitTests.length) {
+                    test.done();
+                    return;
+                }
+                unitTests[testNum]();
+                testNum++;
+
+            }
+
+            nextUnitTest();
+        }
+
     });
 
     it('should destroy all records', function (test) {
@@ -754,143 +1078,144 @@ function testOrm(schema) {
 
     });
 
-    if (
-        !schema.name.match(/redis/) &&
-        schema.name !== 'memory' &&
-        schema.name !== 'neo4j' &&
-        schema.name !== 'cradle'
-    )
-    it('should allow advanced queying: lt, gt, lte, gte, between', function (test) {
-        Post.destroyAll(function () {
-            Post.create({date: new Date('Wed, 01 Feb 2012 13:56:12 GMT')}, done);
-            Post.create({date: new Date('Thu, 02 Feb 2012 13:56:12 GMT')}, done);
-            Post.create({date: new Date('Fri, 03 Feb 2012 13:56:12 GMT')}, done);
-            Post.create({date: new Date('Sat, 04 Feb 2012 13:56:12 GMT')}, done);
-            Post.create({date: new Date('Sun, 05 Feb 2012 13:56:12 GMT')}, done);
-            Post.create({date: new Date('Mon, 06 Feb 2012 13:56:12 GMT')}, done);
-            Post.create({date: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}, done);
-            Post.create({date: new Date('Wed, 08 Feb 2012 13:56:12 GMT')}, done);
-            Post.create({date: new Date('Thu, 09 Feb 2012 13:56:12 GMT')}, done);
-        });
+    // if (
+    //     !schema.name.match(/redis/) &&
+    //     schema.name !== 'memory' &&
+    //     schema.name !== 'neo4j' &&
+    //     schema.name !== 'cradle' &&
+    //     schema.name !== 'nano'
+    // )
+    // it('should allow advanced queying: lt, gt, lte, gte, between', function (test) {
+    //     Post.destroyAll(function () {
+    //         Post.create({date: new Date('Wed, 01 Feb 2012 13:56:12 GMT')}, done);
+    //         Post.create({date: new Date('Thu, 02 Feb 2012 13:56:12 GMT')}, done);
+    //         Post.create({date: new Date('Fri, 03 Feb 2012 13:56:12 GMT')}, done);
+    //         Post.create({date: new Date('Sat, 04 Feb 2012 13:56:12 GMT')}, done);
+    //         Post.create({date: new Date('Sun, 05 Feb 2012 13:56:12 GMT')}, done);
+    //         Post.create({date: new Date('Mon, 06 Feb 2012 13:56:12 GMT')}, done);
+    //         Post.create({date: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}, done);
+    //         Post.create({date: new Date('Wed, 08 Feb 2012 13:56:12 GMT')}, done);
+    //         Post.create({date: new Date('Thu, 09 Feb 2012 13:56:12 GMT')}, done);
+    //     });
 
-        var posts = 9;
-        function done() {
-            if (--posts === 0) makeTest();
-        }
+    //     var posts = 9;
+    //     function done() {
+    //         if (--posts === 0) makeTest();
+    //     }
 
-        function makeTest() {
-            // gt
-            Post.all({where: {date: {gt: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}}}, function (err, posts) {
-                test.equal(posts.length, 2, 'gt');
-                ok();
-            });
+    //     function makeTest() {
+    //         // gt
+    //         Post.all({where: {date: {gt: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}}}, function (err, posts) {
+    //             test.equal(posts.length, 2, 'gt');
+    //             ok();
+    //         });
 
-            // gte
-            Post.all({where: {date: {gte: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}}}, function (err, posts) {
-                test.equal(posts.length, 3, 'gte');
-                ok();
-            });
+    //         // gte
+    //         Post.all({where: {date: {gte: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}}}, function (err, posts) {
+    //             test.equal(posts.length, 3, 'gte');
+    //             ok();
+    //         });
 
-            // lte
-            Post.all({where: {date: {lte: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}}}, function (err, posts) {
-                test.equal(posts.length, 7, 'lte');
-                ok();
-            });
+    //         // lte
+    //         Post.all({where: {date: {lte: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}}}, function (err, posts) {
+    //             test.equal(posts.length, 7, 'lte');
+    //             ok();
+    //         });
 
-            // lt
-            Post.all({where: {date: {lt: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}}}, function (err, posts) {
-                test.equal(posts.length, 6, 'lt');
-                ok();
-            });
+    //         // lt
+    //         Post.all({where: {date: {lt: new Date('Tue, 07 Feb 2012 13:56:12 GMT')}}}, function (err, posts) {
+    //             test.equal(posts.length, 6, 'lt');
+    //             ok();
+    //         });
 
-            // between
-            Post.all({where: {date: {between: [new Date('Tue, 05 Feb 2012 13:56:12 GMT'), new Date('Tue, 09 Feb 2012 13:56:12 GMT')]}}}, function (err, posts) {
-                test.equal(posts.length, 5, 'between');
-                ok();
-            });
-        }
+    //         // between
+    //         Post.all({where: {date: {between: [new Date('Tue, 05 Feb 2012 13:56:12 GMT'), new Date('Tue, 09 Feb 2012 13:56:12 GMT')]}}}, function (err, posts) {
+    //             test.equal(posts.length, 5, 'between');
+    //             ok();
+    //         });
+    //     }
 
-        var tests = 5;
-        function ok() {
-            if (--tests === 0) test.done();
-        }
-    });
+    //     var tests = 5;
+    //     function ok() {
+    //         if (--tests === 0) test.done();
+    //     }
+    // });
 
 
-    if (
-        schema.name === 'mysql' ||
-        schema.name === 'postgres'
-    )
-    it('should allow IN or NOT IN', function (test) {
-        User.destroyAll(function () {
-            User.create({name: 'User A', age: 21}, done);
-            User.create({name: 'User B', age: 22}, done);
-            User.create({name: 'User C', age: 23}, done);
-            User.create({name: 'User D', age: 24}, done);
-            User.create({name: 'User E', age: 25}, done);
-        });
+    // if (
+    //     schema.name === 'mysql' ||
+    //     schema.name === 'postgres'
+    // )
+    // it('should allow IN or NOT IN', function (test) {
+    //     User.destroyAll(function () {
+    //         User.create({name: 'User A', age: 21}, done);
+    //         User.create({name: 'User B', age: 22}, done);
+    //         User.create({name: 'User C', age: 23}, done);
+    //         User.create({name: 'User D', age: 24}, done);
+    //         User.create({name: 'User E', age: 25}, done);
+    //     });
 
-        var users = 5;
-        function done() {
-            if (--users === 0) makeTest();
-        }
+    //     var users = 5;
+    //     function done() {
+    //         if (--users === 0) makeTest();
+    //     }
 
-        function makeTest() {
-            // IN with empty array should return nothing
-            User.all({where: {name: {inq: []}}}, function (err, users) {
-                test.equal(users.length, 0, 'IN with empty array returns nothing');
-                ok();
-            });
+    //     function makeTest() {
+    //         // IN with empty array should return nothing
+    //         User.all({where: {name: {inq: []}}}, function (err, users) {
+    //             test.equal(users.length, 0, 'IN with empty array returns nothing');
+    //             ok();
+    //         });
 
-            // NOT IN with empty array should return everything
-            User.all({where: {name: {nin: []}}}, function (err, users) {
-                test.equal(users.length, 5, 'NOT IN with empty array returns everything');
-                ok();
-            });
+    //         // NOT IN with empty array should return everything
+    //         User.all({where: {name: {nin: []}}}, function (err, users) {
+    //             test.equal(users.length, 5, 'NOT IN with empty array returns everything');
+    //             ok();
+    //         });
 
-            // IN [User A] returns user with name = User A
-            User.all({where: {name: {inq: ['User A']}}}, function (err, users) {
-                test.equal(users.length, 1, 'IN searching one existing value returns 1 user');
-                test.equal(users[0].name, 'User A', 'IN [User A] returns user with name = User A');
-                ok();
-            });
+    //         // IN [User A] returns user with name = User A
+    //         User.all({where: {name: {inq: ['User A']}}}, function (err, users) {
+    //             test.equal(users.length, 1, 'IN searching one existing value returns 1 user');
+    //             test.equal(users[0].name, 'User A', 'IN [User A] returns user with name = User A');
+    //             ok();
+    //         });
 
-            // NOT IN [User A] returns users with name != User A
-            User.all({where: {name: {nin: ['User A']}}}, function (err, users) {
-                test.equal(users.length, 4, 'IN [User A] returns users with name != User A');
-                ok();
-            });
+    //         // NOT IN [User A] returns users with name != User A
+    //         User.all({where: {name: {nin: ['User A']}}}, function (err, users) {
+    //             test.equal(users.length, 4, 'IN [User A] returns users with name != User A');
+    //             ok();
+    //         });
 
-            // IN [User A, User B] returns users with name = User A OR name = User B
-            User.all({where: {name: {inq: ['User A', 'User B']}}}, function (err, users) {
-                test.equal(users.length, 2, 'IN searching two existing values returns 2 users');
-                ok();
-            });
+    //         // IN [User A, User B] returns users with name = User A OR name = User B
+    //         User.all({where: {name: {inq: ['User A', 'User B']}}}, function (err, users) {
+    //             test.equal(users.length, 2, 'IN searching two existing values returns 2 users');
+    //             ok();
+    //         });
 
-            // NOT IN [User A, User B] returns users with name != User A AND name != User B
-            User.all({where: {name: {nin: ['User A', 'User B']}}}, function (err, users) {
-                test.equal(users.length, 3, 'NOT IN searching two existing values returns users with name != User A AND name != User B');
-                ok();
-            });
+    //         // NOT IN [User A, User B] returns users with name != User A AND name != User B
+    //         User.all({where: {name: {nin: ['User A', 'User B']}}}, function (err, users) {
+    //             test.equal(users.length, 3, 'NOT IN searching two existing values returns users with name != User A AND name != User B');
+    //             ok();
+    //         });
 
-            // IN works with numbers too
-            User.all({where: {age: {inq: [21, 22]}}}, function (err, users) {
-                test.equal(users.length, 2, 'IN works with numbers too');
-                ok();
-            });
+    //         // IN works with numbers too
+    //         User.all({where: {age: {inq: [21, 22]}}}, function (err, users) {
+    //             test.equal(users.length, 2, 'IN works with numbers too');
+    //             ok();
+    //         });
 
-            // NOT IN works with numbers too
-            User.all({where: {age: {nin: [21, 22]}}}, function (err, users) {
-                test.equal(users.length, 3, 'NOT IN works with numbers too');
-                ok();
-            });
-        }
+    //         // NOT IN works with numbers too
+    //         User.all({where: {age: {nin: [21, 22]}}}, function (err, users) {
+    //             test.equal(users.length, 3, 'NOT IN works with numbers too');
+    //             ok();
+    //         });
+    //     }
 
-        var tests = 8;
-        function ok() {
-            if (--tests === 0) test.done();
-        }
-    });
+    //     var tests = 8;
+    //     function ok() {
+    //         if (--tests === 0) test.done();
+    //     }
+    // });
 
     it('should handle order clause with direction', function (test) {
         var wait = 0;
@@ -980,60 +1305,61 @@ function testOrm(schema) {
                 test.equal(post && post.constructor.modelName, 'Post');
                 test.equal(post && post.title, 'hey');
                 Post.findOne({ where: { title: 'not exists' } }, function (err, post) {
-                    test.ok(typeof post === 'undefined');
+                    test.ok(post === null);
                     test.done();
                 });
             });
         });
     });
 
-    if (
-        !schema.name.match(/redis/) &&
-            schema.name !== 'memory' &&
-            schema.name !== 'neo4j' &&
-            schema.name !== 'cradle'
-        )
-    it('belongsTo should be cached', function (test) {
-        User.findOne(function(err, user) {
+    // if (
+    //     !schema.name.match(/redis/) &&
+    //         schema.name !== 'memory' &&
+    //         schema.name !== 'neo4j' &&
+    //         schema.name !== 'cradle' &&
+    //         schema.name !== 'nano'
+    //     )
+    // it('belongsTo should be cached', function (test) {
+    //     User.findOne(function(err, user) {
 
-            var passport = new Passport({ownerId: user.id});
-            var passport2 = new Passport({ownerId: null});
+    //         var passport = new Passport({ownerId: user.id});
+    //         var passport2 = new Passport({ownerId: null});
 
-            // There can't be any concurrency because we are counting requests
-            // We are first testing cases when passport has an owner
-            passport.owner(function(err, data) {
-                var nbInitialRequests = nbSchemaRequests;
-                passport.owner(function(err, data2) {
-                    test.equal(data.id, data2.id, 'The value should remain the same');
-                    requestsAreCounted && test.equal(nbInitialRequests, nbSchemaRequests, 'There should not be any request because value is cached.');
+    //         // There can't be any concurrency because we are counting requests
+    //         // We are first testing cases when passport has an owner
+    //         passport.owner(function(err, data) {
+    //             var nbInitialRequests = nbSchemaRequests;
+    //             passport.owner(function(err, data2) {
+    //                 test.equal(data.id, data2.id, 'The value should remain the same');
+    //                 requestsAreCounted && test.equal(nbInitialRequests, nbSchemaRequests, 'There should not be any request because value is cached.');
 
-                    // We are now testing cases when passport has not an owner
-                    passport2.owner(function(err, data) {
-                        var nbInitialRequests2 = nbSchemaRequests;
-                        passport2.owner(function(err, data2) {
-                            test.equal(data, null, 'The value should be null since there is no owner');
-                            test.equal(data, data2, 'The value should remain the same (null)');
-                            requestsAreCounted && test.equal(nbInitialRequests2, nbSchemaRequests, 'There should not be any request because value is cached.');
+    //                 // We are now testing cases when passport has not an owner
+    //                 passport2.owner(function(err, data) {
+    //                     var nbInitialRequests2 = nbSchemaRequests;
+    //                     passport2.owner(function(err, data2) {
+    //                         test.equal(data, null, 'The value should be null since there is no owner');
+    //                         test.equal(data, data2, 'The value should remain the same (null)');
+    //                         requestsAreCounted && test.equal(nbInitialRequests2, nbSchemaRequests, 'There should not be any request because value is cached.');
 
-                            passport2.owner(user.id);
-                            passport2.owner(function(err, data3) {
-                                test.equal(data3.id, user.id, 'Owner should now be the user.');
-                                requestsAreCounted && test.equal(nbInitialRequests2 + 1, nbSchemaRequests, 'If we changed owner id, there should be one more request.');
+    //                         passport2.owner(user.id);
+    //                         passport2.owner(function(err, data3) {
+    //                             test.equal(data3.id, user.id, 'Owner should now be the user.');
+    //                             requestsAreCounted && test.equal(nbInitialRequests2 + 1, nbSchemaRequests, 'If we changed owner id, there should be one more request.');
 
-                                passport2.owner(true, function(err, data4) {
-                                    test.equal(data3.id, data3.id, 'The value should remain the same');
-                                    requestsAreCounted && test.equal(nbInitialRequests2 + 2, nbSchemaRequests, 'If we forced refreshing, there should be one more request.');
-                                    test.done();
-                                });
-                            });
-                        });
-                    });
+    //                             passport2.owner(true, function(err, data4) {
+    //                                 test.equal(data3.id, data3.id, 'The value should remain the same');
+    //                                 requestsAreCounted && test.equal(nbInitialRequests2 + 2, nbSchemaRequests, 'If we forced refreshing, there should be one more request.');
+    //                                 test.done();
+    //                             });
+    //                         });
+    //                     });
+    //                 });
 
-                });
-            });
-        });
+    //             });
+    //         });
+    //     });
 
-    });
+    // });
 
     if (schema.name !== 'mongoose' && schema.name !== 'neo4j')
     it('should update or create record', function (test) {
@@ -1138,39 +1464,17 @@ function testOrm(schema) {
         });
     });
 
-    it('all tests done', function (test) {
-        test.done();
-        process.nextTick(allTestsDone);
-    });
-
-    function allTestsDone() {
-        schema.disconnect();
-        console.log('Test done in %dms\n', Date.now() - start);
-    }
-
-}
-
-function getSpecificTests() {
-    var sp  = {};
-
-    sp['neo4j'] = function (schema) {
-
-        it('should create methods for searching by index', function (test) {
-            var Post = schema.models['Post'];
-            test.ok(typeof Post.findByTitle === 'function');
-            Post.create({title: 'Catcher in the rye'}, function (err, post) {
-                if (err) return console.log(err);
-                test.ok(!post.isNewRecord());
-                Post.findByTitle('Catcher in the rye', function (err, foundPost) {
-                    if (err) return console.log(err);
-                    if (foundPost) {
-                        test.equal(post.id, foundPost.id);
-                        test.done();
-                    }
-                });
+    it('should find or create', function (test) {
+        var email = 'some email ' + Math.random();
+        User.findOrCreate({where: {email: email}}, function (err, u) {
+            test.ok(u);
+            test.ok(!u.age);
+            User.findOrCreate({where: {email: email}}, {age: 21}, function (err, u2) {
+                test.equals(u.id.toString(), u2.id.toString(), 'Same user ids');
+                test.ok(!u2.age);
+                test.done();
             });
         });
-    };
+    });
 
-    return sp;
 }

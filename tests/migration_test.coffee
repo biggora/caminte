@@ -1,5 +1,5 @@
-juggling = require('../index')
-Schema = juggling.Schema
+caminte = require('../index')
+Schema = caminte.Schema
 Text = Schema.Text
 
 DBNAME = process.env.DBNAME || 'myapp_test'

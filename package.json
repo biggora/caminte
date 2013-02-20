@@ -1,7 +1,7 @@
 {
   "name": "caminte",
   "description": "ORM for every database: redis, mysql, neo4j, mongodb, postgres, sqlite",
-  "version": "0.0.2-1",
+  "version": "0.0.2-2",
   "author": "Aleksej Gordejev <aleksej@gordejev.lv> (http://www.gordejev.lv)",
   "keywords": [
     "caminte",
@@ -12,7 +12,7 @@
     "mongodb",
     "neo4j",
     "postgres",
-    "sqlite"
+    "sqlite3"
   ],
   "directories": {
     "lib": "lib",
@@ -24,7 +24,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "EXCEPT=cradle,neo4j nodeunit test/*_test*"
+    "test": "nodeunit test/*_test*"
   },
   "engines": [
     "node >= 0.6.0"

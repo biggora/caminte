@@ -1,7 +1,7 @@
-juggling = require('../index')
-Schema = juggling.Schema
-AbstractClass = juggling.AbstractClass
-Hookable = juggling.Hookable
+caminte = require('../index')
+Schema = caminte.Schema
+AbstractClass = caminte.AbstractClass
+Hookable = caminte.Hookable
 
 require('./spec_helper').init module.exports
 
