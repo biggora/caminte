@@ -235,7 +235,7 @@ it('should add single-column index', function(test) {
     });
   });
 });
-
+/*
 it('should change type of single-column index', function(test) {
   User.defineProperty('email', {
     type: String,
@@ -288,7 +288,7 @@ it('should update multi-column index when order of columns changed', function(te
     });
   });
 });
-
+*/
 it('test', function(test) {
   User.defineProperty('email', {
     type: String,
