@@ -10,7 +10,7 @@ mongoose, mysql, sqlite3, riak, postgres, couchdb, mongodb, redis, neo4j, firebi
 
 ```javascript
 var Schema = require('caminte').Schema;
-var schema = new Schema('redis2', {port: 6379}); //port number depends on your configuration
+var schema = new Schema('redis2', {port: 6379}); // port number depends on your configuration
 // define models
 var Post = schema.define('Post', {
     title:     { type: String, length: 255 },
@@ -89,6 +89,7 @@ User.count([conditions, ]cb)
 user.destroy(cb);
 // destroy all instances
 User.destroyAll(cb);
+
 
 // Setup validations
 User.validatesPresenceOf('name', 'email')
