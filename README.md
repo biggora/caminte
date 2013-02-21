@@ -194,6 +194,12 @@ Now all common logic described in `./lib/*.js`, and database-specific stuff in `
 
 If you have found a bug please write unit test, and make sure all other tests still pass before pushing code to repo.
 
+
+## Recommend extensions
+
+- [TrinteJS](http://www.trintejs.com/) - Javascrpt MVC Framework for Node.JS
+- [express-useragent](https://github.com/biggora/express-useragent) - Exposing user-agent for NodeJS
+
 ## License
 
 (The MIT License)
