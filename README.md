@@ -1,10 +1,11 @@
-## About [![Build Status](https://travis-ci.org/biggora/caminte.png?branch=master)](https://travis-ci.org/biggora/caminte)
+[![Build Status](https://travis-ci.org/biggora/caminte.png?branch=master)](https://travis-ci.org/biggora/caminte)
+## About CaminteJS
 
 CaminteJS is cross-db ORM for nodejs, providing common interface to access
 most popular database formats.
 
-CaminteJS adapters:
-mongoose, mysql, sqlite3, riak, postgres, couchdb, mongodb, redis, neo4j, firebird, nano
+#### CaminteJS adapters:
+    mongoose, mysql, sqlite3, riak, postgres, couchdb, mongodb, redis, neo4j, firebird, nano
 
 ## Usage
 
