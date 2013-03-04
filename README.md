@@ -204,7 +204,7 @@ If you have found a bug please write unit test, and make sure all other tests st
 
 (The MIT License)
 
-Copyright (c) 2012 Aleksej Gordejev <aleksej@gordejev.lv>
+Copyright (c) 2011 by Anatoliy Chakkaev <mail [åt] anatoliy [døt] in>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -228,6 +228,5 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Resources
 
-- Visit the [author website](http://www.gordejev.lv).
 - Follow [@biggora](https://twitter.com/#!/biggora) on Twitter for updates.
 - Report issues on the [github issues](https://github.com/biggora/caminte/issues) page.
