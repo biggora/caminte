@@ -11,7 +11,15 @@ most popular database formats.
 
 ```javascript
 var Schema = require('caminte').Schema;
-var schema = new Schema('redis2', {port: 6379}); // port number depends on your configuration
+var db: {
+    driver     : "mysql",
+    host       : "localhost",
+    port       : "3306",
+    username   : "test",
+    password   : "test",
+    database   : "test"
+};
+var schema = new Schema(db.driver, db); // port number depends on your configuration
 // define models
 var Post = schema.define('Post', {
     title:     { type: String, length: 255 },
@@ -73,7 +81,7 @@ Post.create(cb);
 // all posts
 Post.all(cb)
 // all posts by user
-Post.all({where: {userId: user.id}, order: 'id', limit: 10, skip: 20});
+Post.all({where: {userId: user.id}, order: 'id', limit: 10, skip: 20}, cb);
 // the same as prev
 user.posts(cb)
 // get one latest post
@@ -85,7 +93,7 @@ user.posts.create(cb)
 // find instance by id
 User.find(1, cb)
 // count instances
-User.count([conditions, ]cb)
+User.count({where: {userId: user.id}}, cb)
 // destroy instance
 user.destroy(cb);
 // destroy all instances
