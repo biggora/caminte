@@ -169,6 +169,8 @@ User.create(data, callback);
 Read the tests for usage examples: ./test/common_test.js
 Validations: ./test/validations_test.js
 
+
+
 ## Your own database adapter
 
 To use custom adapter, pass it's package name as first argument to `Schema` constructor:
