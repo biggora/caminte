@@ -7,19 +7,39 @@ most popular database formats.
 #### CaminteJS adapters:
     mongoose, mysql, sqlite3, riak, postgres, couchdb, mongodb, redis, neo4j, firebird, nano
 
-## Usage
+
+## Installation
+
+First install [node.js](http://nodejs.org/). Then:
+
+    $ npm install caminte
+
+## Overview
+
+### Connecting to DB
+
+First, we need to define a connection.
 
 ```javascript
-var Schema = require('caminte').Schema;
-var db: {
-    driver     : "mysql",
-    host       : "localhost",
-    port       : "3306",
-    username   : "test",
-    password   : "test",
-    database   : "test"
-};
-var schema = new Schema(db.driver, db); // port number depends on your configuration
+    var caminte = require('caminte'),
+    Schema = caminte.Schema,
+    db = {
+         driver     : "mysql",
+         host       : "localhost",
+         port       : "3306",
+         username   : "test",
+         password   : "test",
+         database   : "test"
+    };
+
+    var schema = new Schema(db.driver, db);
+```
+
+### Defining a Model
+
+Models are defined through the `Schema` interface.
+
+```javascript
 // define models
 var Post = schema.define('Post', {
     title:     { type: String, length: 255 },
@@ -36,6 +56,24 @@ var User = schema.define('User', {
     joinedAt:     Date,
     age:          Number
 });
+```
+
+
+
+
+## Usage
+
+```javascript
+var Schema = require('caminte').Schema;
+var db: {
+    driver     : "mysql",
+    host       : "localhost",
+    port       : "3306",
+    username   : "test",
+    password   : "test",
+    database   : "test"
+};
+var schema = new Schema(db.driver, db); // port number depends on your configuration
 
 // define any custom method
 User.prototype.getNameAndAge = function () {
@@ -91,7 +129,7 @@ user.posts.build
 // save as Post.create({userId: user.id}, cb);
 user.posts.create(cb)
 // find instance by id
-User.find(1, cb)
+User.findById(1, cb)
 // count instances
 User.count({where: {userId: user.id}}, cb)
 // destroy instance
