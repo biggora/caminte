@@ -58,33 +58,17 @@ var User = schema.define('User', {
 });
 ```
 
-
-
-
-## Usage
+### Accessing a Model
 
 ```javascript
-var Schema = require('caminte').Schema;
-var db: {
-    driver     : "mysql",
-    host       : "localhost",
-    port       : "3306",
-    username   : "test",
-    password   : "test",
-    database   : "test"
-};
-var schema = new Schema(db.driver, db); // port number depends on your configuration
-
-// define any custom method
-User.prototype.getNameAndAge = function () {
-    return this.name + ', ' + this.age;
-};
-
 // models also accessible in schema:
 schema.models.User;
 schema.models.Post;
+```
 
-// setup relationships
+### Setup Relationships
+
+```javascript
 User.hasMany(Post,   {as: 'posts',  foreignKey: 'userId'});
 // creates instance methods:
 // user.posts(conds)
@@ -97,21 +81,34 @@ Post.belongsTo(User, {as: 'author', foreignKey: 'userId'});
 // post.author() -- sync getter when called without params
 // post.author(user) -- setter when called with object
 
-schema.automigrate(); // required only for mysql NOTE: it will drop User and Post tables
-
 // work with models:
 var user = new User;
 user.save(function (err) {
     var post = user.posts.build({title: 'Hello world'});
     post.save(console.log);
 });
+```
 
-// or just call it as function (with the same result):
-var user = User();
-user.save(...);
+### Setup Validations
 
-// Common API methods
+```javascript
+User.validatesPresenceOf('name', 'email')
+User.validatesLengthOf('password', {min: 5, message: {min: 'Password is too short'}});
+User.validatesInclusionOf('gender', {in: ['male', 'female']});
+User.validatesExclusionOf('domain', {in: ['www', 'billing', 'admin']});
+User.validatesNumericalityOf('age', {int: true});
+User.validatesUniquenessOf('email', {message: 'email is not unique'});
 
+user.isValid(function (valid) {
+    if (!valid) {
+        user.errors // hash of errors {attr: [errmessage, errmessage, ...], attr: ...}
+    }
+})
+```
+
+### Common API methods
+
+```javascript
 // just instantiate model
 new Post
 // save model (of course async)
@@ -136,25 +133,17 @@ User.count({where: {userId: user.id}}, cb)
 user.destroy(cb);
 // destroy all instances
 User.destroyAll(cb);
-
-
-// Setup validations
-User.validatesPresenceOf('name', 'email')
-User.validatesLengthOf('password', {min: 5, message: {min: 'Password is too short'}});
-User.validatesInclusionOf('gender', {in: ['male', 'female']});
-User.validatesExclusionOf('domain', {in: ['www', 'billing', 'admin']});
-User.validatesNumericalityOf('age', {int: true});
-User.validatesUniquenessOf('email', {message: 'email is not unique'});
-
-user.isValid(function (valid) {
-    if (!valid) {
-        user.errors // hash of errors {attr: [errmessage, errmessage, ...], attr: ...}
-    }
-})
-
 ```
 
-## Callbacks
+### Define any Custom Method
+
+```javascript
+User.prototype.getNameAndAge = function () {
+    return this.name + ', ' + this.age;
+};
+```
+
+### Middleware (callbacks)
 
 The following callbacks supported:
 
@@ -170,8 +159,25 @@ The following callbacks supported:
     - beforeValidation
     - afterValidation
 
+
+```javascript
+User.afterUpdate = function (next) {
+    this.updated_ts = new Date();
+    this.save();
+    next();
+};
+```
+
 Each callback is class method of the model, it should accept single argument: `next`, this is callback which
 should be called after end of the hook. Except `afterInitialize` because this method is syncronous (called after `new Model`).
+
+
+### Automigrate
+required only for mysql NOTE: it will drop User and Post tables
+
+```javascript
+schema.automigrate();
+```
 
 ## Object lifecycle:
 
@@ -206,7 +212,6 @@ User.create(data, callback);
 
 Read the tests for usage examples: ./test/common_test.js
 Validations: ./test/validations_test.js
-
 
 
 ## Your own database adapter
