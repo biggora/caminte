@@ -182,6 +182,14 @@ user.destroy(function(err){
 });
 ```
 
+#### destroyAll(callback)
+
+```javascript
+// destroy all instances
+User.destroyAll(function(err){
+   // your code here
+});
+```
 
 ```javascript
 
@@ -191,8 +199,6 @@ user.posts.build
 // save as Post.create({userId: user.id}, cb);
 user.posts.create(cb)
 
-// destroy all instances
-User.destroyAll(cb);
 ```
 
 ### Define any Custom Method
