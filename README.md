@@ -108,29 +108,89 @@ user.isValid(function (valid) {
 
 ### Common API methods
 
+#### Just instantiate model
+
 ```javascript
-// just instantiate model
-new Post
-// save model (of course async)
-Post.create(cb);
+   var post = new Post();
+```
+
+#### Create
+
+Save model (of course async)
+
+```javascript
+Post.create(function(err){
+   // your code here
+});
+```
+
+#### All
+
+```javascript
 // all posts
-Post.all(cb)
+Post.all(function(err, posts){
+   // your code here
+});
 // all posts by user
-Post.all({where: {userId: user.id}, order: 'id', limit: 10, skip: 20}, cb);
+Post.all({where: {userId: user.id}, order: 'id', limit: 10, skip: 20}, function(err, posts){
+   // your code here
+});
 // the same as prev
-user.posts(cb)
-// get one latest post
-Post.findOne({where: {published: true}, order: 'date DESC'}, cb);
+user.posts(function(err, posts){
+   // your code here
+})
+```
+
+#### findOne
+
+Get one latest post
+
+```javascript
+Post.findOne({where: {published: true}, order: 'date DESC'}, function(err, post){
+   // your code here
+});
+```
+
+#### findById
+
+Find instance by id
+
+```javascript
+User.findById(1, function(err, post){
+   // your code here
+})
+```
+
+#### count
+
+Count instances
+
+```javascript
+// count posts by user
+User.count({where: {userId: user.id}}, function(err, count){
+   // your code here
+});
+```
+
+#### destroy
+
+Destroy instance
+
+```javascript
+user.destroy(function(err){
+   // your code here
+});
+```
+
+
+```javascript
+
+
 // same as new Post({userId: user.id});
 user.posts.build
 // save as Post.create({userId: user.id}, cb);
 user.posts.create(cb)
-// find instance by id
-User.findById(1, cb)
-// count instances
-User.count({where: {userId: user.id}}, cb)
-// destroy instance
-user.destroy(cb);
+
 // destroy all instances
 User.destroyAll(cb);
 ```
