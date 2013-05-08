@@ -114,7 +114,7 @@ user.isValid(function (valid) {
    var post = new Post();
 ```
 
-#### Create
+#### create(callback)
 
 Save model (of course async)
 
@@ -124,7 +124,7 @@ Post.create(function(err){
 });
 ```
 
-#### All
+#### all(params, callback)
 
 ```javascript
 // all posts
@@ -141,7 +141,7 @@ user.posts(function(err, posts){
 })
 ```
 
-#### findOne
+#### findOne(params, callback)
 
 Get one latest post
 
@@ -151,7 +151,7 @@ Post.findOne({where: {published: true}, order: 'date DESC'}, function(err, post)
 });
 ```
 
-#### findById
+#### findById(id, callback)
 
 Find instance by id
 
@@ -161,7 +161,7 @@ User.findById(1, function(err, post){
 })
 ```
 
-#### count
+#### count(params, callback)
 
 Count instances
 
@@ -172,7 +172,7 @@ User.count({where: {userId: user.id}}, function(err, count){
 });
 ```
 
-#### destroy
+#### destroy(callback)
 
 Destroy instance
 
