@@ -122,6 +122,14 @@ Save model (of course async)
 Post.create(function(err){
    // your code here
 });
+// same as new Post({userId: user.id});
+user.posts.build
+// save as Post.create({userId: user.id}, function(err){
+   // your code here
+});
+user.posts.create(function(err){
+   // your code here
+});
 ```
 
 #### all(params, callback)
@@ -184,20 +192,36 @@ user.destroy(function(err){
 
 #### destroyAll(callback)
 
+Destroy all instances
+
 ```javascript
-// destroy all instances
 User.destroyAll(function(err){
    // your code here
 });
 ```
 
+### Queries
+
+* [where](#where)
+* [gt](#gt)
+* [gte](#gte)
+* [lt](#lt)
+* [lte](#lte)
+* [ne](#ne)
+* [in](#in)
+* [nin](#nin)
+* [regex](#regex)
+* [like](#like)
+* [nlike](#nlike)
+
+
+
+
+
+
+
+
 ```javascript
-
-
-// same as new Post({userId: user.id});
-user.posts.build
-// save as Post.create({userId: user.id}, cb);
-user.posts.create(cb)
 
 ```
 
