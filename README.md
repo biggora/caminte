@@ -21,27 +21,8 @@ First install [node.js](http://nodejs.org/). Then:
 * [Accessing a Model](#accessing)
 * [Setup Validations](#validations)
 * [Common API methods](#api)
-  * [create](#create)
-  * [all](#create)
-  * [find](#find)
-  * [findOne](#findone)
-  * [findById](#findbyid)
-  * [count](#count)
-  * [destroy](#destroy)
-  * [destroyAll](#destroyall)
 * [Define any Custom Method](#custom)
 * [Queries](#queries)
-  * [where](#where)
-  * [gt](#gt)
-  * [gte](#gte)
-  * [lt](#lt)
-  * [lte](#lte)
-  * [ne](#ne)
-  * [in, inq] (#in)
-  * [nin](#nin)
-  * [regex](#regex)
-  * [like](#like)
-  * [nlike](#nlike)
 * [Middleware](#middleware)
 * [Object lifecycle](#lifecycle)
 * [Your own database adapter](#adapter)
@@ -144,6 +125,14 @@ user.isValid(function (valid) {
 
 <a name="api"></a>
 ### Common API methods
+* [create](#create)
+* [all](#create)
+* [find](#find)
+* [findOne](#findone)
+* [findById](#findbyid)
+* [count](#count)
+* [destroy](#destroy)
+* [destroyAll](#destroyall)
 
 #### Just instantiate model
 
