@@ -202,6 +202,8 @@ User.destroyAll(function(err){
 
 ### Queries
 
+#### API methods
+
 * [where](#where)
 * [gt](#gt)
 * [gte](#gte)
@@ -214,15 +216,66 @@ User.destroyAll(function(err){
 * [like](#like)
 * [nlike](#nlike)
 
-
-
-
-
-
-
-
+#### Example Queries
 ```javascript
+var user = User.find();
+user.where('active', 1);
+user.order('id DESC');
+user.run({}, function(err, users) {
+   // your code here
+});
+```
 
+#### #where
+<a name="where"></a>
+```javascript
+var Query = User.find();
+Query.where('userId', user.id);
+Query.run({}, function(err, count){
+   // your code here
+});
+// the same as prev
+User.find({where: {userId: user.id}}, function(err, count){
+   // your code here
+});
+```
+
+#### #gt
+
+Specifies a greater than expression.
+
+<a name="gt"></a>
+```javascript
+User.gt('userId', 100);
+// the same as prev
+User.find({
+      where: {
+         userId: {
+              gt : 100
+         }
+      }
+    }}, function(err, count){
+   // your code here
+});
+```
+
+#### #gte
+
+Specifies a greater than or equal to expression.
+
+<a name="gte"></a>
+```javascript
+User.gte('userId', 100);
+// the same as prev
+User.find({
+      where: {
+         userId: {
+              gte : 100
+         }
+      }
+    }}, function(err, count){
+   // your code here
+});
 ```
 
 ### Define any Custom Method
