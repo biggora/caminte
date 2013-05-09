@@ -131,6 +131,7 @@ user.isValid(function (valid) {
 * [findOne](#findone)
 * [findById](#findbyid)
 * [count](#count)
+* [remove](#remove)
 * [destroy](#destroy)
 * [destroyAll](#destroyall)
 
@@ -207,6 +208,18 @@ Count instances
 ```javascript
 // count posts by user
 User.count({where: {userId: user.id}}, function(err, count){
+   // your code here
+});
+```
+
+<a name="remove"></a>
+#### #remove(params, callback)
+
+Remove instances
+
+```javascript
+// remove all unpublished posts
+Post.remove({where: {published: false}},function(err){
    // your code here
 });
 ```
