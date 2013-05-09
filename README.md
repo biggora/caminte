@@ -141,7 +141,7 @@ user.isValid(function (valid) {
 ```
 
 <a name="create"></a>
-#### create(callback)
+#### #create(callback)
 
 Save model (of course async)
 
@@ -160,7 +160,7 @@ user.posts.create(function(err){
 ```
 
 <a name="all"></a>
-#### all(params, callback)
+#### #all(params, callback)
 
 ```javascript
 // all posts
@@ -178,7 +178,7 @@ user.posts(function(err, posts){
 ```
 
 <a name="findone"></a>
-#### findOne(params, callback)
+#### #findOne(params, callback)
 
 Get one latest post
 
@@ -189,7 +189,7 @@ Post.findOne({where: {published: true}, order: 'date DESC'}, function(err, post)
 ```
 
 <a name="findbyid"></a>
-#### findById(id, callback)
+#### #findById(id, callback)
 
 Find instance by id
 
@@ -200,7 +200,7 @@ User.findById(1, function(err, post){
 ```
 
 <a name="count"></a>
-#### count(params, callback)
+#### #count(params, callback)
 
 Count instances
 
@@ -212,7 +212,7 @@ User.count({where: {userId: user.id}}, function(err, count){
 ```
 
 <a name="destroy"></a>
-#### destroy(callback)
+#### #destroy(callback)
 
 Destroy instance
 
@@ -223,7 +223,7 @@ user.destroy(function(err){
 ```
 
 <a name="destroyall"></a>
-#### destroyAll(callback)
+#### #destroyAll(callback)
 
 Destroy all instances
 
@@ -258,6 +258,11 @@ User.prototype.getNameAndAge = function () {
 * [regex](#regex)
 * [like](#like)
 * [nlike](#nlike)
+* [sort, order](#sort)
+* [asc](#asc)
+* [desc](#desc)
+* [limit](#limit)
+* [skip](#skip)
 
 #### Example Queries
 ```javascript
@@ -444,6 +449,96 @@ Post.find({
    // your code here
 });
 ```
+<a name="sort"></a>
+#### #sort(key, val)
+
+Sets the sort column and direction.
+
+```javascript
+Post.sort('title DESC');
+Post.sort('title', 'DESC');
+// the same as prev
+Post.find({
+      order: 'title DESC'
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="sort"></a>
+#### #sort(key, val)
+
+Sets the sort column and direction.
+
+```javascript
+Post.sort('title DESC');
+Post.sort('title', 'DESC');
+// the same as prev
+Post.find({
+      order: 'title DESC'
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="asc"></a>
+#### #asc(key)
+
+Sets the sort column and direction.
+
+```javascript
+Post.asc('title');
+// is the same as
+Post.sort('title ASC');
+// the same as prev
+Post.find({
+      order: 'title ASC'
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="desc"></a>
+#### #desc(key)
+
+Sets the sort column and direction.
+
+```javascript
+Post.desc('title');
+// is the same as
+Post.sort('title DESC');
+// the same as prev
+Post.find({
+      order: 'title DESC'
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="skip"></a>
+#### #skip(val)
+
+The skip method specifies at which row the database should begin returning results.
+
+```javascript
+Post.skip(10);
+// the same as prev
+Post.find({
+      skip: 10
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="limit"></a>
+#### #limit(val)
+
+The limit method specifies the max number of rows to return.
+
+```javascript
+Post.limit(10);
+// the same as prev
+Post.find({
+      limit: 10
+    }}, function(err, posts){
+   // your code here
+});
+```
 
 <a name="middleware"></a>
 ### Middleware (callbacks)
@@ -467,6 +562,7 @@ The following callbacks supported:
 User.afterUpdate = function (next) {
     this.updated_ts = new Date();
     this.save();
+    // Pass control to the next
     next();
 };
 ```
@@ -551,7 +647,6 @@ Now all common logic described in `./lib/*.js`, and database-specific stuff in `
 ## Contributing
 
 If you have found a bug please write unit test, and make sure all other tests still pass before pushing code to repo.
-
 
 ## Recommend extensions
 
