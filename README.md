@@ -311,7 +311,7 @@ Count instances
 
 ```javascript
 // count posts by user
-User.count({where: {userId: user.id}}, function(err, count){
+Post.count({where: {userId: user.id}}, function(err, count){
    // your code here
 });
 ```

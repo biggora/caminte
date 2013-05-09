@@ -78,23 +78,26 @@ var Product = schema.define('product', {
         type: Number
     }
 });
-
+/*
+*/
 var Query1 = Product.find();
 Query1.skip(10);
 Query1.limit(10);
 Query1.asc('id');
-Query1.run(function(err, inst){
+Query1.all(function(err, inst){
    // console.log(err, inst);
+   console.log('Query1');
 });
 
+Product.findOne({order:"id ASC"},function(err, inst){
+    // console.log(err, inst);
+    console.log('Query3', inst.id);
+});
 
-var Query2 = Product.find();
-Query2.where('id').gt(100).lt(200);
-Query2.skip(10);
-Query2.limit(10);
-Query2.asc('id');
-Query2.run(function(err, inst){
-    console.log(err, inst);
+/**/
+Product.find().where('id').gt(100).lt(150).limit(10).asc('id').run(function(err, inst){
+    // console.log(err, inst);
+    console.log('Query2');
 });
 
 
