@@ -16,6 +16,37 @@ First install [node.js](http://nodejs.org/). Then:
 
 ## Overview
 
+* [Connecting to DB](#connecting)
+* [Defining a Model](#defining)
+* [Accessing a Model](#accessing)
+* [Setup Validations](#validations)
+* [Common API methods](#api)
+  * [create](#create)
+  * [all](#create)
+  * [find](#find)
+  * [findOne](#findone)
+  * [findById](#findbyid)
+  * [count](#count)
+  * [destroy](#destroy)
+  * [destroyAll](#destroyall)
+* [Define any Custom Method](#custom)
+* [Queries](#queries)
+  * [where](#where)
+  * [gt](#gt)
+  * [gte](#gte)
+  * [lt](#lt)
+  * [lte](#lte)
+  * [ne](#ne)
+  * [in, inq] (#in)
+  * [nin](#nin)
+  * [regex](#regex)
+  * [like](#like)
+  * [nlike](#nlike)
+* [Middleware](#middleware)
+* [Object lifecycle](#lifecycle)
+
+
+<a name="connecting"></a>
 ### Connecting to DB
 
 First, we need to define a connection.
@@ -35,6 +66,7 @@ First, we need to define a connection.
     var schema = new Schema(db.driver, db);
 ```
 
+<a name="defining"></a>
 ### Defining a Model
 
 Models are defined through the `Schema` interface.
@@ -58,6 +90,7 @@ var User = schema.define('User', {
 });
 ```
 
+<a name="accessing"></a>
 ### Accessing a Model
 
 ```javascript
@@ -66,6 +99,7 @@ schema.models.User;
 schema.models.Post;
 ```
 
+<a name="relationships"></a>
 ### Setup Relationships
 
 ```javascript
@@ -89,6 +123,7 @@ user.save(function (err) {
 });
 ```
 
+<a name="validations"></a>
 ### Setup Validations
 
 ```javascript
@@ -106,6 +141,7 @@ user.isValid(function (valid) {
 })
 ```
 
+<a name="api"></a>
 ### Common API methods
 
 #### Just instantiate model
@@ -114,6 +150,7 @@ user.isValid(function (valid) {
    var post = new Post();
 ```
 
+<a name="create"></a>
 #### create(callback)
 
 Save model (of course async)
@@ -132,6 +169,7 @@ user.posts.create(function(err){
 });
 ```
 
+<a name="all"></a>
 #### all(params, callback)
 
 ```javascript
@@ -149,6 +187,7 @@ user.posts(function(err, posts){
 })
 ```
 
+<a name="findone"></a>
 #### findOne(params, callback)
 
 Get one latest post
@@ -159,6 +198,7 @@ Post.findOne({where: {published: true}, order: 'date DESC'}, function(err, post)
 });
 ```
 
+<a name="findbyid"></a>
 #### findById(id, callback)
 
 Find instance by id
@@ -169,6 +209,7 @@ User.findById(1, function(err, post){
 })
 ```
 
+<a name="count"></a>
 #### count(params, callback)
 
 Count instances
@@ -180,6 +221,7 @@ User.count({where: {userId: user.id}}, function(err, count){
 });
 ```
 
+<a name="destroy"></a>
 #### destroy(callback)
 
 Destroy instance
@@ -190,6 +232,7 @@ user.destroy(function(err){
 });
 ```
 
+<a name="destroyall"></a>
 #### destroyAll(callback)
 
 Destroy all instances
@@ -200,6 +243,7 @@ User.destroyAll(function(err){
 });
 ```
 
+<a name="custom"></a>
 ### Define any Custom Method
 
 ```javascript
@@ -208,6 +252,7 @@ User.prototype.getNameAndAge = function () {
 };
 ```
 
+<a name="queries"></a>
 ### Queries
 
 #### API methods
@@ -356,7 +401,7 @@ User.find({
 });
 ```
 
-
+<a name="middleware"></a>
 ### Middleware (callbacks)
 
 The following callbacks supported:
@@ -393,6 +438,7 @@ required only for mysql NOTE: it will drop User and Post tables
 schema.automigrate();
 ```
 
+<a name="lifecycle"></a>
 ## Object lifecycle:
 
 ```javascript
