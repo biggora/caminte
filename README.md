@@ -226,7 +226,7 @@ user.run({}, function(err, users) {
 });
 ```
 
-#### #where
+#### #where(key, val)
 <a name="where"></a>
 ```javascript
 var Query = User.find();
@@ -235,12 +235,12 @@ Query.run({}, function(err, count){
    // your code here
 });
 // the same as prev
-User.find({where: {userId: user.id}}, function(err, count){
+User.find({where: {userId: user.id}}, function(err, users){
    // your code here
 });
 ```
 
-#### #gt
+#### #gt(key, val)
 
 Specifies a greater than expression.
 
@@ -254,12 +254,12 @@ User.find({
               gt : 100
          }
       }
-    }}, function(err, count){
+    }}, function(err, users){
    // your code here
 });
 ```
 
-#### #gte
+#### #gte(key, val)
 
 Specifies a greater than or equal to expression.
 
@@ -273,7 +273,45 @@ User.find({
               gte : 100
          }
       }
-    }}, function(err, count){
+    }}, function(err, users){
+   // your code here
+});
+```
+
+#### #lt(key, val)
+
+Specifies a less than expression.
+
+<a name="lt"></a>
+```javascript
+User.lt('userId', 100);
+// the same as prev
+User.find({
+      where: {
+         userId: {
+              lt : 100
+         }
+      }
+    }}, function(err, users){
+   // your code here
+});
+```
+
+#### #lte(key, val)
+
+Specifies a less than or equal to expression.
+
+<a name="lte"></a>
+```javascript
+User.lte('userId', 100);
+// the same as prev
+User.find({
+      where: {
+         userId: {
+              lte : 100
+         }
+      }
+    }}, function(err, users){
    // your code here
 });
 ```
