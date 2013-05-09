@@ -200,6 +200,14 @@ User.destroyAll(function(err){
 });
 ```
 
+### Define any Custom Method
+
+```javascript
+User.prototype.getNameAndAge = function () {
+    return this.name + ', ' + this.age;
+};
+```
+
 ### Queries
 
 #### API methods
@@ -210,7 +218,7 @@ User.destroyAll(function(err){
 * [lt](#lt)
 * [lte](#lte)
 * [ne](#ne)
-* [in](#in)
+* [in, inq] (#in)
 * [nin](#nin)
 * [regex](#regex)
 * [like](#like)
@@ -225,9 +233,9 @@ user.run({}, function(err, users) {
    // your code here
 });
 ```
-
-#### #where(key, val)
 <a name="where"></a>
+#### #where(key, val)
+
 ```javascript
 var Query = User.find();
 Query.where('userId', user.id);
@@ -239,12 +247,11 @@ User.find({where: {userId: user.id}}, function(err, users){
    // your code here
 });
 ```
-
+<a name="gt"></a>
 #### #gt(key, val)
 
 Specifies a greater than expression.
 
-<a name="gt"></a>
 ```javascript
 User.gt('userId', 100);
 // the same as prev
@@ -258,12 +265,11 @@ User.find({
    // your code here
 });
 ```
-
+<a name="gte"></a>
 #### #gte(key, val)
 
 Specifies a greater than or equal to expression.
 
-<a name="gte"></a>
 ```javascript
 User.gte('userId', 100);
 // the same as prev
@@ -277,38 +283,72 @@ User.find({
    // your code here
 });
 ```
-
+<a name="lt"></a>
 #### #lt(key, val)
 
 Specifies a less than expression.
 
-<a name="lt"></a>
 ```javascript
-User.lt('userId', 100);
+Post.lt('visits', 100);
 // the same as prev
-User.find({
+Post.find({
       where: {
-         userId: {
+         visits: {
               lt : 100
          }
       }
-    }}, function(err, users){
+    }}, function(err, posts){
    // your code here
 });
 ```
-
+<a name="lte"></a>
 #### #lte(key, val)
 
 Specifies a less than or equal to expression.
 
-<a name="lte"></a>
 ```javascript
-User.lte('userId', 100);
+Post.lte('visits', 100);
+// the same as prev
+Post.find({
+      where: {
+         visits: {
+              lte : 100
+         }
+      }
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="ne"></a>
+#### #lte(key, val)
+
+Matches all values that are not equal to the value specified in the query.
+
+```javascript
+User.ne('userId', 100);
 // the same as prev
 User.find({
       where: {
          userId: {
-              lte : 100
+              ne : 100
+         }
+      }
+    }}, function(err, users){
+   // your code here
+});
+```
+<a name="in"></a>
+#### #in(key, val)
+
+Matches any of the values that exist in an array specified in the query.
+
+```javascript
+User.in('userId', [1,5,7,9]);
+// the same as prev
+User.find({
+      where: {
+         userId: {
+              in : [1,5,7,9]
          }
       }
     }}, function(err, users){
@@ -316,13 +356,6 @@ User.find({
 });
 ```
 
-### Define any Custom Method
-
-```javascript
-User.prototype.getNameAndAge = function () {
-    return this.name + ', ' + this.age;
-};
-```
 
 ### Middleware (callbacks)
 
