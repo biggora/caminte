@@ -12,7 +12,7 @@ most popular database formats.
 
 First install [node.js](http://nodejs.org/). Then:
 
-    $ npm install caminte
+    $ npm install caminte -g
 
 ## Overview
 
@@ -23,7 +23,7 @@ First install [node.js](http://nodejs.org/). Then:
 * [Common API methods](#api)
 * [Define any Custom Method](#custom)
 * [Queries](#queries)
-* [Middleware](#middleware)
+* [Middleware (Hooks)](#middleware)
 * [Object lifecycle](#lifecycle)
 * [Your own database adapter](#adapter)
 * [Running tests](#running_tests)
@@ -32,6 +32,12 @@ First install [node.js](http://nodejs.org/). Then:
 ### Connecting to DB
 
 First, we need to define a connection.
+
+#### MySQL
+
+For MySQL database need install [mysql client](https://github.com/felixge/node-mysql/). Then:
+
+    $ npm install mysql -g
 
 ```javascript
     var caminte = require('caminte'),
@@ -48,6 +54,41 @@ First, we need to define a connection.
     var schema = new Schema(db.driver, db);
 ```
 
+#### Redis
+
+For Redis database need install [redis client](https://github.com/mranney/node_redis/). Then:
+
+    $ npm install redis -g
+
+```javascript
+    var caminte = require('caminte'),
+    Schema = caminte.Schema,
+    db = {
+         driver     : "redis",
+         host       : "localhost",
+         port       : "6379"
+    };
+
+    var schema = new Schema(db.driver, db);
+```
+
+#### SQLite
+
+For SQLite database need install [sqlite3 client](https://github.com/developmentseed/node-sqlite3/). Then:
+
+    $ npm install sqlite3 -g
+
+```javascript
+    var caminte = require('caminte'),
+    Schema = caminte.Schema,
+    db = {
+         driver     : "sqlite3",
+         database   : "/db/mySite.db"
+    };
+
+    var schema = new Schema(db.driver, db);
+```
+
 <a name="defining"></a>
 ### Defining a Model
 
@@ -56,7 +97,7 @@ Models are defined through the `Schema` interface.
 ```javascript
 // define models
 var Post = schema.define('Post', {
-    title:     { type: String, length: 255 },
+    title:     { type: String,  length: 255 },
     content:   { type: Schema.Text },
     date:      { type: Date,    default: Date.now },
     published: { type: Boolean, default: false, index: true }
@@ -370,6 +411,7 @@ Specifies a greater than expression.
 
 ```javascript
 User.gt('userId', 100);
+User.where('userId').gt(100);
 // the same as prev
 User.find({
       where: {
@@ -388,6 +430,7 @@ Specifies a greater than or equal to expression.
 
 ```javascript
 User.gte('userId', 100);
+User.where('userId').gte(100);
 // the same as prev
 User.find({
       where: {
@@ -406,6 +449,7 @@ Specifies a less than expression.
 
 ```javascript
 Post.lt('visits', 100);
+Post.where('visits').lt(100);
 // the same as prev
 Post.find({
       where: {
@@ -424,6 +468,7 @@ Specifies a less than or equal to expression.
 
 ```javascript
 Post.lte('visits', 100);
+Post.where('visits').lte(100);
 // the same as prev
 Post.find({
       where: {
@@ -436,12 +481,13 @@ Post.find({
 });
 ```
 <a name="ne"></a>
-#### #lte(key, val)
+#### #ne(key, val)
 
 Matches all values that are not equal to the value specified in the query.
 
 ```javascript
 User.ne('userId', 100);
+User.where('userId').ne(100);
 // the same as prev
 User.find({
       where: {
@@ -460,6 +506,7 @@ Matches any of the values that exist in an array specified in the query.
 
 ```javascript
 User.in('userId', [1,5,7,9]);
+User.where('userId').in([1,5,7,9]);
 // the same as prev
 User.find({
       where: {
@@ -478,6 +525,7 @@ Selects rows where values match a specified regular expression.
 
 ```javascript
 Post.regex('title', 'intel');
+Post.where('title').regex('intel');
 // the same as prev
 Post.find({
       where: {

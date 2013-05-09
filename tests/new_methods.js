@@ -79,14 +79,25 @@ var Product = schema.define('product', {
     }
 });
 
-var Query = Product.find();
-console.log('Query', Query);
-Query.skip(10);
-Query.limit(10);
-Query.asc('id');
-Query.run(function(err, inst){
+var Query1 = Product.find();
+Query1.skip(10);
+Query1.limit(10);
+Query1.asc('id');
+Query1.run(function(err, inst){
+   // console.log(err, inst);
+});
+
+
+var Query2 = Product.find();
+Query2.where('id').gt(100).lt(200);
+Query2.skip(10);
+Query2.limit(10);
+Query2.asc('id');
+Query2.run(function(err, inst){
     console.log(err, inst);
 });
+
+
 /*
 Product.all({limit:10},function(err, inst){
   //  console.log(err, inst);
