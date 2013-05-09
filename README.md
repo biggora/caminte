@@ -449,17 +449,20 @@ Post.find({
    // your code here
 });
 ```
-<a name="sort"></a>
-#### #sort(key, val)
+<a name="nin"></a>
+#### #nin(key, val)
 
-Sets the sort column and direction.
+Matches values that do not exist in an array specified to the query.
 
 ```javascript
-Post.sort('title DESC');
-Post.sort('title', 'DESC');
+Post.nin('id', [1,2,3]);
 // the same as prev
 Post.find({
-      order: 'title DESC'
+      where: {
+          title : {
+                   nin : [1,2,3]
+          }
+      }
     }}, function(err, posts){
    // your code here
 });
