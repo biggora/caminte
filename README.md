@@ -126,11 +126,12 @@ user.isValid(function (valid) {
 <a name="api"></a>
 ### Common API methods
 * [create](#create)
-* [all](#create)
+* [all, run](#all)
 * [find](#find)
 * [findOrCreate](#findorcreate)
 * [findOne](#findone)
 * [findById](#findbyid)
+* [updateOrCreate, upsert](#upsert)
 * [count](#count)
 * [remove](#remove)
 * [destroy](#destroy)
@@ -164,6 +165,8 @@ user.posts.create(function(err){
 <a name="all"></a>
 #### #all(params, callback)
 
+Get all instances
+
 ```javascript
 // all posts
 Post.all(function(err, posts){
@@ -179,10 +182,38 @@ user.posts(function(err, posts){
 })
 ```
 
+<a name="find"></a>
+#### #find(params, callback)
+
+Find instances
+
+```javascript
+// all posts
+Post.find(function(err, posts){
+   // your code here
+});
+
+// all posts by user
+var Query = Post.find();
+Query.where('userId', user.id);
+Query.order('id', 'ASC');
+Query.skip(20);
+Query.limit(10);
+
+Query.run({},function(err, posts){
+   // your code here
+});
+
+// the same as prev
+Post.find({where: {userId: user.id}, order: 'id', limit: 10, skip: 20}, function(err, posts){
+   // your code here
+});
+```
+
 <a name="findorcreate"></a>
 #### #findOrCreate(params, callback)
 
-Get one latest post
+Find if exists or create instance
 
 ```javascript
 Post.findOrCreate({
@@ -197,7 +228,7 @@ Post.findOrCreate({
 <a name="findone"></a>
 #### #findOne(params, callback)
 
-Get one latest post
+Get one latest instance
 
 ```javascript
 Post.findOne({where: {published: true}, order: 'date DESC'}, function(err, post){
@@ -214,6 +245,22 @@ Find instance by id
 User.findById(1, function(err, post){
    // your code here
 })
+```
+
+<a name="upsert"></a>
+#### #updateOrCreate(params, callback)
+
+Update if exists or create instance
+
+```javascript
+Post.updateOrCreate({
+      where: {
+         userId: 100,
+         title: 'Riga'
+      }
+    }, function(err, post){
+   // your code here
+});
 ```
 
 <a name="count"></a>
