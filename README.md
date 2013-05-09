@@ -128,6 +128,7 @@ user.isValid(function (valid) {
 * [create](#create)
 * [all](#create)
 * [find](#find)
+* [findOrCreate](#findorcreate)
 * [findOne](#findone)
 * [findById](#findbyid)
 * [count](#count)
@@ -176,6 +177,21 @@ Post.all({where: {userId: user.id}, order: 'id', limit: 10, skip: 20}, function(
 user.posts(function(err, posts){
    // your code here
 })
+```
+
+<a name="findorcreate"></a>
+#### #findOrCreate(params, callback)
+
+Get one latest post
+
+```javascript
+Post.findOrCreate({
+      where: {
+         title: 'First post'
+      }
+    }, function(err, post){
+   // your code here
+});
 ```
 
 <a name="findone"></a>
