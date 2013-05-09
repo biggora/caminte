@@ -44,7 +44,8 @@ First install [node.js](http://nodejs.org/). Then:
   * [nlike](#nlike)
 * [Middleware](#middleware)
 * [Object lifecycle](#lifecycle)
-
+* [Your own database adapter](#adapter)
+* [Running tests](#running_tests)
 
 <a name="connecting"></a>
 ### Connecting to DB
@@ -400,6 +401,60 @@ User.find({
    // your code here
 });
 ```
+<a name="regex"></a>
+#### #regex(key, val)
+
+Selects rows where values match a specified regular expression.
+
+```javascript
+Post.regex('title', 'intel');
+// the same as prev
+Post.find({
+      where: {
+         title: {
+              regex : 'intel'
+         }
+      }
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="like"></a>
+#### #like(key, val)
+
+Pattern matching using a simple regular expression comparison.
+
+```javascript
+Post.like('title', 'intel');
+// the same as prev
+Post.find({
+      where: {
+         title: {
+              like : 'intel'
+         }
+      }
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="nlike"></a>
+#### #regex(key, val)
+
+Pattern not matching using a simple regular expression comparison.
+
+```javascript
+Post.nlike('title', 'intel');
+// the same as prev
+Post.find({
+      where: {
+         title: {
+              nlike : 'intel'
+         }
+      }
+    }}, function(err, posts){
+   // your code here
+});
+```
 
 <a name="middleware"></a>
 ### Middleware (callbacks)
@@ -473,7 +528,7 @@ User.create(data, callback);
 Read the tests for usage examples: ./test/common_test.js
 Validations: ./test/validations_test.js
 
-
+<a name="adapter"></a>
 ## Your own database adapter
 
 To use custom adapter, pass it's package name as first argument to `Schema` constructor:
@@ -484,6 +539,7 @@ Make sure, your adapter can be required (just put it into ./node_modules):
 
     require('couch-db-adapter');
 
+<a name="running_tests"></a>
 ## Running tests
 
 To run all tests (requires all databases):
