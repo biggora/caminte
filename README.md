@@ -209,12 +209,18 @@ user.posts.create(function(err){
 Get all instances
 
 ```javascript
+// all published posts
+var Query = Post.all();
+Query.where('published', true).desc('date');
+Query.run({}, function(err, post){
+   // your code here
+});
 // all posts
 Post.all(function(err, posts){
    // your code here
 });
 // all posts by user
-Post.all({where: {userId: user.id}, order: 'id', limit: 10, skip: 20}, function(err, posts){
+Post.all({where: {userId: 2}, order: 'id', limit: 10, skip: 20}, function(err, posts){
    // your code here
 });
 // the same as prev
@@ -236,10 +242,9 @@ Post.find(function(err, posts){
 
 // all posts by user
 var Query = Post.find();
-Query.where('userId', user.id);
+Query.where('userId', 2);
 Query.order('id', 'ASC');
-Query.skip(20);
-Query.limit(10);
+Query.skip(20).limit(10);
 
 Query.run({},function(err, posts){
    // your code here
@@ -270,9 +275,15 @@ Post.findOrCreate({
 #### #findOne(params, callback)
 
 Get one latest instance
-
+{where: {published: true}, order: 'date DESC'}
 ```javascript
 Post.findOne({where: {published: true}, order: 'date DESC'}, function(err, post){
+   // your code here
+});
+// or
+var Query = Post.findOne();
+Query.where('published',true).desc('date');
+Query.run({}, function(err, post){
    // your code here
 });
 ```
