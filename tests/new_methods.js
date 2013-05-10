@@ -81,11 +81,13 @@ var Product = schema.define('product', {
 /*
 */
 var Query1 = Product.find();
-Query1.skip(10);
-Query1.limit(10);
+Query1.range('id', 10, 20);
 Query1.asc('id');
 Query1.all(function(err, inst){
    // console.log(err, inst);
+   inst.forEach(function(ins){
+       console.log(ins.id);
+   })
    console.log('Query1');
 });
 

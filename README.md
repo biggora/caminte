@@ -380,13 +380,14 @@ User.prototype.getNameAndAge = function () {
 * [desc](#desc)
 * [limit](#limit)
 * [skip](#skip)
+* [range, slice](#range)
 
 #### Example Queries
 ```javascript
-var user = User.find();
-user.where('active', 1);
-user.order('id DESC');
-user.run({}, function(err, users) {
+var Query = User.find();
+Query.where('active', 1);
+Query.order('id DESC');
+Query.run({}, function(err, users) {
    // your code here
 });
 ```
@@ -410,8 +411,8 @@ User.find({where: {userId: user.id}}, function(err, users){
 Specifies a greater than expression.
 
 ```javascript
-User.gt('userId', 100);
-User.where('userId').gt(100);
+Query.gt('userId', 100);
+Query.where('userId').gt(100);
 // the same as prev
 User.find({
       where: {
@@ -429,8 +430,8 @@ User.find({
 Specifies a greater than or equal to expression.
 
 ```javascript
-User.gte('userId', 100);
-User.where('userId').gte(100);
+Query.gte('userId', 100);
+Query.where('userId').gte(100);
 // the same as prev
 User.find({
       where: {
@@ -448,8 +449,8 @@ User.find({
 Specifies a less than expression.
 
 ```javascript
-Post.lt('visits', 100);
-Post.where('visits').lt(100);
+Query.lt('visits', 100);
+Query.where('visits').lt(100);
 // the same as prev
 Post.find({
       where: {
@@ -467,8 +468,8 @@ Post.find({
 Specifies a less than or equal to expression.
 
 ```javascript
-Post.lte('visits', 100);
-Post.where('visits').lte(100);
+Query.lte('visits', 100);
+Query.where('visits').lte(100);
 // the same as prev
 Post.find({
       where: {
@@ -486,8 +487,8 @@ Post.find({
 Matches all values that are not equal to the value specified in the query.
 
 ```javascript
-User.ne('userId', 100);
-User.where('userId').ne(100);
+Query.ne('userId', 100);
+Query.where('userId').ne(100);
 // the same as prev
 User.find({
       where: {
@@ -505,8 +506,8 @@ User.find({
 Matches any of the values that exist in an array specified in the query.
 
 ```javascript
-User.in('userId', [1,5,7,9]);
-User.where('userId').in([1,5,7,9]);
+Query.in('userId', [1,5,7,9]);
+Query.where('userId').in([1,5,7,9]);
 // the same as prev
 User.find({
       where: {
@@ -524,8 +525,8 @@ User.find({
 Selects rows where values match a specified regular expression.
 
 ```javascript
-Post.regex('title', 'intel');
-Post.where('title').regex('intel');
+Query.regex('title', 'intel');
+Query.where('title').regex('intel');
 // the same as prev
 Post.find({
       where: {
@@ -543,7 +544,7 @@ Post.find({
 Pattern matching using a simple regular expression comparison.
 
 ```javascript
-Post.like('title', 'intel');
+Query.like('title', 'intel');
 // the same as prev
 Post.find({
       where: {
@@ -561,7 +562,7 @@ Post.find({
 Pattern not matching using a simple regular expression comparison.
 
 ```javascript
-Post.nlike('title', 'intel');
+Query.nlike('title', 'intel');
 // the same as prev
 Post.find({
       where: {
@@ -579,7 +580,7 @@ Post.find({
 Matches values that do not exist in an array specified to the query.
 
 ```javascript
-Post.nin('id', [1,2,3]);
+Query.nin('id', [1,2,3]);
 // the same as prev
 Post.find({
       where: {
@@ -597,8 +598,8 @@ Post.find({
 Sets the sort column and direction.
 
 ```javascript
-Post.sort('title DESC');
-Post.sort('title', 'DESC');
+Query.sort('title DESC');
+Query.sort('title', 'DESC');
 // the same as prev
 Post.find({
       order: 'title DESC'
@@ -609,12 +610,12 @@ Post.find({
 <a name="asc"></a>
 #### #asc(key)
 
-Sets the sort column and direction.
+Sets the sort column and direction ASC.
 
 ```javascript
-Post.asc('title');
+Query.asc('title');
 // is the same as
-Post.sort('title ASC');
+Query.sort('title ASC');
 // the same as prev
 Post.find({
       order: 'title ASC'
@@ -625,12 +626,12 @@ Post.find({
 <a name="desc"></a>
 #### #desc(key)
 
-Sets the sort column and direction.
+Sets the sort column and direction DESC.
 
 ```javascript
-Post.desc('title');
+Query.desc('title');
 // is the same as
-Post.sort('title DESC');
+Query.sort('title DESC');
 // the same as prev
 Post.find({
       order: 'title DESC'
@@ -644,7 +645,7 @@ Post.find({
 The skip method specifies at which row the database should begin returning results.
 
 ```javascript
-Post.skip(10);
+Query.skip(10);
 // the same as prev
 Post.find({
       skip: 10
@@ -658,10 +659,29 @@ Post.find({
 The limit method specifies the max number of rows to return.
 
 ```javascript
-Post.limit(10);
+Query.limit(10);
 // the same as prev
 Post.find({
       limit: 10
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="range"></a>
+#### #range(key, from, to)
+
+The limit method specifies the max number of rows to return.
+
+```javascript
+Query.range('id', 100, 200);
+// the same as prev
+Post.find({
+      where: {
+         id: {
+              gt : 100.
+              lt : 200
+         }
+      }
     }}, function(err, posts){
    // your code here
 });
