@@ -391,7 +391,7 @@ User.prototype.getNameAndAge = function () {
 * [desc](#desc)
 * [limit](#limit)
 * [skip](#skip)
-* [range, slice](#range)
+* [range](#range)
 
 #### Example Queries
 ```javascript
