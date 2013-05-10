@@ -681,10 +681,12 @@ Post.find({
 <a name="range"></a>
 #### #range(key, from, to)
 
-The limit method specifies the max number of rows to return.
+Specifies a greater than expression and a less than expression
 
 ```javascript
 Query.range('id', 100, 200);
+// equal
+Query.where('id').gt(100).lt(200);
 // the same as prev
 Post.find({
       where: {
