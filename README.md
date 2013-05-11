@@ -391,7 +391,8 @@ User.prototype.getNameAndAge = function () {
 * [desc](#desc)
 * [limit](#limit)
 * [skip](#skip)
-* [range](#range)
+* [slice](#slice)
+* [between](#between)
 
 #### Example Queries
 ```javascript
@@ -678,21 +679,33 @@ Post.find({
    // your code here
 });
 ```
-<a name="range"></a>
-#### #range(key, from, to)
+<a name="slice"></a>
+#### #slice(val)
 
-Specifies a greater than expression and a less than expression
+Limits the number of elements projected from an array. Supports skip and limit slices.
 
 ```javascript
-Query.range('id', 100, 200);
-// equal
-Query.where('id').gt(100).lt(200);
+Query.slice([20,10]);
+// the same as prev
+Post.find({
+      skip: 20,
+      limit: 10
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="between"></a>
+#### #between(key, val)
+
+Check whether a value is within a range of values.
+
+```javascript
+Query.between('created', ['2013-01-01','2013-01-08']);
 // the same as prev
 Post.find({
       where: {
-         id: {
-              gt : 100.
-              lt : 200
+         created: {
+            between : ['2013-01-01','2013-01-08']
          }
       }
     }}, function(err, posts){
@@ -701,7 +714,7 @@ Post.find({
 ```
 
 <a name="middleware"></a>
-### Middleware (callbacks)
+### Middleware (Hooks)
 
 The following callbacks supported:
 
