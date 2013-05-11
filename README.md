@@ -569,7 +569,7 @@ Post.find({
 });
 ```
 <a name="nlike"></a>
-#### #regex(key, val)
+#### #nlike(key, val)
 
 Pattern not matching using a simple regular expression comparison.
 

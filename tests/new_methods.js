@@ -144,9 +144,12 @@ Product.destroyById(12, function(err){
     }
     console.log('Query destroyById');
 });
-
+*/
 
 Product.all({limit:10},function(err, inst){
-  //  console.log(err, inst);
-});*/
+   inst.forEach(function(ins){
+       console.log(ins.id);
+   })
+   console.log('all');
+});
 // arguments
