@@ -121,6 +121,7 @@ function testOrm(schema) {
             approved:     Boolean,
             joinedAt:     Date,
             age:          Number,
+            city:         String,
             passwd:    { type: String, index: true }
         });
 
@@ -1466,10 +1467,12 @@ function testOrm(schema) {
 
     it('should find or create', function (test) {
         var email = 'some email ' + Math.random();
-        User.findOrCreate({where: {email: email, age: 21}}, function (err, u) {
+        User.findOrCreate({where: {email: email}}, function (err, u) {
+            console.log(u)
             test.ok(u);
             test.ok(!u.age);
-            User.findOrCreate({where: {email: email}}, function (err, u2) {
+            User.findOrCreate({where: {email: email}}, { age: 21 }, function (err, u2) {
+                console.log(u2);
                 test.equals(u.id.toString(), u2.id.toString(), 'Same user ids');
                 test.ok(!u2.age);
                 test.done();

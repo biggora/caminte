@@ -257,17 +257,21 @@ Post.find({where: {userId: user.id}, order: 'id', limit: 10, skip: 20}, function
 ```
 
 <a name="findorcreate"></a>
-#### #findOrCreate(params, callback)
+#### #findOrCreate(query, data, callback)
 
-Find if exists or create instance
+Find if exists or create instance.
 
 ```javascript
-Post.findOrCreate({
+// find user by email
+User.findOrCreate({
       where: {
-         title: 'First post'
+         email : 'example@example.com'
       }
-    }, function(err, post){
-   // your code here
+    }, {
+      name : 'Gocha',
+      age : 31
+    }, function(err, user){
+      // your code here
 });
 ```
 
