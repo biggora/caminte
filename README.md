@@ -296,7 +296,7 @@ Query.run({}, function(err, post){
 Find instance by id
 
 ```javascript
-User.findById(1, function(err, post){
+User.findById(1, function(err, user){
    // your code here
 })
 ```
@@ -341,7 +341,7 @@ Post.count({where: {userId: user.id}}, function(err, count){
 <a name="remove"></a>
 #### #remove(params, callback)
 
-Remove instances
+Remove instances.
 
 ```javascript
 // remove all unpublished posts
@@ -356,8 +356,14 @@ Post.remove({where: {published: false}},function(err){
 Destroy instance
 
 ```javascript
-user.destroy(function(err){
-   // your code here
+User.findById(22, function(err, user) {
+    user.destroy(function(err){
+       // your code here
+    });
+});
+// or
+User.destroyById(22, function(err) {
+    // your code here
 });
 ```
 

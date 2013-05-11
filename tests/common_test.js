@@ -1363,7 +1363,7 @@ function testOrm(schema) {
     // });
 
     if (schema.name !== 'mongoose' && schema.name !== 'neo4j')
-    it('should update or create record', function (test) {
+    it('should update or create record by id', function (test) {
         var newData = {
             id: 1,
             title: 'New title (really new)',
@@ -1479,7 +1479,7 @@ function testOrm(schema) {
     });
 
 
-    it('should update or create', function (test) {
+    it('should update or create by email', function (test) {
         var email = 'some email ' + Math.random();
         User.updateOrCreate({email: email}, { age : 21 }, function (err, u) {
             test.ok(u);
