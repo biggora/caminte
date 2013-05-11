@@ -1478,7 +1478,6 @@ function testOrm(schema) {
         });
     });
 
-
     it('should update or create by email', function (test) {
         var email = 'some email ' + Math.random();
         User.updateOrCreate({email: email}, { age : 21 }, function (err, u) {
@@ -1491,5 +1490,4 @@ function testOrm(schema) {
             });
         });
     });
-
 }

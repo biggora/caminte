@@ -97,9 +97,20 @@ Product.findOne({order:"id ASC"},function(err, inst){
 });
 
 /**/
-Product.find().where('id').gt(100).lt(150).limit(10).asc('id').run(function(err, inst){
+Product.find({}).where('id')
+.gt(100).lt(150)
+.limit(10).asc('id')
+.run(function(err, inst){
     // console.log(err, inst);
     console.log('Query2');
+});
+/**/
+Product.find({}).or([{'id':1},{'id':4}])
+.run(function(err, inst){
+   inst.forEach(function(ins){
+       console.log(ins.id);
+   })
+    console.log('Query or');
 });
 
 var und = { id: 12,
