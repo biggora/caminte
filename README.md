@@ -257,16 +257,14 @@ Post.find({where: {userId: user.id}, order: 'id', limit: 10, skip: 20}, function
 ```
 
 <a name="findorcreate"></a>
-#### #findOrCreate(query, data, callback)
+#### #findOrCreate(params, data, callback)
 
 Find if exists or create instance.
 
 ```javascript
 // find user by email
 User.findOrCreate({
-      where: {
-         email : 'example@example.com'
-      }
+      email : 'example@example.com'
     }, {
       name : 'Gocha',
       age : 31
@@ -304,18 +302,27 @@ User.findById(1, function(err, post){
 ```
 
 <a name="upsert"></a>
-#### #updateOrCreate(params, callback)
+#### #updateOrCreate(params, data, callback)
 
 Update if exists or create instance
 
 ```javascript
 Post.updateOrCreate({
-      where: {
-         userId: 100,
-         title: 'Riga'
-      }
+      id: 100
+    }, {
+      title: 'Riga',
+      tag: 'city'
     }, function(err, post){
-   // your code here
+      // your code here
+});
+// or
+User.updateOrCreate({
+      email: 'example@example.com'
+    }, {
+      name: 'Alex',
+      age: 43
+    }, function(err, user){
+      // your code here
 });
 ```
 

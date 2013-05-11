@@ -1467,14 +1467,26 @@ function testOrm(schema) {
 
     it('should find or create', function (test) {
         var email = 'some email ' + Math.random();
-        User.findOrCreate({where: {email: email}}, function (err, u) {
-            console.log(u)
+        User.findOrCreate({email: email}, function (err, u) {
             test.ok(u);
             test.ok(!u.age);
-            User.findOrCreate({where: {email: email}}, { age: 21 }, function (err, u2) {
-                console.log(u2);
+            User.findOrCreate({email: email}, { age: 21 }, function (err, u2) {
                 test.equals(u.id.toString(), u2.id.toString(), 'Same user ids');
                 test.ok(!u2.age);
+                test.done();
+            });
+        });
+    });
+
+
+    it('should update or create', function (test) {
+        var email = 'some email ' + Math.random();
+        User.updateOrCreate({email: email}, { age : 21 }, function (err, u) {
+            test.ok(u);
+            test.equals(u.age.toString(), '21', 'Same user age');
+            User.updateOrCreate({email: email}, { age: 23 }, function (err, u2) {
+                test.equals(u.id.toString(), u2.id.toString(), 'Same user ids');
+                test.equals(u2.age.toString(), '23', 'Same user age');
                 test.done();
             });
         });
