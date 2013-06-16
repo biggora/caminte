@@ -377,6 +377,17 @@ User.destroyAll(function(err){
    // your code here
 });
 ```
+<a name="scope"></a>
+### Define scope
+
+```javascript
+Post.scope('active', { published : true });
+
+Post.active(function(err, posts){
+    // your code here
+});
+
+```
 
 <a name="custom"></a>
 ### Define any Custom Method
