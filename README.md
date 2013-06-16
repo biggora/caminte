@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/biggora/caminte.png?branch=master)](https://travis-ci.org/biggora/caminte)
 ## About CaminteJS
 
-CaminteJS is cross-db ORM for nodejs, providing common interface to access
+CaminteJS is cross-db ORM (Object-Relational Mapper) for nodejs, providing common interface to access
 most popular database formats.
 
 #### CaminteJS adapters:
