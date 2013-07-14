@@ -10,10 +10,9 @@ db = {
     database   : "test"
 };
 
-var schema = new Schema(db.driver, db);
-
+caminte.createConnection(db.driver, db);
 // simplier way to describe model
-var Product = schema.define('product', {
+var Product = caminte.model('product', {
     id : {
         type: Number
     },
@@ -164,3 +163,5 @@ Product.all({limit:10},function(err, inst){
    console.log('all');
 });
 // arguments
+
+require('./controller')
