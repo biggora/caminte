@@ -97,16 +97,17 @@ Models are defined through the `Schema` interface.
 ```javascript
 // define models
 var Post = schema.define('Post', {
-    title:     { type: String,  length: 255 },
-    content:   { type: Schema.Text },
-    date:      { type: Date,    default: Date.now },
-    published: { type: Boolean, default: false, index: true }
+    title:     { type: schema.String,  length: 255 },
+    content:   { type: schema.Text },
+    params:    { type: schema.JSON },
+    date:      { type: schema.Date,    default: Date.now },
+    published: { type: schema.Boolean, default: false, index: true }
 });
 
 // simplier way to describe model
 var User = schema.define('User', {
     name:         String,
-    bio:          Schema.Text,
+    bio:          schema.Text,
     approved:     Boolean,
     joinedAt:     Date,
     age:          Number
