@@ -97,7 +97,7 @@ Models are defined through the `Schema` interface.
 ```javascript
 // define models
 var Post = schema.define('Post', {
-    title:     { type: schema.String,  length: 255 },
+    title:     { type: schema.String,  limit: 255 },
     content:   { type: schema.Text },
     params:    { type: schema.JSON },
     date:      { type: schema.Date,    default: Date.now },
