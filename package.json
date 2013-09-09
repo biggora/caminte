@@ -1,7 +1,7 @@
 {
   "name": "caminte",
   "description": "ORM for every database: redis, mysql, neo4j, mongodb, postgres, sqlite",
-  "version": "0.0.6-6",
+  "version": "0.0.6-7",
   "author": "Aleksej Gordejev <aleksej@gordejev.lv> (http://www.gordejev.lv)",
   "contributors": [
     {
@@ -80,11 +80,11 @@
     "semicov": "*",
     "coffee-script": ">= 1.2.0",
     "nodeunit": ">= 0.6.4",
-    "redis": "= 0.7.2",
+    "redis": ">= 0.7.2",
     "hiredis": "latest",
     "mongoose": "latest",
     "mysql": ">= 2.0.0-alpha3",
-    "pg": "= 0.7.2",
+    "pg": ">= 0.7.2",
     "sqlite3": ">= 2.0.18",
     "riak-js": ">= 0.4.1",
     "neo4j": ">= 0.2.5",
