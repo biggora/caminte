@@ -4,11 +4,8 @@ var path = require('path');
 exports.Schema = require('./lib/schema').Schema;
 exports.AbstractClass = require('./lib/abstract-class').AbstractClass;
 exports.Validatable = require('./lib/validatable').Validatable;
-
-var baseSQL = './lib/sql';
-
 exports.__defineGetter__('BaseSQL', function () {
-    return require(baseSQL);
+    return require('./lib/sql');
 });
 
 exports.init = function (rw) {

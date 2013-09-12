@@ -1,7 +1,7 @@
-
-var Schema = require('../index').Schema;
+var caminte = require('../index');
+var Schema = caminte.Schema;
 var Text = Schema.Text;
-
+console.log(Text)
 // var schemas = {
 //     // riak: {},
 //     mysql: {
@@ -25,7 +25,6 @@ var Text = Schema.Text;
 // };
 
 var nbSchemaRequests = 0;
-
 var batch;
 var schemaName;
 
@@ -148,7 +147,7 @@ function testOrm(schema) {
             title:     { type: String, length: 255, index: true },
             subject:   { type: String },
             content:   { type: Text },
-            date:      { type: Date,    default: function () { return new Date }, index: true },
+            date:      { type: Date,    default: Date.now , index: true },
             published: { type: Boolean, default: false, index: true },
             likes:     [],
             related:   [RelatedPost]
@@ -233,9 +232,9 @@ function testOrm(schema) {
     });
 
     it('should be exported to JSON', function (test) {
-        var outString = '{"title":"hello, json","subject":null,"content":null,"date":1,"published":false,"likes":[],"related":[],"id":1,"userId":null}'
+        var outString = '{"title":"hello, json","subject":null,"content":null,"date":1,"published":false,"likes":[],"related":[],"id":1,"userId":null}';
         if (schema.name === 'nano')
-            outString = '{"title":"hello, json","subject":null,"content":null,"date":1,"published":false,"likes":[],"related":[],"_rev":null,"id":1,"userId":null}'
+            outString = '{"title":"hello, json","subject":null,"content":null,"date":1,"published":false,"likes":[],"related":[],"_rev":null,"id":1,"userId":null}';
 
         test.equal(JSON.stringify(new Post({id: 1, title: 'hello, json', date: 1})),outString);
         test.done();
@@ -462,7 +461,7 @@ function testOrm(schema) {
         Post.all({where: {title: 'New title'}}, function (err, res) {
             var pass = true;
             res.forEach(function (r) {
-                if (r.title != 'New title') pass = false;
+                if (r.title !== 'New title') pass = false;
             });
             test.ok(res.length > 0, 'Exact match with string returns dataset');
             test.ok(pass, 'Exact match with string');
@@ -672,7 +671,7 @@ function testOrm(schema) {
 
         User.create(function (err, u) {
             if (err) return console.log(err);
-            test.ok(typeof u.posts.published == 'function');
+            test.ok(typeof u.posts.published === 'function');
             test.ok(u.posts.published._scope.where.published);
             console.log(u.posts.published._scope);
             test.equal(u.posts.published._scope.where.userId, u.id);
@@ -816,11 +815,11 @@ function testOrm(schema) {
                         if (relatedItem !== null) {
                             test.equal(relatedItem[relation.keyTo], item[relation.keyFrom], modelNameTo + '\'s instance match ' + modelNameFrom + '\'s instance' + context);
                         } else {
-                            test.ok(item[relation.keyFrom] == null, 'User match passport even when user is null.' + context);
+                            test.ok(item[relation.keyFrom] === null, 'User match passport even when user is null.' + context);
                         }
                         nbItemsRemaining--;
-                        if (nbItemsRemaining == 0) {
-                            requestsAreCounted && test.equal(nbSchemaRequests, nbInitialRequests, 'No more request have been executed for loading ' + relationName + ' relation' + context)
+                        if (nbItemsRemaining === 0) {
+                            requestsAreCounted && test.equal(nbSchemaRequests, nbInitialRequests, 'No more request have been executed for loading ' + relationName + ' relation' + context);
                             callback();
                         }
                     });
@@ -858,8 +857,8 @@ function testOrm(schema) {
                             test.equal(relatedItems[j][relation.keyTo], item[relation.keyFrom], modelNameTo + '\'s instances match ' + modelNameFrom + '\'s instance' + context);
                         }
                         nbItemRemaining--;
-                        if (nbItemRemaining == 0) {
-                            requestsAreCounted && test.equal(nbSchemaRequests, nbInitialRequests, 'No more request have been executed for loading ' + relationName + ' relation' + context)
+                        if (nbItemRemaining === 0) {
+                            requestsAreCounted && test.equal(nbSchemaRequests, nbInitialRequests, 'No more request have been executed for loading ' + relationName + ' relation' + context);
                             callback();
                         }
                     });
@@ -881,8 +880,8 @@ function testOrm(schema) {
                         }
                     }
                     function nextPassport() {
-                        nbPassportsRemaining--
-                        if (nbPassportsRemaining == 0) {
+                        nbPassportsRemaining--;
+                        if (nbPassportsRemaining === 0) {
                             nextUnitTest();
                         }
                     }
@@ -967,7 +966,7 @@ function testOrm(schema) {
                 doStringTest();
                 doNumberTest();
 
-                if (schema.name == 'mongoose') {
+                if (schema.name === 'mongoose') {
                     doMultipleSortTest();
                     doMultipleReverseSortTest();
                 }
