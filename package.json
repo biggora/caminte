@@ -1,7 +1,7 @@
 {
   "name": "caminte",
-  "description": "ORM for every database: redis, mysql, neo4j, mongodb, postgres, sqlite",
-  "version": "0.0.7-2",
+  "description": "ORM for every database: redis, mysql, neo4j, mongodb, postgres, sqlite, tingodb",
+  "version": "0.0.8",
   "author": "Aleksej Gordejev <aleksej@gordejev.lv> (http://www.gordejev.lv)",
   "contributors": [
     {
@@ -43,6 +43,10 @@
     {
       "name": "Nicholas Westlake",
       "email": "nicholasredlin@gmail.com"
+    },
+    {
+      "name": "Michael Pauley",
+      "email": ""
     }
   ],
   "keywords": [
@@ -56,7 +60,8 @@
     "nano",
     "firebird",
     "postgres",
-    "sqlite3"
+    "sqlite3",
+    "tingodb"
   ],
   "directories": {
     "lib": "lib",

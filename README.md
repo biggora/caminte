@@ -5,7 +5,7 @@ CaminteJS is cross-db ORM for nodejs, providing common interface to access
 most popular database formats.
 
 #### CaminteJS adapters:
-    mongoose, mysql, sqlite3, riak, postgres, couchdb, mongodb, redis, neo4j, firebird, nano
+    mongoose, mysql, sqlite3, riak, postgres, couchdb, mongodb, redis, neo4j, firebird, nano, tingodb
 
 
 ## Installation
