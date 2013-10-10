@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/biggora/caminte.png?branch=master)](https://travis-ci.org/biggora/caminte)
+[![Dependency Status](https://gemnasium.com/biggora/caminte.png)](https://gemnasium.com/biggora/caminte)
+[![NPM version](https://badge.fury.io/js/caminte.png)](http://badge.fury.io/js/caminte)
 ## About CaminteJS
 
 CaminteJS is cross-db ORM for nodejs, providing common interface to access
