@@ -22,24 +22,24 @@ User = schema.define('User', {
 });
 
 validAttributes = {
-  name: 'Anatoliy',
+  name: 'Alexey',
   email: 'email@example.com',
   state: '',
   age: 26,
   gender: 'male',
-  domain: '1602',
+  domain: 'caminte',
   createdByAdmin: false,
   createdByScript: true
 };
 
 getValidAttributes = function() {
   return {
-    name: 'Anatoliy',
+    name: 'Alexey',
     email: 'email@example.com',
     state: '',
     age: 26,
     gender: 'male',
-    domain: '1602',
+    domain: 'caminte',
     createdByAdmin: false,
     createdByScript: true
   };
@@ -52,7 +52,7 @@ it('should validate presence', function(test) {
   test.ok(!user.isValid(), 'User is not valid');
   test.ok(user.errors.email, 'Attr email in errors');
   test.ok(user.errors.name, 'Attr name in errors');
-  user.name = 'Anatoliy';
+  user.name = 'Alexey';
   test.ok(!user.isValid(), 'User is still not valid');
   test.ok(user.errors.email, 'Attr email still in errors');
   test.ok(!user.errors.name, 'Attr name valid');

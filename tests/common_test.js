@@ -492,8 +492,8 @@ function testOrm(schema) {
     it('should find records filtered with multiple attributes', function (test) {
         var d = new Date;
         Post.create({title: 'title', content: 'content', published: true, date: d}, function (err, post) {
-            Post.all({where: {title: 'title', date: d, published: true}}, function (err, res) {
-                test.equals(res.length, 1, 'Filtering Posts returns one post');
+            Post.all({where: {title: 'title', published: true, date: d}}, function (err, post2) {
+                test.equals(post2.length, 1, 'Filtering Posts returns one post');
                 test.done();
             });
         });
