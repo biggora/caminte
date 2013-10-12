@@ -1,7 +1,7 @@
 var caminte = require('../index');
 var Schema = caminte.Schema;
 var Text = Schema.Text;
-console.log(Text)
+
 // var schemas = {
 //     // riak: {},
 //     mysql: {
