@@ -9,6 +9,17 @@ most popular database formats.
 #### CaminteJS adapters:
     mongoose, mysql, sqlite3, riak, postgres, couchdb, mongodb, redis, neo4j, firebird, nano, tingodb
 
+<table>
+    <tr>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/memory.png"/></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/mongodb.png"/></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/mysql.png"/></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/postgresql.png"/></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/sqlite.png"/></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/mariadb.png"/></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/couchdb.png"/></td>    
+    </tr>
+</table>
 
 ## Installation
 
