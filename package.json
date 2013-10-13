@@ -65,8 +65,8 @@
   ],
   "directories": {
     "lib": "lib",
-    "media": "media"
-    "support": "support"
+    "media": "media",
+    "support": "support",
     "tests": "tests"
   },
   "repository": {
