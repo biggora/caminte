@@ -19,6 +19,11 @@ most popular database formats.
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/mariadb.png"/></td>
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/couchdb.png"/></td>    
     </tr>
+    <tr>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/firebird.png"/></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/rethinkdb.png"/></td>
+      <td colspan="5"></td>
+    </tr>
 </table>
 
 ## Installation
