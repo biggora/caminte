@@ -22,7 +22,8 @@ most popular database formats.
     <tr>
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/firebird.png"/></td>
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/rethinkdb.png"/></td>
-      <td colspan="5"></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/redis.png"/></td>      
+      <td colspan="4"></td>
     </tr>
 </table>
 
