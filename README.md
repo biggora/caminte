@@ -7,7 +7,7 @@ CaminteJS is cross-db ORM for nodejs, providing common interface to access
 most popular database formats.
 
 #### CaminteJS adapters:
-    mongoose, mysql, sqlite3, riak, postgres, couchdb, mongodb, redis, neo4j, firebird, nano, tingodb
+    mysql, sqlite3, riak, postgres, couchdb, mongodb, redis, neo4j, firebird, rethinkdb, tingodb
 
 <table>
     <tr>
@@ -17,13 +17,14 @@ most popular database formats.
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/postgresql.png"/></td>
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/sqlite.png"/></td>
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/mariadb.png"/></td>
-      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/couchdb.png"/></td>    
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/firebird.png"/></td>   
     </tr>
     <tr>
-      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/firebird.png"/></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/couchdb.png"/></td>
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/rethinkdb.png"/></td>
-      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/redis.png"/></td>      
-      <td colspan="4"></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/redis.png"/></td> 
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/tingodb.png"/></td>      
+      <td colspan="3"></td>
     </tr>
 </table>
 
