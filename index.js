@@ -1,21 +1,26 @@
+/**
+ * Module dependencies
+ */
 var fs = require('fs');
 var path = require('path');
 
-exports.Schema = require('./lib/schema').Schema;
+Schema = require('./lib/schema').Schema;
+
+exports.Schema = Schema;
 exports.AbstractClass = require('./lib/abstract-class').AbstractClass;
 exports.Validatable = require('./lib/validatable').Validatable;
 exports.__defineGetter__('BaseSQL', function () {
     return require('./lib/sql');
 });
 
-exports.init = function (rw) {
-    if (global.railway) {
-        global.railway.orm = exports;
+exports.init = function (trinte) {
+    if (global.trinte) {
+        global.trinte.orm = exports;
     } else {
-        rw.orm = {Schema: exports.Schema, AbstractClass: exports.AbstractClass};
+        trinte.orm = {Schema: exports.Schema, AbstractClass: exports.AbstractClass};
     }
-    var railway = './lib/railway';
-    require(railway)(rw);
+   // var railway = './lib/railway';
+   // require(railway)(rw);
 };
 
 try {
@@ -26,7 +31,6 @@ try {
     }
 } catch (e) {}
 
-var commonTest = './tests/common_test';
 exports.__defineGetter__('test', function () {
-    return require(commonTest);
+    return require('./tests/common_test');
 });
