@@ -18,7 +18,7 @@ var Text = Schema.Text;
 //     neo4j:     { url: 'http://localhost:7474/' },
 //     // mongoose:  { url: 'mongodb://travis:test@localhost:27017/myapp' },
 //     mongodb:   { url: 'mongodb://travis:test@localhost:27017/myapp' },
-//     redis2:     {},
+//     redis:     {},
 //     memory:    {},
 //     cradle:    {},
 //     nano: { url: 'http://localhost:5984/nano-test' }
