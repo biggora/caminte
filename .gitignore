@@ -1,1 +1,6 @@
+/nbproject
 /lib/adapters/cradle.js
+/node_modules/
+*.bak
+/coverage/
+/tmp/
