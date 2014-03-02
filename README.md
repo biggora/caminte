@@ -69,6 +69,7 @@ For MySQL database need install [mysql client](https://github.com/felixge/node-m
          username   : "test",
          password   : "test",
          database   : "test"
+         pool       : true // optional for use pool directly 
     };
 
     var schema = new Schema(db.driver, db);
@@ -872,8 +873,12 @@ If you have found a bug please write unit test, and make sure all other tests st
 
 ## Recommend extensions
 
-- [TrinteJS](http://www.trintejs.com/) - Javascrpt MVC Framework for Node.JS
-- [express-useragent](https://github.com/biggora/express-useragent) - Exposing user-agent for NodeJS
+- [TrinteJS - Javascrpt MVC Framework for Node.JS](http://www.trintejs.com/)
+- [Cross-db Session Storage for ExpressJS](https://github.com/biggora/express-mongodb)
+- [MongoDB Session Storage for ExpressJS](https://github.com/biggora/connect-caminte)
+- [Middleware exposing user-agent for NodeJS](https://github.com/biggora/express-useragent)
+- [Uploading files middleware for NodeJS](https://github.com/biggora/express-uploader)
+- [2CO NodeJS adapter for 2checkout API payment gateway](https://github.com/biggora/2co)
 
 ## License
 
@@ -903,8 +908,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Resources
 
+- Visit the [author website](http://www.gordejev.lv).
+- Visit the [CaminteJS](http://www.camintejs.com) home page.
 - Follow [@biggora](https://twitter.com/#!/biggora) on Twitter for updates.
 - Report issues on the [github issues](https://github.com/biggora/caminte/issues) page.
 
 [![Analytics](https://ga-beacon.appspot.com/UA-22788134-5/caminte/readme)](https://github.com/igrigorik/ga-beacon) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/biggora/caminte/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
