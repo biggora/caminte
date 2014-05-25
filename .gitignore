@@ -4,3 +4,7 @@
 *.bak
 /coverage/
 /tmp/
+/tests/migration_redis_test.js
+/tests/migration_sqlite_proba.js
+/tests/adapter_methods.js
+/tests/new_methods.js
