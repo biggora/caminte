@@ -62,6 +62,7 @@ getFields = function(model, cb) {
 getIndexes = function(model, cb) {
     return queryAll('PRAGMA INDEX_LIST(' + schema.tableEscaped(model) + ')', function(err, res) {
         var indexes;
+        console.log('getIndexes: ', err, res);
         if (err) {
             return cb(err);
         } else {
@@ -79,6 +80,7 @@ getIndexes = function(model, cb) {
 it('should run migration', function(test) {
     return schema.autoupdate(function(err) {
         return getFields('User', function(err, fields) {
+
             test.deepEqual(fields, {
                 id: {
                     name: 'id',
@@ -172,11 +174,9 @@ it('should autoupgrade', function(test) {
                         test.equal(fields.newProperty.type, 'INT(11)', 'New column type is not int(11)');
                     }
                     test.ok(!fields.pendingPeriod, 'drop column');
-
-                    return userExists(function(yep) {
+                    userExists(function(yep) {
                         test.ok(yep);
                         return process.nextTick(function() {
-                            console.log('test.done()')
                             return test.done();
                         });
                     });
@@ -188,38 +188,36 @@ it('should autoupgrade', function(test) {
 
 
 it('should check actuality of schema', function(test) {
-    return User.schema.isActual(function(err, ok) {
+    User.schema.isActual(function(err, ok) {
         test.ok(ok, 'schema is actual');
         User.defineProperty('email', false);
-        return User.schema.isActual(function(err, ok) {
+        User.schema.isActual(function(err, ok) {
             test.ok(!ok, 'schema is not actual');
             return test.done();
         });
     });
 });
+
+
+it('should add single-column index', function(test) {
+    User.defineProperty('email', {
+        type: String
+    });
+    return schema.autoupdate(function(err) {
+        if (err) {
+            console.log(err);
+        }
+        console.log('schema.autoupdate: ', err);
+        getIndexes('User', function(err, ixs) {
+                        console.log('BTREE', err, ixs);
+            test.ok(ixs.email && ixs.email.Column_name === 'email');
+
+            test.equal(ixs.email.Index_type, 'BTREE', 'default index type');
+            return test.done();
+        });
+    });
+});
 /*
- 
- it('should add single-column index', function(test) {
- User.defineProperty('email', {
- type: String,
- index: {
- kind: 'FULLTEXT',
- type: 'HASH'
- }
- });
- return User.schema.autoupdate(function(err) {
- if (err) {
- return console.log(err);
- }
- return getIndexes('User', function(err, ixs) {
- test.ok(ixs.email && ixs.email.Column_name === 'email');
- console.log(ixs);
- test.equal(ixs.email.Index_type, 'BTREE', 'default index type');
- return test.done();
- });
- });
- });
- 
  
  it('should change type of single-column index', function(test) {
  User.defineProperty('email', {
@@ -278,23 +276,23 @@ it('should check actuality of schema', function(test) {
  });
  */
 /*
-it('test', function(test) {
-    User.defineProperty('email', {
-        type: String,
-        index: true
-    });
-    return User.schema.autoupdate(function(err) {
-        return User.schema.autoupdate(function(err) {
-            return User.schema.autoupdate(function(err) {
-                return test.done();
-            });
-        });
-    });
-});
-
-it('should disconnect when done', function(test) {
-    schema.disconnect();
-    return test.done();
-});
-*/
+ it('test', function(test) {
+ User.defineProperty('email', {
+ type: String,
+ index: true
+ });
+ return User.schema.autoupdate(function(err) {
+ return User.schema.autoupdate(function(err) {
+ return User.schema.autoupdate(function(err) {
+ return test.done();
+ });
+ });
+ });
+ });
+ 
+ it('should disconnect when done', function(test) {
+ schema.disconnect();
+ return test.done();
+ });
+ */
 

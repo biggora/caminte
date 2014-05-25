@@ -2,17 +2,17 @@ var caminte = require('../index');
 var Schema = caminte.Schema,
 
 db = {
-    driver     : "mysql",
+    driver     : "neo4j",
     host       : "localhost",
-    port       : "3306",
-    username   : "test",
-    password   : "test",
+    port       : "7474",
+//    username   : "test",
+//    password   : "test",
     database   : "test"
 };
+var schema = new Schema(db.driver, db);
 
-caminte.createConnection(db.driver, db);
 // simplier way to describe model
-var Product = caminte.model('product', {
+var Product = schema.define('product', {
     id : {
         type: Number
     },
@@ -86,7 +86,7 @@ Query1.all(function(err, inst){
    // console.log(err, inst);
    inst.forEach(function(ins){
        console.log(ins.id);
-   })
+   });
    console.log('Query1');
 });
 
@@ -131,7 +131,7 @@ var und = { id: 12,
   original_category_link: 'http://www.2rati.lv/lat/catalogue/aksessuari.html',
   product_uid: "be77275ebb2f5dbd28731af08ee3c5c76a7fd1d7bbb0cf4c5147a120de62b74b99605305822896e0c3a79f14d8f3ab6c09792bf4a1b0d2813ca0621849",
   updated_uid: 0
-}
+};
 
 /*
 Product.findOrCreate(und, function(err){
@@ -164,4 +164,3 @@ Product.all({limit:10},function(err, inst){
 });
 // arguments
 
-require('./controller');
