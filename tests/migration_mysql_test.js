@@ -1,10 +1,10 @@
 var caminte = require('../index'),
-        Schema = caminte.Schema,
-        Text = Schema.Text,
-        DBNAME = process.env.DBNAME || 'test_app',
-        DBUSER = process.env.DBUSER || 'root',
-        DBPASS = '',
-        DBENGINE = process.env.DBENGINE || 'mysql';
+    Schema = caminte.Schema,
+    Text = Schema.Text,
+    DBNAME = process.env.DBNAME || 'test_app',
+    DBUSER = process.env.DBUSER || 'root',
+    DBPASS = '',
+    DBENGINE = process.env.DBENGINE || 'mysql';
 require('./spec_helper').init(module.exports);
 
 schema = new Schema(DBENGINE, {
@@ -14,11 +14,11 @@ schema = new Schema(DBENGINE, {
     password: DBPASS
 });
 
-schema.log = function(q) {
+schema.log = function (q) {
     return console.log(q);
 };
 
-query = function(sql, cb) {
+query = function (sql, cb) {
     return schema.adapter.query(sql, cb);
 };
 
@@ -42,25 +42,25 @@ User = schema.define('User', {
     }
 });
 
-withBlankDatabase = function(cb) {
+withBlankDatabase = function (cb) {
     var db;
     db = schema.settings.database = DBNAME;
-    return query('DROP DATABASE IF EXISTS ' + db, function(err) {
-        return query('CREATE DATABASE ' + db, function(err) {
+    return query('DROP DATABASE IF EXISTS ' + db, function (err) {
+        return query('CREATE DATABASE ' + db, function (err) {
             return query('USE ' + db, cb);
         });
     });
 
 };
 
-getFields = function(model, cb) {
-    return query('SHOW FIELDS FROM ' + model, function(err, res) {
+getFields = function (model, cb) {
+    return query('SHOW FIELDS FROM ' + model, function (err, res) {
         var fields;
         if (err) {
             return cb(err);
         } else {
             fields = {};
-            res.forEach(function(field) {
+            res.forEach(function (field) {
                 return fields[field.Field] = field;
             });
             return cb(err, fields);
@@ -68,14 +68,14 @@ getFields = function(model, cb) {
     });
 };
 
-getIndexes = function(model, cb) {
-    return query('SHOW INDEXES FROM ' + model, function(err, res) {
+getIndexes = function (model, cb) {
+    return query('SHOW INDEXES FROM ' + model, function (err, res) {
         var indexes;
         if (err) {
             return cb(err);
         } else {
             indexes = {};
-            res.forEach(function(index) {
+            res.forEach(function (index) {
                 if (index.Seq_in_index === '1' || index.Seq_in_index === 1) {
                     return indexes[index.Key_name] = index;
                 }
@@ -85,16 +85,16 @@ getIndexes = function(model, cb) {
     });
 };
 
-it('should run migration', function(test) {
-    return withBlankDatabase(function(err) {
+it('should run migration', function (test) {
+    return withBlankDatabase(function (err) {
         if (err) {
             console.log('ERR 1: ', err)
         }
-        return schema.autoupdate(function(err) {
+        return schema.autoupdate(function (err) {
             if (err) {
                 console.log('ERR 2: ', err)
             }
-            return getFields('User', function(err, fields) {
+            return getFields('User', function (err, fields) {
                 if (err) {
                     console.log('ERR 3: ', err)
                 }
@@ -161,10 +161,10 @@ it('should run migration', function(test) {
     });
 });
 
-it('should autoupgrade', function(test) {
+it('should autoupgrade', function (test) {
     var userExists;
-    userExists = function(cb) {
-        return query('SELECT * FROM `User` ', function(err, res) {
+    userExists = function (cb) {
+        return query('SELECT * FROM `User` ', function (err, res) {
             return cb(!err && res[0].email === 'test@example.com');
         });
     };
@@ -172,12 +172,12 @@ it('should autoupgrade', function(test) {
     return User.create({
         email: 'test@example.com',
         bio: 18
-    }, function(err, user) {
+    }, function (err, user) {
         if (err) {
             console.log(err);
         }
         test.ok(!err);
-        return userExists(function(yep) {
+        return userExists(function (yep) {
             test.ok(yep);
             User.defineProperty('email', {
                 type: String
@@ -191,11 +191,11 @@ it('should autoupgrade', function(test) {
             });
             User.defineProperty('pendingPeriod', false);
 
-            return schema.autoupdate(function(err) {
+            return schema.autoupdate(function (err) {
                 if (err) {
                     console.log(err);
                 }
-                return getFields('User', function(err, fields) {
+                return getFields('User', function (err, fields) {
                     if (err) {
                         console.log(err);
                     }
@@ -206,7 +206,7 @@ it('should autoupgrade', function(test) {
                         test.equal(fields.newProperty.Type, 'int(11)', 'New column type is not int(11)');
                     }
                     test.ok(!fields.pendingPeriod, 'drop column');
-                    return userExists(function(yep) {
+                    return userExists(function (yep) {
                         test.ok(yep);
                         return test.done();
                     });
@@ -218,11 +218,11 @@ it('should autoupgrade', function(test) {
 });
 
 
-it('should check actuality of schema', function(test) {
-    return User.schema.isActual(function(err, ok) {
+it('should check actuality of schema', function (test) {
+    return User.schema.isActual(function (err, ok) {
         test.ok(ok, 'schema is actual');
         User.defineProperty('email', false);
-        return User.schema.isActual(function(err, ok) {
+        return User.schema.isActual(function (err, ok) {
             test.ok(!ok, 'schema is not actual');
             return test.done();
         });
@@ -230,7 +230,7 @@ it('should check actuality of schema', function(test) {
 });
 
 
-it('should add single-column index', function(test) {
+it('should add single-column index', function (test) {
     User.defineProperty('email', {
         type: String,
         index: {
@@ -238,11 +238,11 @@ it('should add single-column index', function(test) {
             type: 'HASH'
         }
     });
-    return User.schema.autoupdate(function(err) {
+    return User.schema.autoupdate(function (err) {
         if (err) {
             return console.log(err);
         }
-        return getIndexes('User', function(err, ixs) {
+        return getIndexes('User', function (err, ixs) {
             test.ok(ixs.email && ixs.email.Column_name === 'email');
             test.equal(ixs.email.Index_type, 'BTREE', 'default index type');
             return test.done();
@@ -251,21 +251,21 @@ it('should add single-column index', function(test) {
 });
 
 
-it('should change type of single-column index', function(test) {
+it('should change type of single-column index', function (test) {
     User.defineProperty('email', {
         type: String,
         index: {
             type: 'BTREE'
         }
     });
-    return User.schema.isActual(function(err, ok) {
+    return User.schema.isActual(function (err, ok) {
         test.ok(ok, 'schema is actual');
-        User.schema.autoupdate(function(err) {
+        User.schema.autoupdate(function (err) {
         });
         if (err) {
             return console.log(err);
         }
-        return getIndexes('User', function(err, ixs) {
+        return getIndexes('User', function (err, ixs) {
             test.ok(ixs.email && ixs.email.Column_name === 'email');
             test.equal(ixs.email.Index_type, 'BTREE');
             return test.done();
@@ -274,16 +274,16 @@ it('should change type of single-column index', function(test) {
 });
 
 
-it('should remove single-column index', function(test) {
+it('should remove single-column index', function (test) {
     User.defineProperty('email', {
         type: String,
         index: false
     });
-    return User.schema.autoupdate(function(err) {
+    return User.schema.autoupdate(function (err) {
         if (err) {
             return console.log(err);
         }
-        return getIndexes('User', function(err, ixs) {
+        return getIndexes('User', function (err, ixs) {
             test.ok(!ixs.email);
             return test.done();
         });
@@ -291,15 +291,15 @@ it('should remove single-column index', function(test) {
 });
 
 
-it('should update multi-column index when order of columns changed', function(test) {
+it('should update multi-column index when order of columns changed', function (test) {
     User.schema.adapter._models.User.settings.indexes.index1.columns = 'createdByAdmin, email';
-    return User.schema.isActual(function(err, ok) {
+    return User.schema.isActual(function (err, ok) {
         test.ok(!ok, 'schema is not actual');
-        return User.schema.autoupdate(function(err) {
+        return User.schema.autoupdate(function (err) {
             if (err) {
                 return console.log(err);
             }
-            return getIndexes('User', function(err, ixs) {
+            return getIndexes('User', function (err, ixs) {
                 test.equals(ixs.index1.Column_name, 'createdByAdmin');
                 return test.done();
             });
@@ -307,21 +307,21 @@ it('should update multi-column index when order of columns changed', function(te
     });
 });
 
-it('test', function(test) {
+it('test', function (test) {
     User.defineProperty('email', {
         type: String,
         index: true
     });
-    return User.schema.autoupdate(function(err) {
-        return User.schema.autoupdate(function(err) {
-            return User.schema.autoupdate(function(err) {
+    return User.schema.autoupdate(function (err) {
+        return User.schema.autoupdate(function (err) {
+            return User.schema.autoupdate(function (err) {
                 return test.done();
             });
         });
     });
 });
 
-it('should disconnect when done', function(test) {
+it('should disconnect when done', function (test) {
     schema.disconnect();
     return test.done();
 });
