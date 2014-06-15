@@ -102,7 +102,9 @@
     "neo4j": ">= 0.2.5",
     "mongodb": "1.x",
     "felix-couchdb": ">= 1.0.3",
-    "cradle": ">= 0.6.3"
+    "cradle": ">= 0.6.3",
+    "rethinkdb":">= 1.12.0",
+    "generic-pool":">= 2.0.4"
   },
   "optionalDependencies": {}
 }

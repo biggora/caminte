@@ -195,6 +195,7 @@ user.isValid(function (valid) {
 * [findOrCreate](#findorcreate)
 * [findOne](#findone)
 * [findById](#findbyid)
+* [update](#update)
 * [updateOrCreate, upsert](#upsert)
 * [count](#count)
 * [remove](#remove)
@@ -347,6 +348,32 @@ User.updateOrCreate({
     }, function(err, user){
       // your code here
 });
+```
+<a name="update"></a>
+#### #update(params, data, callback)
+
+Update if exists instance
+
+```javascript
+User.update({
+      where : {
+           email: 'example@example.com'
+        }
+    }, {
+      active: 0
+    }, function(err, user){
+      // your code here
+});
+// or
+ Post.update({
+       id: {
+          in: [100, 101, 102]
+       }
+     }, {
+       tag: 'city'
+     }, function(err, post){
+       // your code here
+ });
 ```
 
 <a name="count"></a>
