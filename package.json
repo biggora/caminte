@@ -2,7 +2,11 @@
   "name": "caminte",
   "description": "ORM for every database: redis, mysql, neo4j, mongodb, rethinkdb, postgres, sqlite, tingodb",
   "version": "0.0.20",
-  "author": "Aleksej Gordejev <aleksej@gordejev.lv> (http://www.gordejev.lv)",
+  "author": {
+      "name": "Aleksej Gordejev",
+      "email" : "aleksej@gordejev.lv",
+      "url": "http://www.gordejev.lv"
+    },
   "homepage": "http://camintejs.com/",
   "contributors": [
     {
@@ -48,6 +52,10 @@
     {
       "name": "Michael Pauley",
       "email": ""
+    },
+    {
+      "name": "Aleksej Gordejev",
+      "email": "aleksej@gordejev.lv"
     }
   ],
   "keywords": [
