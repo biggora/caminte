@@ -367,7 +367,7 @@ User.update({
 // or
  Post.update({
        id: {
-          in: [100, 101, 102]
+          inq: [100, 101, 102]
        }
      }, {
        tag: 'city'
@@ -465,6 +465,7 @@ User.prototype.getNameAndAge = function () {
 * [like](#like)
 * [nlike](#nlike)
 * [sort, order](#sort)
+* [group](#group)
 * [asc](#asc)
 * [desc](#desc)
 * [limit](#limit)
@@ -693,6 +694,20 @@ Query.sort('title', 'DESC');
 // the same as prev
 Post.find({
       order: 'title DESC'
+    }}, function(err, posts){
+   // your code here
+});
+```
+<a name="group"></a>
+#### #group(key)
+
+Sets the group by column.
+
+```javascript
+Query.group('title');
+// is the same as
+Post.find({
+      group: 'title'
     }}, function(err, posts){
    // your code here
 });
