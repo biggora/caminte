@@ -28,7 +28,11 @@ User = schema.define('User', {
         "null": false,
         index: true
     },
-    name: String,
+    name: {
+        type: String,
+        "null": false,
+        index: true
+    },
     bio: Text,
     password: String,
     birthDate: Date,
@@ -38,8 +42,27 @@ User = schema.define('User', {
     indexes: {
         index1: {
             columns: 'email, createdByAdmin'
+        },
+        index2: {
+            columns: 'name'
         }
     }
+});
+
+Student = schema.define("Student", {
+    stuID: {
+        type: Number
+    },
+    school: String
+}, {
+    primaryKeys: ["stuID"],
+    foreignKeys: [{
+        localCol: "stuID",
+        foreignTable: "User",
+        foreignCol: "id",
+        onDelete: true,
+        onUpdate: true
+    }]
 });
 
 withBlankDatabase = function (cb) {
@@ -155,7 +178,36 @@ it('should run migration', function (test) {
                         Key: '',
                         Default: null,
                         Extra: ''}});
-                return test.done();
+
+                return schema.autoupdate(function (err) {
+                    if (err) {
+                        console.log('ERR 4: ', err)
+                    }
+                    return getFields('Student', function (err, fields) {
+                        if (err) {
+                            console.log('ERR 5: ', err)
+                        }
+                        test.deepEqual(fields, { 
+                            stuID: { 
+                                Field: 'stuID',
+                                Type: 'int(11)',
+                                Null: 'NO',
+                                Key: 'PRI',
+                                Default: '0',
+                                Extra: '' },
+                            school: { 
+                                Field: 'school',
+                                Type: 'varchar(255)',
+                                Null: 'YES',
+                                Key: '',
+                                Default: null,
+                                Extra: '' 
+                            } 
+                        });
+
+                        return test.done();
+                    });
+                });
             });
         });
     });
