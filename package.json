@@ -98,21 +98,21 @@
   },
   "devDependencies": {
     "semicov": "*",
-    "coffee-script": ">= 1.2.0",
-    "nodeunit": ">= 0.6.4",
-    "redis": ">= 0.7.2",
+    "coffee-script": "*",
+    "nodeunit": "*",
+    "redis": "0.12.x",
     "hiredis": "*",
     "mongoose": "3.x",
     "mysql": "2.x",
-    "pg": ">= 0.7.2",
-    "sqlite3": "2.x",
-    "riak-js": ">= 0.4.1",
+    "pg": "4.x",
+    "sqlite3": "3.x",
+    "riak-js": "1.x",
     "neo4j": ">= 0.2.5",
-    "mongodb": "1.x",
-    "felix-couchdb": ">= 1.0.3",
-    "cradle": ">= 0.6.3",
-    "rethinkdb":">= 1.12.0",
-    "generic-pool":">= 2.0.4"
+    "mongodb": "2.x",
+    "felix-couchdb": "1.x",
+    "cradle": "0.6.x",
+    "rethinkdb":"2.x",
+    "generic-pool":"*"
   },
   "optionalDependencies": {}
 }
