@@ -108,7 +108,7 @@ getIndexes = function (model, cb) {
     });
 };
 
-it('should run migration', function (test) {
+it('MySQL - should run migration', function (test) {
     return withBlankDatabase(function (err) {
         if (err) {
             console.log('ERR 1: ', err)
@@ -213,7 +213,7 @@ it('should run migration', function (test) {
     });
 });
 
-it('should autoupgrade', function (test) {
+it('MySQL - should autoupgrade', function (test) {
     var userExists;
     userExists = function (cb) {
         return query('SELECT * FROM `User` ', function (err, res) {
@@ -222,6 +222,7 @@ it('should autoupgrade', function (test) {
     };
 
     return User.create({
+        name: 'Sergio',
         email: 'test@example.com',
         bio: 18
     }, function (err, user) {
@@ -230,7 +231,7 @@ it('should autoupgrade', function (test) {
         }
         test.ok(!err);
         return userExists(function (yep) {
-            test.ok(yep);
+            test.ok(yep, 'row available');
             User.defineProperty('email', {
                 type: String
             });
@@ -259,7 +260,7 @@ it('should autoupgrade', function (test) {
                     }
                     test.ok(!fields.pendingPeriod, 'drop column');
                     return userExists(function (yep) {
-                        test.ok(yep);
+                        test.ok(yep, 'row available');
                         return test.done();
                     });
                 });
@@ -269,8 +270,7 @@ it('should autoupgrade', function (test) {
     });
 });
 
-
-it('should check actuality of schema', function (test) {
+it('MySQL - should check actuality of schema', function (test) {
     return User.schema.isActual(function (err, ok) {
         test.ok(ok, 'schema is actual');
         User.defineProperty('email', false);
@@ -282,7 +282,7 @@ it('should check actuality of schema', function (test) {
 });
 
 
-it('should add single-column index', function (test) {
+it('MySQL - should add single-column index', function (test) {
     User.defineProperty('email', {
         type: String,
         index: {
@@ -303,7 +303,7 @@ it('should add single-column index', function (test) {
 });
 
 
-it('should change type of single-column index', function (test) {
+it('MySQL - should change type of single-column index', function (test) {
     User.defineProperty('email', {
         type: String,
         index: {
@@ -326,7 +326,7 @@ it('should change type of single-column index', function (test) {
 });
 
 
-it('should remove single-column index', function (test) {
+it('MySQL - should remove single-column index', function (test) {
     User.defineProperty('email', {
         type: String,
         index: false
@@ -343,7 +343,7 @@ it('should remove single-column index', function (test) {
 });
 
 
-it('should update multi-column index when order of columns changed', function (test) {
+it('MySQL - should update multi-column index when order of columns changed', function (test) {
     User.schema.adapter._models.User.settings.indexes.index1.columns = 'createdByAdmin, email';
     return User.schema.isActual(function (err, ok) {
         test.ok(!ok, 'schema is not actual');
@@ -359,7 +359,7 @@ it('should update multi-column index when order of columns changed', function (t
     });
 });
 
-it('test', function (test) {
+it('MySQL - test', function (test) {
     User.defineProperty('email', {
         type: String,
         index: true
@@ -373,7 +373,7 @@ it('test', function (test) {
     });
 });
 
-it('should disconnect when done', function (test) {
+it('MySQL - should disconnect when done', function (test) {
     schema.disconnect();
     return test.done();
 });
