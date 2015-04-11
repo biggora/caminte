@@ -8,7 +8,7 @@ var caminte = require('../index'),
 require('./spec_helper').init(module.exports);
 
 schema = new Schema(DBENGINE, {
-    host: '192.168.56.101',
+    host: 'localhost',
     database: '',
     username: DBUSER,
     password: DBPASS
