@@ -1,12 +1,12 @@
 {
   "name": "caminte",
   "description": "ORM for every database: redis, mysql, neo4j, mongodb, rethinkdb, postgres, sqlite, tingodb",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "author": {
-      "name": "Aleksej Gordejev",
-      "email" : "aleksej@gordejev.lv",
-      "url": "http://www.gordejev.lv"
-    },
+    "name": "Aleksej Gordejev",
+    "email": "aleksej@gordejev.lv",
+    "url": "http://www.gordejev.lv"
+  },
   "homepage": "http://camintejs.com/",
   "contributors": [
     {
@@ -111,8 +111,8 @@
     "mongodb": ">= 2.0.0",
     "felix-couchdb": ">= 1.0.0",
     "cradle": ">= 0.6.0",
-    "rethinkdb":">= 1.16",
-    "generic-pool":"*"
+    "rethinkdb": ">= 1.16",
+    "generic-pool": "*"
   },
   "optionalDependencies": {}
 }
