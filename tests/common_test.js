@@ -236,10 +236,17 @@ function testOrm(schema) {
 
     it('should be exported to JSON', function (test) {
         var outString = '{"title":"hello, json","subject":null,"content":null,"date":1,"published":false,"likes":[],"related":[],"id":1,"userId":null}';
-        if (schema.name === 'nano')
+        if (schema.name === 'nano') {
             outString = '{"title":"hello, json","subject":null,"content":null,"date":1,"published":false,"likes":[],"related":[],"_rev":null,"id":1,"userId":null}';
+        }
+        var YesSQL = ['mysql', 'sqlite', 'sqlite3', 'firebird','memory'];
+        if(YesSQL.indexOf(schema.name)){
+            test.equal(JSON.stringify(new Post({id: 1, title: 'hello, json', date: 1})), outString);
+        } else {
+            outString = JSON.parse(outString);
+            // test.equal(, outString);
+        }
 
-        test.equal(JSON.stringify(new Post({id: 1, title: 'hello, json', date: 1})), outString);
         test.done();
     });
 
