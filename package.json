@@ -1,7 +1,7 @@
 {
   "name": "caminte",
   "description": "ORM for every database: redis, mysql, neo4j, mongodb, rethinkdb, postgres, sqlite, tingodb",
-  "version": "0.0.26",
+  "version": "0.0.28",
   "author": {
     "name": "Aleksej Gordejev",
     "email": "aleksej@gordejev.lv",
@@ -113,7 +113,8 @@
     "felix-couchdb": ">= 1.0.0",
     "cradle": ">= 0.6.0",
     "rethinkdb": ">= 1.16",
-    "generic-pool": "*"
+    "generic-pool": "*",
+    "cassandra-driver": ">=2.1.0"
   },
   "optionalDependencies": {}
 }
