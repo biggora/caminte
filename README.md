@@ -26,7 +26,7 @@ most popular database formats.
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/tingodb.png"/></td>      
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/neo4j.png"/></td> 
       <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/arangodb.png"/></td>
-      <td></td>
+      <td><img width="100" src="https://github.com/biggora/caminte/raw/master/media/cassandra.png"/></td>
     </tr>
 </table>
 
