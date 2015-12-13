@@ -87,6 +87,27 @@ User.validatesNumericalityOf('age', {int: true});
 // setup relationships
 User.hasMany(Post,   {as: 'posts',  foreignKey: 'userId'});
 
+
+// usage
+var user = new User({ 
+    name:       'Alex',
+    email:      'example@domain.aga',
+    age:        40,
+    gender:     'male'
+});
+
+user.isValid(function (valid) {
+    if (!valid) {
+        return console.log(user.errors);
+    }
+    user.save(function(err){
+        if (!err) {
+            return console.log(err);
+        }
+        console.log('User created');
+    });
+})
+
 // models also accessible in schema:
 schema.models.User;
 schema.models.Post;
