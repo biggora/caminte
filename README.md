@@ -36,6 +36,24 @@ First install [node.js](http://nodejs.org/). Then:
 
     $ npm install caminte --save
 
+## Overview
+
+* [Connecting to DB](https://github.com/biggora/caminte/wiki/Connecting-to-DB#connecting)
+* [Defining a Model](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-model)
+* [Define Indices](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-indices)
+* [Define Primary Keys](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-primary-keys)
+* [Schema data types](https://github.com/biggora/caminte/wiki/Schema-data-types#types)
+* [Accessing a Model](https://github.com/biggora/caminte/wiki/Defining-a-Model#accessing-a-model)
+* [Setup Relationships](https://github.com/biggora/caminte/wiki/Setup-Relationships-&-Validations#setup-relationships)
+* [Setup Validations](https://github.com/biggora/caminte/wiki/Setup-Relationships-&-Validations#setup-validations)
+* [Common API methods](https://github.com/biggora/caminte/wiki/Common-API-methods#api)
+* [Define any Custom Method](https://github.com/biggora/caminte/wiki/Common-API-methods#custom)
+* [Query Interface](https://github.com/biggora/caminte/wiki/Query-Interface#queries)
+* [Middleware (Hooks)](https://github.com/biggora/caminte/wiki/Middleware#middleware)
+* [Object lifecycle](https://github.com/biggora/caminte/wiki/Object-lifecycle#lifecycle)
+* [Your own database adapter](https://github.com/biggora/caminte/wiki/Your-own-database-adapter#adapter)
+* [Running tests](https://github.com/biggora/caminte/wiki/unning-tests#running_tests)
+
 ## Usage
 
 ```javascript
@@ -87,8 +105,8 @@ User.validatesNumericalityOf('age', {int: true});
 // setup relationships
 User.hasMany(Post,   {as: 'posts',  foreignKey: 'userId'});
 
+// Common API methods
 
-// usage
 var user = new User({ 
     name:       'Alex',
     email:      'example@domain.aga',
@@ -108,28 +126,35 @@ user.isValid(function (valid) {
     });
 })
 
+// just instantiate model
+new Post
+// save model (of course async)
+Post.create(cb);
+// all posts
+Post.all(cb)
+// all posts by user
+Post.all({where: {userId: user.id}, order: 'id', limit: 10, skip: 20});
+// the same as prev
+user.posts(cb)
+// get one latest post
+Post.findOne({where: {published: true}, order: 'date DESC'}, cb);
+// same as new Post({userId: user.id});
+user.posts.build
+// save as Post.create({userId: user.id}, cb);
+user.posts.create(cb)
+// find instance by id
+User.findById(1, cb)
+// count instances
+User.count([conditions, ]cb)
+// destroy instance
+user.destroy(cb);
+// destroy all instances
+User.destroyAll(cb);
+
 // models also accessible in schema:
 schema.models.User;
 schema.models.Post;
 ```
-
-## Overview
-
-* [Connecting to DB](https://github.com/biggora/caminte/wiki/Connecting-to-DB#connecting)
-* [Defining a Model](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-model)
-* [Define Indices](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-indices)
-* [Define Primary Keys](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-primary-keys)
-* [Schema data types](https://github.com/biggora/caminte/wiki/Schema-data-types#types)
-* [Accessing a Model](https://github.com/biggora/caminte/wiki/Defining-a-Model#accessing-a-model)
-* [Setup Relationships](https://github.com/biggora/caminte/wiki/Setup-Relationships-&-Validations#setup-relationships)
-* [Setup Validations](https://github.com/biggora/caminte/wiki/Setup-Relationships-&-Validations#setup-validations)
-* [Common API methods](https://github.com/biggora/caminte/wiki/Common-API-methods#api)
-* [Define any Custom Method](https://github.com/biggora/caminte/wiki/Common-API-methods#custom)
-* [Query Interface](https://github.com/biggora/caminte/wiki/Query-Interface#queries)
-* [Middleware (Hooks)](https://github.com/biggora/caminte/wiki/Middleware#middleware)
-* [Object lifecycle](https://github.com/biggora/caminte/wiki/Object-lifecycle#lifecycle)
-* [Your own database adapter](https://github.com/biggora/caminte/wiki/Your-own-database-adapter#adapter)
-* [Running tests](https://github.com/biggora/caminte/wiki/unning-tests#running_tests)
 
 ## Package structure
 
