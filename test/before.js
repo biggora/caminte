@@ -37,9 +37,9 @@ models.forEach(function(model){
     require('./model/' + model);
 });
 
-/* routes tests
-var routes = fs.readdirSync(__dirname+'/route').filter(onlyJs);
+/* schema tests */
+var routes = fs.readdirSync(__dirname+'/schema').filter(onlyJs);
 
 routes.forEach(function(route){
-    require('./route/' + route);
-});*/
+    require('./schema/' + route);
+});

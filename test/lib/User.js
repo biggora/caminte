@@ -27,26 +27,34 @@ module.exports = function (schema) {
         age: {type: schema.Number, limit: 11},
         salt: {type: schema.String, limit: 150},
         password: {type: schema.String, limit: 250},
-        address: {type: schema.Text},
-        mailing: {type: schema.Text},
-        params: {type: schema.Text},
         notes: {type: schema.Text},
-        expire_ts: {type: schema.Date},
-        create_ts: {type: schema.Date},
-        disable_ts: {type: schema.Date},
-        modify_ts: {type: schema.Date},
         image_source: {type: schema.String, limit: 255},
         image_thumbs: {type: schema.Text},
         terms: {type: schema.Number, limit: 1},
         create_id: {type: schema.Number, limit: 1},
-        modify_id: {type: schema.Number, limit: 1}
+        modify_id: {type: schema.Number, limit: 1},
+        expire_ts: {type: schema.Date},
+        create_ts: {type: schema.Date},
+        disable_ts: {type: schema.Date},
+        modify_ts: {type: schema.Date}
     }, {});
 
     User.validatesPresenceOf('first_name', 'email');
     User.validatesLengthOf('password', {min: 5, message: {min: 'Password is too short'}});
+    User.validatesInclusionOf('language', {in: ['en', 'ru']});
     User.validatesInclusionOf('gender', {in: ['male', 'female']});
+    User.validatesExclusionOf('screen_name', {in: ['admin', 'master']});
+    User.validatesFormatOf('screen_name', {with: /^\S+$/, message:"is not valid"});
     User.validatesNumericalityOf('age', {int: true});
     User.validatesUniquenessOf('email', {message: 'email is not unique'});
+    var userNameValidator = function (err) {
+        if (this.first_name === 'bad') { err(); }
+    };
+    var emailValidator = function(err){
+        if(!/^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/.test(this.email)) { err(); }
+    };
+    User.validate('first_name', userNameValidator, {message: 'Bad first_name'});
+    User.validate('email', emailValidator, {message: 'Bad email'});
 
     return User;
 };

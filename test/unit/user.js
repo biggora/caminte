@@ -26,6 +26,7 @@ describe(driver + ' - User unit:', function () {
         language: 'en',
         first_name: 'Alex',
         last_name: 'Gordan',
+        screen_name: 'alex',
         email: 'bubles@example.com',
         password: 'AAAAAAAAA',
         age: 45
