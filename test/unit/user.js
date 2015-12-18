@@ -22,7 +22,14 @@ var User = UserModel(schema);
  */
 describe(driver + ' - User unit:', function () {
     'use strict';
-    var user, id;
+    var user, id, newUser = {
+        language: 'en',
+        first_name: 'Alex',
+        last_name: 'Gordan',
+        email: 'bubles@example.com',
+        password: 'AAAAAAAAA',
+        age: 45
+    };
 
     before(function (done) {
         schema.autoupdate(done);
@@ -34,7 +41,7 @@ describe(driver + ' - User unit:', function () {
 
     describe('create', function () {
 
-        user = new User();
+        user = new User(newUser);
         it('user should be object', function () {
             user.should.be.type('object');
         });

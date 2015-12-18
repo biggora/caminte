@@ -22,7 +22,10 @@ var Category = CategoryModel(schema);
  */
 describe(driver + ' - Category unit:', function () {
     'use strict';
-    var category, id;
+    var category, id, newCategory = {
+        title: 'test 1',
+        section: 'test-1'
+    };
 
     before(function (done) {
         schema.autoupdate(done);
@@ -34,7 +37,7 @@ describe(driver + ' - Category unit:', function () {
 
     describe('create', function () {
 
-        category = new Category();
+        category = new Category(newCategory);
         it('category should be object', function () {
             category.should.be.type('object');
         });

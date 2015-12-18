@@ -23,7 +23,8 @@ var Article = ArticleModel(schema);
 describe(driver + ' - Article unit:', function () {
     'use strict';
     var article, id, newArticle = {
-        title: 'test 1'
+        title: 'test 1',
+        alias: 'test-1'
     };
 
     before(function (done) {
