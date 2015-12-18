@@ -1,5 +1,23 @@
 language: node_js
+
 node_js:
   - 0.10
-  - 0.11
   - 0.12
+  - 4
+  
+services:
+  - mysql
+  - postgresql
+  - redis-server
+  - mongodb
+  
+before_script:
+  - mysql -e "CREATE USER 'test'@'%' IDENTIFIED BY 'test';" -uroot
+  - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
+  - mysql -e "GRANT ALL PRIVILEGES ON test . * TO 'test'@'%';" -uroot
+  - mysql -e "FLUSH PRIVILEGES;" -uroot
+  - sleep 5
+  - psql -c "CREATE ROLE test LOGIN ENCRYPTED PASSWORD 'test' NOINHERIT VALID UNTIL 'infinity';" -U postgres
+  - psql -c "CREATE DATABASE test WITH ENCODING='UTF8' OWNER=test;" -U postgres
+  - sleep 5
+  - mongo test --eval 'db.addUser("test", "test");'
