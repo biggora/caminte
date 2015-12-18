@@ -8,7 +8,7 @@ if (!process.env.NODE_ENV) {
 }
 var driver = process.env.CAMINTE_DRIVER || 'memory';
 var should = require('should');
-var caminte = require('caminte');
+var caminte = require('../../');
 var config = require('./../lib/database');
 var dbConf = config[driver];
 var UserModel = require('./../lib/User');
