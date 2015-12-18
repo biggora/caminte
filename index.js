@@ -32,5 +32,5 @@ try {
 } catch (e) {}
 
 exports.__defineGetter__('test', function () {
-    return require('./tests/common_test');
+    return require('./tmp/tests/common_test');
 });

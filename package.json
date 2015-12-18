@@ -95,7 +95,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "nodeunit tests/*_test*"
+    "test": "make test"
   },
   "engines": [
     "node >= 0.10.0"
@@ -105,6 +105,11 @@
   },
   "devDependencies": {
     "semicov": "*",
+    "mocha": "latest",
+    "should": "latest",
+    "superagent": "latest",
+    "istanbul": "latest",
+    "jshint": "2.x",
     "coffee-script": "*",
     "nodeunit": "*",
     "redis": ">= 0.12.0",
