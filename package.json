@@ -113,7 +113,6 @@
     "coffee-script": "*",
     "nodeunit": "*",
     "redis": ">= 0.12.0",
-    "hiredis": "*",
     "mongoose": ">= 3.0.0",
     "mysql": ">= 2.0.0",
     "pg": ">= 4.0.0",
