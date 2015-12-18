@@ -2,13 +2,16 @@
  * Module dependencies
  */
 var fs = require('fs');
-var path = require('path');
+var schema = require('./lib/schema');
+var pkg = require('./package');
+var abc = require('./lib/abstract-class');
+var vld = require('./lib/validatable');
 
-Schema = require('./lib/schema').Schema;
+Schema = schema.Schema;
 
 exports.Schema = Schema;
-exports.AbstractClass = require('./lib/abstract-class').AbstractClass;
-exports.Validatable = require('./lib/validatable').Validatable;
+exports.AbstractClass = abc.AbstractClass;
+exports.Validatable = vld.Validatable;
 exports.__defineGetter__('BaseSQL', function () {
     return require('./lib/sql');
 });
@@ -19,17 +22,9 @@ exports.init = function (trinte) {
     } else {
         trinte.orm = {Schema: exports.Schema, AbstractClass: exports.AbstractClass};
     }
-   // var railway = './lib/railway';
-   // require(railway)(rw);
 };
 
-try {
-    if (process.versions.node < '0.6') {
-        exports.version = JSON.parse(fs.readFileSync(__dirname + '/package.json')).version;
-    } else {
-        exports.version = require('./package').version;
-    }
-} catch (e) {}
+exports.version = pkg.version;
 
 exports.__defineGetter__('test', function () {
     return require('./tmp/tests/common_test');

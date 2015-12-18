@@ -39,7 +39,7 @@ test-mongo:
 test-tingo:
 	@CAMINTE_DRIVER=tingo $(MOCHA) -r should -R $(MOCHA_REPORTER)
 
-test: test-sqlite test-mysql test-postgres test-redis test-mongo test-tingo
+test: test-sqlite test-mysql test-postgres test-redis test-mongo
 
 clear:
 	@rm -rf coverage
