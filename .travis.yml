@@ -12,7 +12,6 @@ services:
     - mongodb
   
 before_script:
-    - cat /etc/hosts
     - mysql -e "CREATE USER 'test'@'%' IDENTIFIED BY 'test';" -uroot
     - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
     - mysql -e "GRANT ALL PRIVILEGES ON test . * TO 'test'@'%';" -uroot

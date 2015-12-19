@@ -17,16 +17,17 @@ variables:
 
 before_script:
 #  - npm install caminte should underscore moment --save-dev
+    - cat /etc/hosts
 
 stages:
-  - test
+    - test
 
 all:
   stage: test
   script:
-    - npm install --save-dev
-    - make test
+      - npm install --save-dev
+      - make test
   only:
-    - master
+      - master
   tags:
-    - node
+      - node
