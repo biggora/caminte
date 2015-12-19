@@ -7,7 +7,7 @@ if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'test';
 }
 
-var driver = process.env.CAMINTE_DRIVER || ':memory:';
+var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
@@ -19,11 +19,11 @@ var schema = new Schema(dbConf.driver, dbConf);
 var User = UserModel(schema);
 
 /**
- * Simple tests for the Article model
+ * Simple tests for the User model
  */
-describe(driver + ' - User validation:', function () {
+describe(driver + ' - validation:', function () {
     'use strict';
-    var suser, user, id, newUser = {
+    var suser, user, newUser = {
         language: 'en',
         first_name: 'Alex',
         last_name: 'Gordan',

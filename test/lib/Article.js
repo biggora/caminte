@@ -34,7 +34,7 @@ module.exports = function (schema) {
         meta_keys: {type: schema.String, limit: 155},
         meta_desc: {type: schema.String, limit: 155}
     }, {});
-
+    /* Validators */
     Article.validatesPresenceOf('title', 'alias');
     Article.validatesLengthOf('title', {min: 5, message: {min: 'title is too short'}});
     Article.validatesInclusionOf('language', {in: ['en', 'ru']});

@@ -38,7 +38,7 @@ module.exports = function (schema) {
         disable_ts: {type: schema.Date},
         modify_ts: {type: schema.Date}
     }, {});
-
+    /* Validators */
     User.validatesPresenceOf('first_name', 'email');
     User.validatesLengthOf('password', {min: 5, message: {min: 'Password is too short'}});
     User.validatesInclusionOf('language', {in: ['en', 'ru']});

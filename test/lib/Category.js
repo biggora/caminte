@@ -13,7 +13,7 @@
  **/
 module.exports = function (schema) {
     var Category = schema.define('category', {
-        active: {type: schema.Number, limit: 1},
+        active: {type: schema.Number, default: 0, limit: 1, index: true},
         section: {type: schema.String, limit: 20, default: "product", index: true},
         language: {type: schema.String, limit: 5, default: "en", index: true},
         title: {type: schema.String, limit: 155},
@@ -31,12 +31,16 @@ module.exports = function (schema) {
         create_ts: {type: schema.Date},
         modify_ts: {type: schema.Date}
     }, {});
-
+    /* Validators */
     Category.validatesPresenceOf('title', 'section');
     Category.validatesLengthOf('title', {min: 5, message: {min: 'title is too short'}});
     Category.validatesLengthOf('section', {min: 5, message: {min: 'section is too short'}});
     Category.validatesInclusionOf('language', {in: ['en', 'ru']});
     Category.validatesNumericalityOf('category_id', {int: true});
+    /* Scopes */
+    Category.scope('published', {active: 1});
+    Category.scope('hidden', {active: 0});
+    Category.scope('products', {section: 'product'});
 
     return Category;
 };

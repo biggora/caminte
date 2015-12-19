@@ -39,6 +39,9 @@ test-mongo:
 test-tingo:
 	@CAMINTE_DRIVER=tingo $(MOCHA) -r should -R $(MOCHA_REPORTER)
 
+test-rethinkdb:
+	@CAMINTE_DRIVER=rethinkdb $(MOCHA) -r should -R $(MOCHA_REPORTER)
+
 test: test-sqlite test-mysql test-postgres test-redis test-mongo
 
 clear:

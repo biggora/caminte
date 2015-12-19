@@ -6,7 +6,7 @@
 if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'test';
 }
-var driver = process.env.CAMINTE_DRIVER || 'memory';
+var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
