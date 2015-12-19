@@ -160,6 +160,28 @@ schema.models.Post;
 
 Now all common logic described in `./lib/*.js`, and database-specific stuff in `./lib/adapters/*.js`. It's super-tiny, right?
 
+## Tests
+
+```
+    # run all tests
+    $ make test
+    
+    # run sqlite tests
+    $ make test-sqlite
+    
+    # run mysql tests
+    $ make test-mysql
+        
+    # run postgres tests
+    $ make test-postgres
+        
+    # run redis tests
+    $ make test-redis
+        
+    # run mongodb tests
+    $ make test-mongo
+```
+
 ## Contributing
 
 If you have found a bug please write unit test, and make sure all other tests still pass before pushing code to repo.
