@@ -1,0 +1,86 @@
+# image: node:4
+services:
+  - mariadb:10
+  - postgres:9
+  - redis:3
+  - mongo:3
+  - rethinkdb:2
+
+variables:
+  MYSQL_USER: "test"
+  MYSQL_PASSWORD: "test"
+  MYSQL_DATABASE: "test"
+  MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  POSTGRES_USER: "test"
+  POSTGRES_PASSWORD: "test"
+  POSTGRES_DB: "test"
+
+before_script:
+  - npm install caminte should underscore moment --save-dev
+
+stages:
+  - test-sqlite
+  - test-mysql
+  - test-postgres
+  - test-redis
+  - test-mongo
+  - test-tingo
+
+mysql:
+  stage: test-mysql
+  script:
+    - npm install mysql --save-dev
+    - make test-mysql
+  only:
+    - master
+  tags:
+    - node
+
+sqlite:
+  stage: test-sqlite
+  script:
+    - npm install sqlite3 --save-dev
+    - make test-sqlite
+  only:
+    - master
+  tags:
+    - node
+
+postgres:
+  stage: test-postgres
+  script:
+    - npm install pg --save-dev
+    - make test-postgres
+  only:
+    - master
+  tags:
+    - node
+
+redis:
+  stage: test-redis
+  script:
+    - npm install redis --save-dev
+    - make test-redis
+  only:
+    - master
+  tags:
+    - node
+
+mongo:
+  stage: test-mongo
+  script:
+    - npm install mongodb --save-dev
+    - make test-mongo
+  only:
+    - master
+  tags:
+    - node
+
+tingo:
+  stage: test-tingo
+  script:
+    - npm install tingodb --save-dev
+  only:
+    - master
+  tags:
+    - node
