@@ -1,4 +1,4 @@
-# image: node:4
+# default image biggora/gitlab-zone:latest
 services:
   - mariadb:10
   - postgres:9

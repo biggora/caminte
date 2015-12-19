@@ -104,6 +104,7 @@
     "semicov": "latest",
     "underscore": "latest",
     "generic-pool": "latest",
+    "moment": "latest",
     "mocha": "latest",
     "should": "latest",
     "istanbul": "latest",
