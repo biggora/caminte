@@ -105,6 +105,7 @@
     "underscore": "latest",
     "generic-pool": "latest",
     "moment": "latest",
+    "async": "latest",
     "mocha": "latest",
     "should": "latest",
     "istanbul": "latest",
