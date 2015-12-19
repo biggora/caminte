@@ -8,11 +8,15 @@
     "url": "http://www.gordejev.lv"
   },
   "homepage": "http://camintejs.com/",
-  "license":     {
+  "license": {
     "type": "MIT",
     "url": "https://github.com/biggora/caminte/blob/master/LICENSE"
   },
   "contributors": [
+    {
+      "name": "Aleksej Gordejev",
+      "email": "aleksej@gordejev.lv"
+    },
     {
       "name": "Anatoliy Chakkaev",
       "email": "rpm1602@gmail.com"
@@ -56,14 +60,11 @@
     {
       "name": "Michael Pauley",
       "email": ""
-    },
-    {
-      "name": "Aleksej Gordejev",
-      "email": "aleksej@gordejev.lv"
     }
   ],
   "keywords": [
     "orm",
+    "cross-db",
     "caminte",
     "database",
     "adapter",
@@ -85,7 +86,7 @@
     "lib": "lib",
     "media": "media",
     "support": "support",
-    "tests": "tests"
+    "test": "test"
   },
   "repository": {
     "type": "git",
@@ -102,14 +103,14 @@
     "node-uuid": ">= 1.3.3"
   },
   "devDependencies": {
-    "semicov": "*",
+    "coffee-script": "*",
+    "semicov": "latest",
+    "underscore": "latest",
+    "generic-pool": "latest",
     "mocha": "latest",
     "should": "latest",
-    "superagent": "latest",
     "istanbul": "latest",
     "jshint": "2.x",
-    "coffee-script": "*",
-    "nodeunit": "*",
     "redis": ">= 0.12.0",
     "mongoose": ">= 3.0.0",
     "mysql": ">= 2.0.0",
@@ -121,7 +122,6 @@
     "felix-couchdb": ">= 1.0.0",
     "cradle": ">= 0.6.0",
     "rethinkdb": ">= 1.16",
-    "generic-pool": "*",
     "cassandra-driver": ">=2.1.0"
   },
   "optionalDependencies": {}

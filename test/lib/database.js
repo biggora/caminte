@@ -7,6 +7,8 @@
  *
  *  docs: https://github.com/biggora/caminte/wiki/Connecting-to-DB#connecting
  **/
+// var travis = process.env.TRAVIS;
+var gitlab = process.env.GITLAB_CI;
 
 module.exports.memory = {
     driver     : ':memory:'
@@ -19,7 +21,7 @@ module.exports.sqlite = {
 
 module.exports.mysql = {
     driver     : 'mysql',
-    host       : '127.0.0.1',
+    host       : gitlab ? 'mariadb' : '127.0.0.1',
     port       : '3306',
     username   : 'test',
     password   : 'test',
@@ -29,7 +31,7 @@ module.exports.mysql = {
 
 module.exports.postgres = {
     driver     : 'postgres',
-    host       : '127.0.0.1',
+    host       : gitlab ? 'postgres' : '127.0.0.1',
     port       : '5432',
     username   : 'test',
     password   : 'test',
@@ -38,7 +40,7 @@ module.exports.postgres = {
 
 module.exports.firebird = {
     driver     : 'firebird',
-    host       : '127.0.0.1',
+    host       : gitlab ? 'firebird' : '127.0.0.1',
     port       : '3050',
     username   : 'test',
     password   : 'test',
@@ -47,7 +49,7 @@ module.exports.firebird = {
 
 module.exports.redis = {
     driver     : 'redis',
-    host       : '127.0.0.1',
+    host       : gitlab ? 'redis' : '127.0.0.1',
     port       : '6379',
     username   : 'test',
     password   : 'test',
@@ -56,7 +58,7 @@ module.exports.redis = {
 
 module.exports.mongo = {
     driver     : 'mongo',
-    host       : '127.0.0.1',
+    host       : gitlab ? 'mongo' : '127.0.0.1',
     port       : '27017',
     database   : 'test'
 };
@@ -68,14 +70,14 @@ module.exports.tingo = {
 
 module.exports.rethinkdb = {
     driver     : 'rethinkdb',
-    host       : '127.0.0.1',
+    host       : gitlab ? 'rethinkdb' : '127.0.0.1',
     port       : '28015',
     database   : 'test'
 };
 
 module.exports.neo4j = {
     driver     : 'neo4j',
-    host       : '127.0.0.1',
+    host       : gitlab ? 'neo4j' : '127.0.0.1',
     port       : '7474',
     database   : 'test'
 };

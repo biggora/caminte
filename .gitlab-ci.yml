@@ -16,70 +16,16 @@ variables:
   POSTGRES_DB: "test"
 
 before_script:
-  - npm install caminte should underscore moment --save-dev
+#  - npm install caminte should underscore moment --save-dev
 
 stages:
-  - test-sqlite
-  - test-mysql
-  - test-postgres
-  - test-redis
-  - test-mongo
-  - test-tingo
+  - test
 
-mysql:
-  stage: test-mysql
+all:
+  stage: test
   script:
-    - npm install mysql --save-dev
-    - make test-mysql
-  only:
-    - master
-  tags:
-    - node
-
-sqlite:
-  stage: test-sqlite
-  script:
-    - npm install sqlite3 --save-dev
-    - make test-sqlite
-  only:
-    - master
-  tags:
-    - node
-
-postgres:
-  stage: test-postgres
-  script:
-    - npm install pg --save-dev
-    - make test-postgres
-  only:
-    - master
-  tags:
-    - node
-
-redis:
-  stage: test-redis
-  script:
-    - npm install redis --save-dev
-    - make test-redis
-  only:
-    - master
-  tags:
-    - node
-
-mongo:
-  stage: test-mongo
-  script:
-    - npm install mongodb --save-dev
-    - make test-mongo
-  only:
-    - master
-  tags:
-    - node
-
-tingo:
-  stage: test-tingo
-  script:
-    - npm install tingodb --save-dev
+    - npm install --save-dev
+    - make test
   only:
     - master
   tags:
