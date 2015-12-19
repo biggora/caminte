@@ -8,10 +8,7 @@
     "url": "http://www.gordejev.lv"
   },
   "homepage": "http://camintejs.com/",
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/biggora/caminte/blob/master/LICENSE"
-  },
+  "license": "MIT",
   "contributors": [
     {
       "name": "Aleksej Gordejev",
