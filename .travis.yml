@@ -12,6 +12,7 @@ services:
     - mongodb
   
 before_script:
+    - cat /etc/hosts
     - mysql -e "CREATE USER 'test'@'%' IDENTIFIED BY 'test';" -uroot
     - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
     - mysql -e "GRANT ALL PRIVILEGES ON test . * TO 'test'@'%';" -uroot
@@ -23,7 +24,7 @@ before_script:
     - mongo test --eval 'db.addUser("test", "test");'
     - sleep 3
     - curl http://download.rethinkdb.com/apt/pubkey.gpg | sudo apt-key add -
-    - echo "deb http://download.rethinkdb.com/apt precise main" | sudo tee -a /etc/apt/sources.list
+    - echo "deb http://download.rethinkdb.com/apt precise main" | sudo tee -a /etc/apt/sources.list.d/rethinkdb.list
     - sudo apt-get update -qq
     - sudo apt-get install -y rethinkdb
     - sudo cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/default.conf
