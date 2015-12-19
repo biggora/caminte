@@ -22,25 +22,25 @@ test-cov: clear
 	@NODE_ENV=test $(MOCHA_COV)
 
 test-mysql:
-	@CAMINTE_DRIVER=mysql $(MOCHA) -r should -R $(MOCHA_REPORTER)
+	@CAMINTE_DRIVER=mysql $(MOCHA) --timeout 5000 -r should -R $(MOCHA_REPORTER)
 
 test-sqlite:
-	@CAMINTE_DRIVER=sqlite $(MOCHA) -r should -R $(MOCHA_REPORTER)
+	@CAMINTE_DRIVER=sqlite $(MOCHA) --timeout 5000 -r should -R $(MOCHA_REPORTER)
 
 test-postgres:
-	@CAMINTE_DRIVER=postgres $(MOCHA) -r should -R $(MOCHA_REPORTER)
+	@CAMINTE_DRIVER=postgres $(MOCHA) --timeout 5000 -r should -R $(MOCHA_REPORTER)
 
 test-redis:
-	@CAMINTE_DRIVER=redis $(MOCHA) -r should -R $(MOCHA_REPORTER)
+	@CAMINTE_DRIVER=redis $(MOCHA) --timeout 5000 -r should -R $(MOCHA_REPORTER)
 
 test-mongo:
-	@CAMINTE_DRIVER=mongo $(MOCHA) -r should -R $(MOCHA_REPORTER)
+	@CAMINTE_DRIVER=mongo $(MOCHA) --timeout 5000 -r should -R $(MOCHA_REPORTER)
 
 test-tingo:
-	@CAMINTE_DRIVER=tingo $(MOCHA) -r should -R $(MOCHA_REPORTER)
+	@CAMINTE_DRIVER=tingo $(MOCHA) --timeout 5000 -r should -R $(MOCHA_REPORTER)
 
 test-rethinkdb:
-	@CAMINTE_DRIVER=rethinkdb $(MOCHA) -r should -R $(MOCHA_REPORTER)
+	@CAMINTE_DRIVER=rethinkdb $(MOCHA) --timeout 5000 -r should -R $(MOCHA_REPORTER)
 
 test: test-sqlite test-mysql test-postgres test-redis test-mongo test-rethinkdb
 
