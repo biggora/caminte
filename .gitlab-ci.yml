@@ -16,8 +16,7 @@ variables:
   POSTGRES_DB: "test"
 
 before_script:
-#  - npm install caminte should underscore moment --save-dev
-    - cat /etc/hosts
+    - cat /etc/hosts | grep 172
 
 stages:
     - test

@@ -27,4 +27,4 @@ before_script:
     - sudo apt-get update -qq
     - sudo apt-get install -y rethinkdb
     - sudo cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/default.conf
-    - rethinkdb --daemon
+    - sudo service rethinkdb restart
