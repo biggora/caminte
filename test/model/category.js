@@ -29,6 +29,10 @@ describe(driver + ' - Category model:', function () {
         schema.autoupdate(done);
     });
 
+    after(function (done) {
+        Category.destroyAll(done);
+    });
+
     it('#create', function (done) {
         Category.create(newCategory, function (err, created) {
             should.not.exist(err);

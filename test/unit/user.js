@@ -37,7 +37,7 @@ describe(driver + ' - User unit:', function () {
     });
 
     after(function (done) {
-        done();
+        User.destroyAll(done);
     });
 
     describe('create', function () {

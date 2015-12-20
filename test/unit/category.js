@@ -32,7 +32,7 @@ describe(driver + ' - Category unit:', function () {
     });
 
     after(function (done) {
-        done();
+        Category.destroyAll(done);
     });
 
     describe('create', function () {

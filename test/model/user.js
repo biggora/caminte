@@ -33,6 +33,10 @@ describe(driver + ' - User model:', function () {
         schema.autoupdate(done);
     });
 
+    after(function (done) {
+        User.destroyAll(done);
+    });
+
     it('#create', function (done) {
         User.create(newUser, function (err, created) {
             should.not.exist(err);

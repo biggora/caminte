@@ -35,6 +35,10 @@ describe(driver + ' - Article model:', function () {
         schema.autoupdate(done);
     });
 
+    after(function (done) {
+        Article.destroyAll(done);
+    });
+
     it('#create', function (done) {
         Article.create(newArticle, function (err, created) {
             should.not.exist(err);

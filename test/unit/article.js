@@ -32,7 +32,7 @@ describe(driver + ' - Article unit:', function () {
     });
 
     after(function (done) {
-        done();
+        Article.destroyAll(done);
     });
 
     describe('create', function () {
