@@ -1,10 +1,10 @@
-# default image biggora/gitlab-zone:latest
+image: biggora/gitlab-zone
 services:
-  - mariadb:10
-  - postgres:9
-  - redis:3
-  - mongo:3
-  - rethinkdb:2
+  - mariadb
+  - postgres
+  - redis
+  - mongo
+  - rethinkdb
 
 variables:
   MYSQL_USER: "test"

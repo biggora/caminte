@@ -180,6 +180,9 @@ Now all common logic described in `./lib/*.js`, and database-specific stuff in `
         
     # run mongodb tests
     $ make test-mongo
+        
+    # run rethinkdb tests
+    $ make test-rethinkdb
 ```
 
 ## Contributing
