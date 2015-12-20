@@ -29,11 +29,12 @@ module.exports = function (schema) {
         params: {type: schema.Text},
         create_ts: {type: schema.Date},
         modify_ts: {type: schema.Date},
-        create_id: {type: schema.Number, limit: 21},
+        create_id: {type: schema.Number, limit: 21, index: true},
         modify_id: {type: schema.Number, limit: 21},
         meta_keys: {type: schema.String, limit: 155},
         meta_desc: {type: schema.String, limit: 155}
     }, {});
+
     /* Validators */
     Article.validatesPresenceOf('title', 'alias');
     Article.validatesLengthOf('title', {min: 5, message: {min: 'title is too short'}});
