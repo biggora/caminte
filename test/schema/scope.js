@@ -24,6 +24,7 @@ var Category = CategoryModel(schema);
 describe(driver + ' - scope:', function () {
     'use strict';
     var category, newCategory = {
+        active: 0,
         category_id: 2,
         title: 'My Category',
         section: 'my-category'
@@ -43,31 +44,36 @@ describe(driver + ' - scope:', function () {
     describe('#scope', function () {
 
         it('#published', function (done) {
-           // Category.should.be.have.property('published');
-           // Category.scope.should.be.type('function');
-            /*
-            Category.published(function(err, founds){
-                should.not.exist(err);
-                founds.should.length(1);
-                done();
-            });
-            */
-            done();
-        });
-
-        it('#hidden', function (done) {
-            // Category.should.be.have.property('published');
-            // Category.scope.should.be.type('function');
-            /*
-            Category.hidden(function(err, founds){
+            Category.should.be.have.property('published');
+            Category.scope.should.be.type('function');
+            Category.published({}, function (err, founds) {
                 should.not.exist(err);
                 founds.should.length(0);
                 done();
             });
-            */
-            done();
         });
 
+        it('#hidden', function (done) {
+            Category.should.be.have.property('published');
+            Category.scope.should.be.type('function');
+
+            Category.hidden({}, function (err, founds) {
+                should.not.exist(err);
+                founds.should.length(1);
+                done();
+            });
+        });
+
+        it('#products', function (done) {
+            Category.should.be.have.property('products');
+            Category.scope.should.be.type('function');
+
+            Category.products({}, function (err, founds) {
+                should.not.exist(err);
+                founds.should.length(0);
+                done();
+            });
+        });
     });
 
 });
