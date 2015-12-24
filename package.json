@@ -121,7 +121,8 @@
     "felix-couchdb": ">= 1.0.0",
     "cradle": ">= 0.6.0",
     "rethinkdb": ">= 1.16",
-    "cassandra-driver": ">=2.1.0"
+    "cassandra-driver": ">=2.1.0",
+    "arangojs" : ">= 4.2.0"
   },
   "optionalDependencies": {}
 }
