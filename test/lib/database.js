@@ -87,7 +87,7 @@ module.exports.rethinkdb = {
 
 module.exports.neo4j = {
     driver     : 'neo4j',
-    host       : gitlab ? 'neo4j' : '192.168.99.100',
+    host       : gitlab ? 'neo4j' : '127.0.0.1',
     port       : '7474',
     database   : 'test',
     username   : 'neo4j',
@@ -96,7 +96,7 @@ module.exports.neo4j = {
 
 module.exports.arango = {
     driver     : 'arango',
-    host       : gitlab ? 'arangodb' : '192.168.99.100',
-    port       : gitlab ? '8529' : '32780',
+    host       : gitlab ? 'arangodb' : '127.0.0.1',
+    port       : '8529',
     database   : 'test'
 };
