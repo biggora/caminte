@@ -1,10 +1,13 @@
 image: biggora/gitlab-zone
 services:
   - mariadb
+  - mysql
   - postgres
   - redis
   - mongo
   - rethinkdb
+  - arangodb
+  - neo4j
 
 variables:
   MYSQL_USER: "test"
