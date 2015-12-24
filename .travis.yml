@@ -34,4 +34,4 @@ before_script:
     - echo "deb https://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/ /" | sudo tee /etc/apt/sources.list.d/arangodb.list
     - sudo apt-get update -qq
     - sudo apt-get install arangodb -y
-    - sudo service arangodb restart
+#    - sudo service arangodb restart
