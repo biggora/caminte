@@ -1,11 +1,14 @@
 language: node_js
 
 node_js:
-  - 0.10
-  - 0.12
-  - 4.0
-  - 4.2
-  
+    - 0.10
+    - 0.12
+    - 4.0
+    - 4.2
+
+env:
+    - NEO4J_AUTH="none"
+
 services:
     - mysql
     - postgresql
@@ -38,3 +41,5 @@ before_script:
     - echo "deb https://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/ /" | sudo tee /etc/apt/sources.list.d/arangodb.list
     - sudo apt-get update -qq
     - sudo apt-get install arangodb -y
+    # start neo4j
+    - which neo4j && sudo neo4j start

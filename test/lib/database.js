@@ -89,9 +89,7 @@ module.exports.neo4j = {
     driver     : 'neo4j',
     host       : gitlab ? 'neo4j' : '127.0.0.1',
     port       : '7474',
-    database   : 'test',
-    username   : 'neo4j',
-    password   : 'test'
+    database   : 'test'
 };
 
 module.exports.arango = {
