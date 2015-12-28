@@ -10,6 +10,7 @@ var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
+var samples = require('./../lib/data');
 var dbConf = config[driver];
 var ArticleModel = require('./../lib/Article');
 var Schema = caminte.Schema;
@@ -19,17 +20,7 @@ var Article = ArticleModel(schema);
 
 describe(driver + ' - Article model:', function () {
     'use strict';
-    var id, newArticle = {
-        language: 'en',
-        category_id: 1,
-        title: 'My Article',
-        alias: 'my-article',
-        mainpage: 0,
-        params: {
-            title: 1,
-            categories: 1
-        }
-    };
+    var id, newArticle = samples.articles[1];
 
     before(function (done) {
         schema.autoupdate(done);
@@ -45,9 +36,9 @@ describe(driver + ' - Article model:', function () {
             created.should.be.have.property('id');
             created.id.should.not.eql(null);
             created.category_id.should.eql(1);
-            created.alias.should.eql('my-article');
-            created.title.should.eql('My Article');
-            created.language.should.eql('en');
+            created.alias.should.eql(newArticle.alias);
+            created.title.should.eql(newArticle.title);
+            created.language.should.eql(newArticle.language);
             id = created.id;
             done();
         });

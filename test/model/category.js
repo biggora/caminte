@@ -10,6 +10,7 @@ var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
+var samples = require('./../lib/data');
 var dbConf = config[driver];
 var CategoryModel = require('./../lib/Category');
 var Schema = caminte.Schema;
@@ -19,11 +20,7 @@ var Category = CategoryModel(schema);
 
 describe(driver + ' - Category model:', function () {
     'use strict';
-    var id, newCategory = {
-        category_id: 2,
-        title: 'My Category',
-        section: 'my-category'
-    };
+    var id, newCategory = samples.categories[0];
 
     before(function (done) {
         schema.autoupdate(done);
@@ -38,9 +35,9 @@ describe(driver + ' - Category model:', function () {
             should.not.exist(err);
             created.should.be.have.property('id');
             created.id.should.not.eql(null);
-            created.category_id.should.eql(2);
-            created.section.should.eql('my-category');
-            created.title.should.eql('My Category');
+            created.category_id.should.eql(newCategory.category_id);
+            created.section.should.eql(newCategory.section);
+            created.title.should.eql(newCategory.title);
             id = created.id;
             done();
         });
@@ -70,8 +67,8 @@ describe(driver + ' - Category model:', function () {
         }, function (err, found) {
             should.not.exist(err);
             should.deepEqual(found.id, id);
-            found.section.should.eql('my-category');
-            found.title.should.eql('My Category');
+            found.section.should.eql(newCategory.section);
+            found.title.should.eql(newCategory.title);
             done();
         });
     });

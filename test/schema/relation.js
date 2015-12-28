@@ -10,6 +10,7 @@ var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
+var samples = require('./../lib/data');
 var dbConf = config[driver];
 var UserModel = require('./../lib/User');
 var ArticleModel = require('./../lib/Article');
@@ -24,25 +25,7 @@ var Article = ArticleModel(schema);
  */
 describe(driver + ' - relation:', function () {
     'use strict';
-    var article, user, newUser = {
-        language: 'en',
-        first_name: 'Alex',
-        last_name: 'Gordan',
-        screen_name: 'alex',
-        email: 'rubles@example.com',
-        password: 'AAAAAAAAA',
-        age: 45
-    }, newArticle = {
-        language: 'en',
-        category_id: 1,
-        title: 'My Article',
-        alias: 'my-article',
-        mainpage: 0,
-        params: {
-            title: 1,
-            categories: 1
-        }
-    };
+    var article, user, newUser = samples.users[0], newArticle = samples.articles[0];
 
     User.hasMany(Article, {as: 'articles', foreignKey: 'create_id'});
     Article.belongsTo(User, {as: 'author', foreignKey: 'create_id'});

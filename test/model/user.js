@@ -10,6 +10,7 @@ var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
+var samples = require('./../lib/data');
 var dbConf = config[driver];
 var UserModel = require('./../lib/User');
 var Schema = caminte.Schema;
@@ -19,15 +20,7 @@ var User = UserModel(schema);
 
 describe(driver + ' - User model:', function () {
     'use strict';
-    var id, newUser = {
-        language: 'en',
-        first_name: 'Alex',
-        last_name: 'Gordan',
-        screen_name: 'alex',
-        email: 'bubles@example.com',
-        password: 'AAAAAAAAA',
-        age: 45
-    };
+    var id, newUser = samples.users[0];
 
     before(function (done) {
         schema.autoupdate(done);

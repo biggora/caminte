@@ -13,14 +13,14 @@
  **/
 module.exports = function (schema) {
     var Category = schema.define('category', {
-        active: {type: schema.Number, default: 0, limit: 1, index: true},
-        section: {type: schema.String, limit: 20, default: "product", index: true},
-        language: {type: schema.String, limit: 5, default: "en", index: true},
+        active: {type: schema.Number, 'default': 0, limit: 1, index: true},
+        section: {type: schema.String, limit: 20, 'default': "product", index: true},
+        language: {type: schema.String, limit: 5, 'default': "en", index: true},
         title: {type: schema.String, limit: 155},
         description: {type: schema.String, limit: 255},
         translation: {type: schema.Text},
-        category_id: {type: schema.Number, default: 0, limit: 11},
-        sort_order: {type: schema.Number, limit: 11, default: 1},
+        category_id: {type: schema.Number, 'default': 0, limit: 11, index: true},
+        sort_order: {type: schema.Number, limit: 11, 'default': 1},
         image_source: {type: schema.String, limit: 255},
         image_thumbs: {type: schema.Text},
         meta_keys: {type: schema.String, limit: 155},
@@ -28,7 +28,7 @@ module.exports = function (schema) {
         childs: {type: schema.Number, limit: 11},
         create_id: {type: schema.Number, limit: 21},
         modify_id: {type: schema.Number, limit: 21},
-        create_ts: {type: schema.Date},
+        create_ts: {type: schema.Date, 'default': Date.now},
         modify_ts: {type: schema.Date}
     }, {});
     /* Validators */

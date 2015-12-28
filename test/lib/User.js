@@ -13,7 +13,7 @@
  **/
 module.exports = function (schema) {
     var User = schema.define('user', {
-        active: {type: schema.Number, limit: 1, default: -1, index: true},
+        active: {type: schema.Number, limit: 1, default: 0, index: true},
         language: {type: schema.String, limit: 5, default: "en"},
         provider: {type: schema.String, limit: 50, default: "password"},
         middle_initial: {type: schema.String, limit: 10},

@@ -10,6 +10,7 @@ var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
+var samples = require('./../lib/data');
 var dbConf = config[driver];
 var UserModel = require('./../lib/User');
 var Schema = caminte.Schema;
@@ -22,22 +23,14 @@ var User = UserModel(schema);
  */
 describe(driver + ' - User unit:', function () {
     'use strict';
-    var user, id, newUser = {
-        language: 'en',
-        first_name: 'Alex',
-        last_name: 'Gordan',
-        screen_name: 'alex',
-        email: 'bubles@example.com',
-        password: 'AAAAAAAAA',
-        age: 45
-    };
+    var user, id, newUser = samples.users[0];
 
     before(function (done) {
         schema.autoupdate(done);
     });
 
     after(function (done) {
-        User.destroyAll(done);
+        done();
     });
 
     describe('create', function () {
@@ -47,7 +40,7 @@ describe(driver + ' - User unit:', function () {
             user.should.be.type('object');
         });
 
-        it('validate', function (done) {
+        it('must be valid', function (done) {
             user.isValid(function (valid) {
                 valid.should.be.true;
                 if (!valid) console.log(user.errors);
@@ -64,12 +57,31 @@ describe(driver + ' - User unit:', function () {
             user.save.should.be.type('function');
         });
 
-        it('call', function (done) {
+        it('must be saved', function (done) {
             user.save(function (err) {
                 should.not.exist(err);
                 user.should.be.have.property('id');
                 user.id.should.not.eql(null);
                 id = user.id;
+                done();
+            });
+        });
+
+    });
+
+    describe('updateAttributes', function () {
+
+        it('should be have #updateAttributes', function () {
+            user.should.be.have.property('updateAttributes');
+            user.updateAttributes.should.be.type('function');
+        });
+
+        it('must be updated', function (done) {
+            user.updateAttributes({
+                screen_name: 'bigboss'
+            }, function (err) {
+                should.not.exist(err);
+
                 done();
             });
         });
@@ -83,7 +95,7 @@ describe(driver + ' - User unit:', function () {
             user.destroy.should.be.type('function');
         });
 
-        it('call', function (done) {
+        it('must be destroyed', function (done) {
             user.destroy(function (err) {
                 should.not.exist(err);
                 done();

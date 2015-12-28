@@ -11,6 +11,7 @@ var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
+var samples = require('./../lib/data');
 var dbConf = config[driver];
 var CategoryModel = require('./../lib/Category');
 var Schema = caminte.Schema;
@@ -23,12 +24,7 @@ var Category = CategoryModel(schema);
  */
 describe(driver + ' - scope:', function () {
     'use strict';
-    var category, newCategory = {
-        active: 0,
-        category_id: 2,
-        title: 'My Category',
-        section: 'my-category'
-    };
+    var category, newCategory = samples.categories[0];
 
     before(function (done) {
         category = new Category(newCategory);

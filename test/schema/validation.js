@@ -11,6 +11,7 @@ var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
+var samples = require('./../lib/data');
 var dbConf = config[driver];
 var UserModel = require('./../lib/User');
 var Schema = caminte.Schema;
@@ -23,22 +24,15 @@ var User = UserModel(schema);
  */
 describe(driver + ' - validation:', function () {
     'use strict';
-    var suser, user, newUser = {
-        language: 'en',
-        first_name: 'Alex',
-        last_name: 'Gordan',
-        screen_name: 'alex',
-        email: 'rubles@example.com',
-        password: 'AAAAAAAAA',
-        age: 45
-    }, email = 'bubles@example.com';
+    var user1, user2,
+        newUser1 = samples.users[0],
+        newUser2 = samples.users[0];
 
     before(function (done) {
-        user = new User(newUser);
-        suser = new User(newUser);
+        user1 = new User(newUser1);
+        user2 = new User(newUser2);
         schema.autoupdate(function(){
-            suser.email = email;
-            suser.save(done);
+            user1.save(done);
         });
     });
 
@@ -48,17 +42,17 @@ describe(driver + ' - validation:', function () {
 
     describe('#validatesPresenceOf', function () {
 
-        it('invalid', function (done) {
-            user.first_name = null;
-            user.isValid(function (valid) {
+        it('must be invalid', function (done) {
+            user1.first_name = null;
+            user1.isValid(function (valid) {
                 valid.should.be.false;
                 done();
             });
         });
 
-        it('valid', function (done) {
-            user.first_name = 'Alex';
-            user.isValid(function (valid) {
+        it('must be valid', function (done) {
+            user1.first_name = 'Alex';
+            user1.isValid(function (valid) {
                 valid.should.be.true;
                 done();
             });
@@ -68,17 +62,17 @@ describe(driver + ' - validation:', function () {
 
     describe('#validatesInclusionOf', function () {
 
-        it('invalid', function (done) {
-            user.language = 'by';
-            user.isValid(function (valid) {
+        it('must be invalid', function (done) {
+            user1.language = 'by';
+            user1.isValid(function (valid) {
                 valid.should.be.false;
                 done();
             });
         });
 
-        it('valid', function (done) {
-            user.language = 'ru';
-            user.isValid(function (valid) {
+        it('must be valid', function (done) {
+            user1.language = 'ru';
+            user1.isValid(function (valid) {
                 valid.should.be.true;
                 done();
             });
@@ -87,17 +81,17 @@ describe(driver + ' - validation:', function () {
 
     describe('#validatesLengthOf', function () {
 
-        it('invalid', function (done) {
-            user.password = 'xx';
-            user.isValid(function (valid) {
+        it('must be invalid', function (done) {
+            user1.password = 'xx';
+            user1.isValid(function (valid) {
                 valid.should.be.false;
                 done();
             });
         });
 
-        it('valid', function (done) {
-            user.password = 'AAAAAAAAA';
-            user.isValid(function (valid) {
+        it('must be valid', function (done) {
+            user1.password = 'AAAAAAAAA';
+            user1.isValid(function (valid) {
                 valid.should.be.true;
                 done();
             });
@@ -107,17 +101,17 @@ describe(driver + ' - validation:', function () {
 
     describe('#validatesNumericalityOf', function () {
 
-        it('invalid', function (done) {
-            user.age = 'xx';
-            user.isValid(function (valid) {
+        it('must be invalid', function (done) {
+            user1.age = 'xx';
+            user1.isValid(function (valid) {
                 valid.should.be.false;
                 done();
             });
         });
 
-        it('valid', function (done) {
-            user.age = 45;
-            user.isValid(function (valid) {
+        it('must be valid', function (done) {
+            user1.age = 45;
+            user1.isValid(function (valid) {
                 valid.should.be.true;
                 done();
             });
@@ -127,17 +121,17 @@ describe(driver + ' - validation:', function () {
 
     describe('#validatesExclusionOf', function () {
 
-        it('invalid', function (done) {
-            user.screen_name = 'admin';
-            user.isValid(function (valid) {
+        it('must be invalid', function (done) {
+            user1.screen_name = 'admin';
+            user1.isValid(function (valid) {
                 valid.should.be.false;
                 done();
             });
         });
 
-        it('valid', function (done) {
-            user.screen_name = 'boss';
-            user.isValid(function (valid) {
+        it('must be valid', function (done) {
+            user1.screen_name = 'boss';
+            user1.isValid(function (valid) {
                 valid.should.be.true;
                 done();
             });
@@ -147,17 +141,17 @@ describe(driver + ' - validation:', function () {
 
     describe('#validatesFormatOf', function () {
 
-        it('invalid', function (done) {
-            user.screen_name = 'red in';
-            user.isValid(function (valid) {
+        it('must be invalid', function (done) {
+            user1.screen_name = 'red in';
+            user1.isValid(function (valid) {
                 valid.should.be.false;
                 done();
             });
         });
 
-        it('valid', function (done) {
-            user.screen_name = 'hugoboss';
-            user.isValid(function (valid) {
+        it('must be valid', function (done) {
+            user1.screen_name = 'hugoboss';
+            user1.isValid(function (valid) {
                 valid.should.be.true;
                 done();
             });
@@ -167,17 +161,17 @@ describe(driver + ' - validation:', function () {
 
     describe('#validatesUniquenessOf', function () {
 
-        it('invalid', function (done) {
-            user.email = email;
-            user.isValid(function (valid) {
+        it('must be invalid', function (done) {
+            user1.email = newUser2.email;
+            user1.isValid(function (valid) {
                 valid.should.be.false;
                 done();
             });
         });
 
-        it('valid', function (done) {
-            user.email = newUser.email;
-            user.isValid(function (valid) {
+        it('must be valid', function (done) {
+            user1.email = newUser1.email;
+            user1.isValid(function (valid) {
                 valid.should.be.true;
                 done();
             });
@@ -185,20 +179,19 @@ describe(driver + ' - validation:', function () {
 
     });
 
-
     describe('#validate', function () {
 
-        it('invalid', function (done) {
-            user.email = 'hg hj h';
-            user.isValid(function (valid) {
+        it('must be invalid', function (done) {
+            user1.email = 'hg hj h';
+            user1.isValid(function (valid) {
                 valid.should.be.false;
                 done();
             });
         });
 
-        it('valid', function (done) {
-            user.email = newUser.email;
-            user.isValid(function (valid) {
+        it('must be valid', function (done) {
+            user1.email = newUser1.email;
+            user1.isValid(function (valid) {
                 valid.should.be.true;
                 done();
             });

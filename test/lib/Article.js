@@ -13,7 +13,7 @@
  **/
 module.exports = function (schema) {
     var Article = schema.define('article', {
-        active: {type: schema.Number, limit: 1, index: true},
+        active: {type: schema.Number, limit: 1, default: 0, index: true},
         mainpage: {type: schema.Number, limit: 1, index: true},
         language: {type: schema.String, limit: 5, default: "en", index: true},
         category_id: {type: schema.Number, limit: 11, default: 0, index: true},
@@ -30,11 +30,10 @@ module.exports = function (schema) {
         create_ts: {type: schema.Date},
         modify_ts: {type: schema.Date},
         create_id: {type: schema.Number, limit: 21, index: true},
-        modify_id: {type: schema.Number, limit: 21},
+        modify_id: {type: schema.Number, limit: 21, index: true},
         meta_keys: {type: schema.String, limit: 155},
         meta_desc: {type: schema.String, limit: 155}
     }, {});
-
     /* Validators */
     Article.validatesPresenceOf('title', 'alias');
     Article.validatesLengthOf('title', {min: 5, message: {min: 'title is too short'}});
