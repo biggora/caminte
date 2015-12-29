@@ -26,7 +26,6 @@ before_script:
     # configure postgres
     - psql -c "CREATE ROLE test LOGIN ENCRYPTED PASSWORD 'test' NOINHERIT VALID UNTIL 'infinity';" -U postgres
     - psql -c "CREATE DATABASE test WITH ENCODING='UTF8' OWNER=test;" -U postgres
-    - psql -c "ALTER DEFAULT PRIVILEGES" -U postgres
     - sleep 2
     # configure mongodb
     - mongo test --eval 'db.addUser("test", "test");'
