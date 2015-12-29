@@ -51,7 +51,7 @@ describe(driver + ' - User model:', function () {
     it('#findById', function (done) {
         User.findById(id, function (err, found) {
             should.not.exist(err);
-            found.id.should.equal(id);
+            found.id.should.deepEqual(id);
             done();
         });
     });

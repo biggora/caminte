@@ -22,7 +22,7 @@ var User = UserModel(schema);
 /**
  * Simple tests for the User model
  */
-describe(driver + ' - validation:', function () {
+describe(driver + ' - schema validation:', function () {
     'use strict';
     var user1, user2,
         newUser1 = samples.users[0],

@@ -22,7 +22,7 @@ var Category = CategoryModel(schema);
 /**
  * Simple tests for the Category model
  */
-describe(driver + ' - scope:', function () {
+describe(driver + ' - schema scope:', function () {
     'use strict';
     var category, newCategory = samples.categories[0];
 

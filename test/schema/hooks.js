@@ -9,6 +9,7 @@ var driver = process.env.CAMINTE_DRIVER || 'sqlite';
 var should = require('should');
 var caminte = require('../../');
 var config = require('./../lib/database');
+var samples = require('./../lib/data');
 var dbConf = config[driver];
 var UserModel = require('./../lib/User');
 var Schema = caminte.Schema;
@@ -16,22 +17,18 @@ dbConf.host = process.env.DB_HOST || dbConf.host || '';
 var schema = new Schema(dbConf.driver, dbConf);
 var User = UserModel(schema);
 
-describe(driver + ' - hooks:', function () {
+describe(driver + ' - schema hooks:', function () {
     'use strict';
-    var user, nuser, newUser = {
-        language: 'en',
-        first_name: 'Alex',
-        last_name: 'Gordan',
-        screen_name: 'alex',
-        email: 'bubles@example.com',
-        password: 'AAAAAAAAA',
-        age: 45
-    };
+    var user, nuser, newUser = samples.users[0];
 
     before(function (done) {
         schema.autoupdate(done);
     });
 
+    after(function (done) {
+        User.destroyAll(done);
+    });
+    
     it("#afterInitialize", function (done) {
         User.afterInitialize = function () {
             User.afterInitialize = null;

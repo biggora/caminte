@@ -69,7 +69,13 @@ module.exports.articles = [
         params: {
             title: 1,
             categories: 1
-        }
+        },
+        content_short: 'Application developer focusing on web, mobile and server platforms. Always aiming to use software engineering’s best practices, like testability and design patterns, in a system’s implementation to achieve flexibility and scalability.',
+        content_full: 'Application developer focusing on web, mobile and server platforms. Always aiming to use software engineering’s best practices, like testability and design patterns, in a system’s implementation to achieve flexibility and scalability.',
+        meta_keys: ['app', 'developer', 'web'],
+        longitude: 56.9496490,
+        latitude: 24.1051860,
+        price: 23.56
     },
     {
         active: 0,
