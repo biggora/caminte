@@ -41,7 +41,7 @@ module.exports.mariadb = {
 
 module.exports.postgres = {
     driver     : 'postgres',
-    host       : gitlab ? 'postgres' : '127.0.0.1',
+    host       : gitlab ? 'postgres' : '192.168.99.100',
     port       : '5432',
     username   : 'test',
     password   : 'test',
