@@ -41,8 +41,29 @@ First install [node.js](http://nodejs.org/). Then:
 Use the command line interface tool, `caminte`, to quickly create an models.
 
     $ npm install caminte-cli -g
+    
+Create structure:
 
-[caminte-cli details.](https://github.com/biggora/caminte-cli)
+    $ caminte -i -a mysql
+    
+Create model:
+
+    $ caminte -m User active:int name email password note:text created:date
+    # with tests  
+    $ caminte -t -m User active:int name email password note:text created:date
+    
+Create model and routes:
+
+    $ caminte -c Post published:bool title content:text created:date
+    # with tests    
+    $ caminte -t -c User active:int name email password note:text created:date
+    
+    
+Create model and routes from SQL dump:
+
+    $ caminte -d dumpfile.sql
+    
+[caminte-cli more details.](https://github.com/biggora/caminte-cli)
 
 ## Overview
 
