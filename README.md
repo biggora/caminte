@@ -36,6 +36,14 @@ First install [node.js](http://nodejs.org/). Then:
 
     $ npm install caminte --save
 
+## CLI
+
+Use the command line interface tool, `caminte`, to quickly create an models.
+
+    $ npm install caminte-cli -g
+
+[caminte-cli details.](https://github.com/biggora/caminte-cli)
+
 ## Overview
 
 * [Connecting to DB](https://github.com/biggora/caminte/wiki/Connecting-to-DB#connecting)
