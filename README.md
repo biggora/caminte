@@ -36,6 +36,10 @@ First install [node.js](http://nodejs.org/). Then:
 
     $ npm install caminte --save
 
+## Online model creator
+
+Create CaminteJS Models in few minutes with [online model creator](http://www.camintejs.com/en/creator). 
+
 ## CLI
 
 Use the command line interface tool, `caminte`, to quickly create an models.
