@@ -36,6 +36,28 @@ First install [node.js](http://nodejs.org/). Then:
 
     $ npm install caminte --save
 
+
+## Overview
+
+* [Command line interface](https://github.com/biggora/caminte#cli)
+* [Usage](https://github.com/biggora/caminte#usage)
+* [Connecting to DB](https://github.com/biggora/caminte/wiki/Connecting-to-DB#connecting)
+* [Defining a Model](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-model)
+* [Define Indices](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-indices)
+* [Define Primary Keys](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-primary-keys)
+* [Schema data types](https://github.com/biggora/caminte/wiki/Schema-data-types#types)
+* [Accessing a Model](https://github.com/biggora/caminte/wiki/Defining-a-Model#accessing-a-model)
+* [Setup Relationships](https://github.com/biggora/caminte/wiki/Setup-Relationships-&-Validations#setup-relationships)
+* [Setup Validations](https://github.com/biggora/caminte/wiki/Setup-Relationships-&-Validations#setup-validations)
+* [Common API methods](https://github.com/biggora/caminte/wiki/Common-API-methods#api)
+* [Define any Custom Method](https://github.com/biggora/caminte/wiki/Common-API-methods#custom)
+* [Query Interface](https://github.com/biggora/caminte/wiki/Query-Interface#queries)
+* [Middleware (Hooks)](https://github.com/biggora/caminte/wiki/Middleware#middleware)
+* [Object lifecycle](https://github.com/biggora/caminte/wiki/Object-lifecycle#lifecycle)
+* [Your own database adapter](https://github.com/biggora/caminte/wiki/Your-own-database-adapter#adapter)
+* [Running tests](https://github.com/biggora/caminte/wiki/Running-tests)
+
+
 ## Online model creator
 
 Create CaminteJS Models in few minutes with [online model creator](http://www.camintejs.com/en/creator). 
@@ -69,23 +91,6 @@ Create model and routes from SQL dump:
     
 [caminte-cli more details.](https://github.com/biggora/caminte-cli)
 
-## Overview
-
-* [Connecting to DB](https://github.com/biggora/caminte/wiki/Connecting-to-DB#connecting)
-* [Defining a Model](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-model)
-* [Define Indices](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-indices)
-* [Define Primary Keys](https://github.com/biggora/caminte/wiki/Defining-a-Model#define-primary-keys)
-* [Schema data types](https://github.com/biggora/caminte/wiki/Schema-data-types#types)
-* [Accessing a Model](https://github.com/biggora/caminte/wiki/Defining-a-Model#accessing-a-model)
-* [Setup Relationships](https://github.com/biggora/caminte/wiki/Setup-Relationships-&-Validations#setup-relationships)
-* [Setup Validations](https://github.com/biggora/caminte/wiki/Setup-Relationships-&-Validations#setup-validations)
-* [Common API methods](https://github.com/biggora/caminte/wiki/Common-API-methods#api)
-* [Define any Custom Method](https://github.com/biggora/caminte/wiki/Common-API-methods#custom)
-* [Query Interface](https://github.com/biggora/caminte/wiki/Query-Interface#queries)
-* [Middleware (Hooks)](https://github.com/biggora/caminte/wiki/Middleware#middleware)
-* [Object lifecycle](https://github.com/biggora/caminte/wiki/Object-lifecycle#lifecycle)
-* [Your own database adapter](https://github.com/biggora/caminte/wiki/Your-own-database-adapter#adapter)
-* [Running tests](https://github.com/biggora/caminte/wiki/unning-tests#running_tests)
 
 ## Usage
 
@@ -192,31 +197,6 @@ schema.models.Post;
 ## Package structure
 
 Now all common logic described in `./lib/*.js`, and database-specific stuff in `./lib/adapters/*.js`. It's super-tiny, right?
-
-## Tests
-
-```
-    # run all tests
-    $ make test
-    
-    # run sqlite tests
-    $ make test-sqlite
-    
-    # run mysql tests
-    $ make test-mysql
-        
-    # run postgres tests
-    $ make test-postgres
-        
-    # run redis tests
-    $ make test-redis
-        
-    # run mongodb tests
-    $ make test-mongo
-        
-    # run rethinkdb tests
-    $ make test-rethinkdb
-```
 
 ## Contributing
 
