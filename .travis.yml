@@ -38,8 +38,9 @@ before_script:
     - sudo cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/default.conf
     - sudo service rethinkdb restart
     # add arangodb
-    - sudo apt-get clean
+    #- sudo apt-get clean
     - curl https://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/amd64/arangodb_2.8.7_amd64.deb | sudo dpkg -i -
+    - which arangodb && sudo arangodb restart
     #- sudo dpkg -i arangodb_2.8.7_amd64.deb
     # - curl http://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/Release.key | sudo apt-key add -
     # - echo "deb http://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/ /" | sudo tee /etc/apt/sources.list.d/arangodb.list
