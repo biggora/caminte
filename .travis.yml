@@ -41,7 +41,7 @@ before_script:
     #- sudo apt-get clean
     - curl -O https://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/amd64/arangodb_2.8.7_amd64.deb
     - sudo dpkg -i arangodb_2.8.7_amd64.deb
-    - which arangodb && sudo arangodb restart
+    - which arangodb && sudo service arangodb restart
     #- sudo dpkg -i arangodb_2.8.7_amd64.deb
     # - curl http://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/Release.key | sudo apt-key add -
     # - echo "deb http://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/ /" | sudo tee /etc/apt/sources.list.d/arangodb.list
