@@ -39,9 +39,11 @@ before_script:
     - sudo service rethinkdb restart
     # add arangodb
     - sudo apt-get clean
-    - curl http://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/Release.key | sudo apt-key add -
-    - echo "deb http://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/ /" | sudo tee /etc/apt/sources.list.d/arangodb.list
-    - sudo apt-get update -q
-    - sudo apt-get install arangodb=2.8.7 -y
+    - curl https://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/amd64/arangodb_2.8.7_amd64.deb | sudo dpkg -i -
+    #- sudo dpkg -i arangodb_2.8.7_amd64.deb
+    # - curl http://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/Release.key | sudo apt-key add -
+    # - echo "deb http://www.arangodb.com/repositories/arangodb2/xUbuntu_$(lsb_release -rs)/ /" | sudo tee /etc/apt/sources.list.d/arangodb.list
+    # - sudo apt-get update -q
+    # - sudo apt-get install arangodb=2.8.7 -y
     # start neo4j
     - which neo4j && sudo neo4j start
