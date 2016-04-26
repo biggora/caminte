@@ -16,6 +16,7 @@ services:
     - mongodb
   
 before_script:
+    - sudo apt-get update -o Acquire::http::No-Cache=True
     - sudo apt-get install -y apt-transport-https
     # configure mysql
     - mysql -e "CREATE USER 'test'@'%' IDENTIFIED BY 'test';" -uroot
