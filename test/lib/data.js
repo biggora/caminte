@@ -5,42 +5,49 @@ module.exports.categories = [
     {
         active: 0,
         category_id: 0,
+        language: 'ru',
         title: 'My Category 1',
         section: 'my-category'
     },
     {
         active: 0,
         category_id: 1,
+        language: 'en',
         title: 'My Category 2',
         section: 'my-category-2'
     },
     {
         active: 0,
         category_id: 1,
+        language: 'lv',
         title: 'My Category 3',
         section: 'my-category-3'
     },
     {
         active: 0,
         category_id: 2,
+        language: 'ru',
         title: 'My Category 4',
         section: 'my-category-4'
     },
     {
         active: 0,
         category_id: 2,
+        language: 'ru',
         title: 'My Category 5',
         section: 'my-category-5'
     },
     {
         active: 0,
         category_id: 2,
+        language: 'lv',
         title: 'My Category 6',
         section: 'my-category-6'
     },
     {
         active: 0,
         category_id: 3,
+        language: 'es',
         title: 'My Category 7',
         section: 'my-category-7'
     }

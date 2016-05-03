@@ -201,6 +201,18 @@ describe(driver + ' - queries:', function () {
             });
         });
 
+        it('#inq - must be in [ru,lv]', function (done) {
+            Category.all({
+                where: {
+                    language : { inq : ['ru','lv'] }
+                }
+            }, function (err, founds) {
+                should.not.exist(err);
+                founds.should.length(5);
+                done();
+            });
+        });
+
         it('#nin - must be not in [1,3]', function (done) {
             Category.all({
                 where: {
@@ -213,6 +225,17 @@ describe(driver + ' - queries:', function () {
             });
         });
 
+        it('#nin - must be not in [en,lv]', function (done) {
+            Category.all({
+                where: {
+                    language : { nin : ['en','lv'] }
+                }
+            }, function (err, founds) {
+                should.not.exist(err);
+                founds.should.length(4);
+                done();
+            });
+        });
     });
 
 });

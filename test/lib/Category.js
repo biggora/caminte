@@ -35,7 +35,7 @@ module.exports = function (schema) {
     Category.validatesPresenceOf('title', 'section');
     Category.validatesLengthOf('title', {min: 5, message: {min: 'title is too short'}});
     Category.validatesLengthOf('section', {min: 5, message: {min: 'section is too short'}});
-    Category.validatesInclusionOf('language', {in: ['en', 'ru']});
+    Category.validatesInclusionOf('language', {in: ['en', 'ru', 'lv', 'es']});
     Category.validatesNumericalityOf('category_id', {int: true});
     /* Scopes */
     Category.scope('published', {active: 1});
