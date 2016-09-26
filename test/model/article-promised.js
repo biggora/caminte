@@ -96,8 +96,8 @@ describe(driver + ' - Promised Article model:', function () {
         }, {
             title: title,
             mainpage: 1
-        }).then(function(err){
-            should.not.exist(err);
+        }).then(function(affected){
+            should.exist(affected);
             Article.findById(id).then(function (found) {
                 // should.not.exist(err);
                 should.exist(found);

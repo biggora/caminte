@@ -96,8 +96,9 @@ describe(driver + ' - Article model:', function () {
         }, {
             title: title,
             mainpage: 1
-        }, function (err, data) {
+        }, function (err, affected) {
             should.not.exist(err);
+            should.exist(affected);
             Article.findById(id, function (err, found) {
                 should.not.exist(err);
                 should.exist(found);
