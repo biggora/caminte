@@ -17,6 +17,9 @@ variables:
   POSTGRES_USER: "test"
   POSTGRES_PASSWORD: "test"
   POSTGRES_DB: "test"
+  ARANGO_ROOT_PASSWORD: "test"
+  ARANGO_NO_AUTH: "1"
+  ARANGO_RANDOM_ROOT_PASSWORD: "0"
 
 before_script:
     - cat /etc/hosts | grep 172
@@ -44,11 +47,41 @@ mysql:
   tags:
       - node
 
+mariadb:
+  stage: test
+  script:
+      - npm install --save-dev
+      - make test-mariadb
+  only:
+      - master
+  tags:
+      - node
+
 redis:
   stage: test
   script:
       - npm install --save-dev
       - make test-redis
+  only:
+      - master
+  tags:
+      - node
+
+postgres:
+  stage: test
+  script:
+      - npm install --save-dev
+      - make test-postgres
+  only:
+      - master
+  tags:
+      - node
+
+mongo:
+  stage: test
+  script:
+      - npm install --save-dev
+      - make test-mongo
   only:
       - master
   tags:
