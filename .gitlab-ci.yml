@@ -61,6 +61,18 @@ mysql:
   tags:
       - node
       
+postgres:
+  services:
+      - postgres
+  stage: test
+  script:
+      - npm install bluebird mocha should pg 
+      - make test-postgres
+  only:
+      - master
+  tags:
+      - node
+      
 mongo:
   services:
       - mongo
@@ -84,14 +96,14 @@ arango:
       - master
   tags:
       - node
-      
-postgres:
+
+rethinkdb:
   services:
-      - postgres
+      - rethinkdb
   stage: test
   script:
-      - npm install bluebird mocha should pg 
-      - make test-postgres
+      - npm install bluebird mocha should rethinkdb 
+      - make test-rethinkdb
   only:
       - master
   tags:
