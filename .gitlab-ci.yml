@@ -96,7 +96,7 @@ rethinkdb:
       - rethinkdb
   stage: test
   script:
-      - npm install bluebird mocha should generic-pool rethinkdb moment
+      - npm install bluebird mocha should async generic-pool rethinkdb moment
       - make test-rethinkdb
   only:
       - master
