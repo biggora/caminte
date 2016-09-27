@@ -32,7 +32,7 @@ redis:
       - redis
   stage: test
   script:
-      - npm install --save-dev
+      - npm install mocha should redis
       - make test-redis
   only:
       - master
@@ -42,7 +42,7 @@ redis:
 sqlite:
   stage: test
   script:
-      - npm install --save-dev
+      - npm install mocha should sqlite3 
       - make test-sqlite
   only:
       - master
