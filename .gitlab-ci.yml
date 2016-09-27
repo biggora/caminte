@@ -25,6 +25,7 @@ redis:
   services:
       - redis
   stage: test
+  retry_on_failure: 2
   script:
       - npm install bluebird mocha should redis
       - make test-redis
@@ -32,59 +33,64 @@ redis:
       - master
   tags:
       - node
-      
+
 sqlite:
   stage: test
+  retry_on_failure: 2
   script:
-      - npm install bluebird mocha should sqlite3 
+      - npm install bluebird mocha should sqlite3
       - make test-sqlite
   only:
       - master
   tags:
       - node
-      
+
 mysql:
   services:
       - mysql
   stage: test
+  retry_on_failure: 2
   script:
-      - npm install bluebird mocha should mysql 
+      - npm install bluebird mocha should mysql
       - make test-mysql
   only:
       - master
   tags:
       - node
-      
+
 postgres:
   services:
       - postgres
   stage: test
+  retry_on_failure: 2
   script:
-      - npm install bluebird mocha should pg 
+      - npm install bluebird mocha should pg
       - make test-postgres
   only:
       - master
   tags:
       - node
-      
+
 mongo:
   services:
       - mongo
   stage: test
+  retry_on_failure: 2
   script:
-      - npm install bluebird mocha should mongodb 
+      - npm install bluebird mocha should mongodb
       - make test-mongo
   only:
       - master
   tags:
       - node
-      
+
 arango:
   services:
       - arangodb
   stage: test
+  retry_on_failure: 2
   script:
-      - npm install bluebird mocha should arangojs 
+      - npm install bluebird mocha should arangojs
       - make test-arango
   only:
       - master
@@ -95,6 +101,7 @@ rethinkdb:
   services:
       - rethinkdb
   stage: test
+  retry_on_failure: 2
   script:
       - npm install bluebird mocha should async generic-pool rethinkdb moment
       - make test-rethinkdb
