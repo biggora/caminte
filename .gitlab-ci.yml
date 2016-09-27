@@ -24,12 +24,52 @@ before_script:
 stages:
     - test
 
-all:
+sqlite:
   stage: test
   script:
       - npm install --save-dev
-      - make test
+      - make test-sqlite
   only:
       - master
   tags:
       - node
+
+mysql:
+  stage: test
+  script:
+      - npm install --save-dev
+      - make test-mysql
+  only:
+      - master
+  tags:
+      - node
+
+redis:
+  stage: test
+  script:
+      - npm install --save-dev
+      - make test-redis
+  only:
+      - master
+  tags:
+      - node
+
+arango:
+  stage: test
+  script:
+      - npm install --save-dev
+      - make test-arango
+  only:
+      - master
+  tags:
+      - node
+
+#all:
+#  stage: test
+#  script:
+#      - npm install --save-dev
+#      - make test
+#  only:
+#      - master
+#  tags:
+#      - node
