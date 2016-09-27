@@ -1,10 +1,10 @@
 image: biggora/gitlab-zone
-services:
-  - mariadb
-  - mysql
-  - postgres
-  - redis
-  - mongo
+# services:
+#  - mariadb
+#  - mysql
+#  - postgres
+#  - redis
+#  - mongo
 #  - rethinkdb
 #  - arangodb
 #  - neo4j
@@ -28,6 +28,11 @@ stages:
     - test
 
 dbs-tests:
+  services:
+      - mariadb
+      - postgres
+      - redis
+      - mongo
   stage: test
   script:
       - npm install --save-dev
