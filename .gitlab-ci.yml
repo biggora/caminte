@@ -1,11 +1,5 @@
 image: biggora/gitlab-zone
 # services:
-#  - mariadb
-#  - mysql
-#  - postgres
-#  - redis
-#  - mongo
-#  - rethinkdb
 #  - arangodb
 #  - neo4j
 
@@ -102,7 +96,7 @@ rethinkdb:
       - rethinkdb
   stage: test
   script:
-      - npm install bluebird mocha should rethinkdb moment
+      - npm install bluebird mocha should generic-pool rethinkdb moment
       - make test-rethinkdb
   only:
       - master
