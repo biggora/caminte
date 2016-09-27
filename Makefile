@@ -48,7 +48,7 @@ test-arango:
 test-neo4j:
 	@CAMINTE_DRIVER=neo4j $(MOCHA) --timeout 5000 -r should -R $(MOCHA_REPORTER)
 
-test: test-sqlite test-mysql test-redis test-mongo test-arango
+test: test-sqlite test-mysql test-redis test-mongo
 
 clear:
 	@rm -rf coverage
