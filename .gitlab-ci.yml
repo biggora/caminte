@@ -5,9 +5,9 @@ services:
   - postgres
   - redis
   - mongo
-  - rethinkdb
-  - arangodb
-  - neo4j
+#  - rethinkdb
+#  - arangodb
+#  - neo4j
 
 variables:
   MYSQL_USER: "test"
@@ -27,82 +27,16 @@ before_script:
 stages:
     - test
 
-sqlite:
+dbs-tests:
   stage: test
   script:
       - npm install --save-dev
       - make test-sqlite
-  only:
-      - master
-  tags:
-      - node
-
-mysql:
-  stage: test
-  script:
-      - npm install --save-dev
       - make test-mysql
-  only:
-      - master
-  tags:
-      - node
-
-mariadb:
-  stage: test
-  script:
-      - npm install --save-dev
       - make test-mariadb
-  only:
-      - master
-  tags:
-      - node
-
-redis:
-  stage: test
-  script:
-      - npm install --save-dev
       - make test-redis
-  only:
-      - master
-  tags:
-      - node
-
-postgres:
-  stage: test
-  script:
-      - npm install --save-dev
-      - make test-postgres
-  only:
-      - master
-  tags:
-      - node
-
-mongo:
-  stage: test
-  script:
-      - npm install --save-dev
       - make test-mongo
   only:
       - master
   tags:
       - node
-
-arango:
-  stage: test
-  script:
-      - npm install --save-dev
-      - make test-arango
-  only:
-      - master
-  tags:
-      - node
-
-#all:
-#  stage: test
-#  script:
-#      - npm install --save-dev
-#      - make test
-#  only:
-#      - master
-#  tags:
-#      - node
