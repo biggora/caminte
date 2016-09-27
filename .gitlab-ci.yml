@@ -16,7 +16,6 @@ variables:
   ARANGO_RANDOM_ROOT_PASSWORD: "0"
 
 before_script:
-    - retry() { if eval "$@"; then return 0; fi; for i in 1 2; do sleep 3s; echo "Retrying $i..."; if eval "$@"; then return 0; fi; done; return 1; }
     - cat /etc/hosts | grep 172
 
 stages:
@@ -26,7 +25,6 @@ redis:
   services:
       - redis
   stage: test
-  retry: 2
   script:
       - npm install bluebird mocha should redis
       - make test-redis
@@ -37,7 +35,6 @@ redis:
 
 sqlite:
   stage: test
-  retry: 2
   script:
       - npm install bluebird mocha should sqlite3
       - make test-sqlite
@@ -50,7 +47,6 @@ mysql:
   services:
       - mysql
   stage: test
-  retry: 2
   script:
       - npm install bluebird mocha should mysql
       - make test-mysql
@@ -63,7 +59,6 @@ postgres:
   services:
       - postgres
   stage: test
-  retry: 2
   script:
       - npm install bluebird mocha should pg
       - make test-postgres
@@ -76,7 +71,6 @@ mongo:
   services:
       - mongo
   stage: test
-  retry: 2
   script:
       - npm install bluebird mocha should mongodb
       - make test-mongo
@@ -89,7 +83,6 @@ arango:
   services:
       - arangodb
   stage: test
-  retry: 2
   script:
       - npm install bluebird mocha should arangojs
       - make test-arango
@@ -102,7 +95,6 @@ rethinkdb:
   services:
       - rethinkdb
   stage: test
-  retry: 2
   script:
       - npm install bluebird mocha should async generic-pool rethinkdb moment
       - make test-rethinkdb
