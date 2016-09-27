@@ -49,9 +49,9 @@ sqlite:
   tags:
       - node
       
-mariadb:
+mysql:
   services:
-      - mariadb
+      - mysql
   stage: test
   script:
       - npm install bluebird mocha should mysql 
@@ -68,6 +68,30 @@ mongo:
   script:
       - npm install bluebird mocha should mongodb 
       - make test-mongo
+  only:
+      - master
+  tags:
+      - node
+      
+arango:
+  services:
+      - arangodb
+  stage: test
+  script:
+      - npm install bluebird mocha should arangojs 
+      - make test-arango
+  only:
+      - master
+  tags:
+      - node
+      
+postgres:
+  services:
+      - postgres
+  stage: test
+  script:
+      - npm install bluebird mocha should pg 
+      - make test-postgres
   only:
       - master
   tags:
