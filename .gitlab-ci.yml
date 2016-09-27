@@ -27,20 +27,23 @@ before_script:
 stages:
     - test
 
-dbs-tests:
+redis:
   services:
-      - mariadb
-      - postgres
       - redis
-      - mongo
+  stage: test
+  script:
+      - npm install --save-dev
+      - make test-redis
+  only:
+      - master
+  tags:
+      - node
+      
+sqlite:
   stage: test
   script:
       - npm install --save-dev
       - make test-sqlite
-      - make test-mysql
-      - make test-mariadb
-      - make test-redis
-      - make test-mongo
   only:
       - master
   tags:
