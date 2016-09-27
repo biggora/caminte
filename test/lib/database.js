@@ -61,8 +61,8 @@ module.exports.redis = {
     driver     : 'redis',
     host       : gitlab ? 'redis' : '127.0.0.1',
     port       : '6379',
-    username   : 'test',
-    password   : 'test',
+//    username   : 'test',
+//    password   : 'test',
     database   : 'test'
 };
 
