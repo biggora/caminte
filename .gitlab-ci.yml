@@ -48,3 +48,27 @@ sqlite:
       - master
   tags:
       - node
+      
+mariadb:
+  services:
+      - mariadb
+  stage: test
+  script:
+      - npm install bluebird mocha should mysql 
+      - make test-mysql
+  only:
+      - master
+  tags:
+      - node
+      
+mongo:
+  services:
+      - mongo
+  stage: test
+  script:
+      - npm install bluebird mocha should mongodb 
+      - make test-mongo
+  only:
+      - master
+  tags:
+      - node
