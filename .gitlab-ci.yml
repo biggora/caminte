@@ -102,7 +102,7 @@ rethinkdb:
       - rethinkdb
   stage: test
   script:
-      - npm install bluebird mocha should rethinkdb 
+      - npm install bluebird mocha should rethinkdb moment
       - make test-rethinkdb
   only:
       - master
