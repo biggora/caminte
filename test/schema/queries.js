@@ -1,7 +1,9 @@
 /**
  * Created by Alex on 12/27/2015.
  */
-
+/*global
+ describe, before, after, it
+ */
 if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'test';
 }
@@ -11,15 +13,15 @@ var caminte = require('../../index');
 var config = require('./../lib/database');
 var samples = require('./../lib/data');
 var dbConf = config[driver];
-var CategoryModel = require('./../lib/Category');
+var categoryModel = require('./../lib/Category');
 var Schema = caminte.Schema;
 dbConf.host = process.env.DB_HOST || dbConf.host || '';
 var schema = new Schema(dbConf.driver, dbConf);
-var Category = CategoryModel(schema);
+var Category = categoryModel(schema);
 
 describe(driver + ' - queries:', function () {
     'use strict';
-    var id, newCategories = samples.categories, total = newCategories.length;
+    var newCategories = samples.categories, total = newCategories.length;
 
     before(function (done) {
         schema.autoupdate(function () {

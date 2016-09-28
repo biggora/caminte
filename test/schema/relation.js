@@ -1,7 +1,9 @@
 /**
  * Created by Alex on 12/18/2015.
  */
-
+/*global
+ describe, before, after, it
+ */
 if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'test';
 }
@@ -12,13 +14,13 @@ var caminte = require('../../');
 var config = require('./../lib/database');
 var samples = require('./../lib/data');
 var dbConf = config[driver];
-var UserModel = require('./../lib/User');
-var ArticleModel = require('./../lib/Article');
+var userModel = require('./../lib/User');
+var articleModel = require('./../lib/Article');
 var Schema = caminte.Schema;
 dbConf.host = process.env.DB_HOST || dbConf.host || '';
 var schema = new Schema(dbConf.driver, dbConf);
-var User = UserModel(schema);
-var Article = ArticleModel(schema);
+var User = userModel(schema);
+var Article = articleModel(schema);
 
 /**
  * Simple tests for the User and Article model

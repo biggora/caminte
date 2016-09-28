@@ -1,7 +1,9 @@
 /**
  * Created by Alex on 12/18/2015.
  */
-
+/*global
+ describe, before, after, it
+ */
 if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'test';
 }
@@ -11,11 +13,11 @@ var caminte = require('../../');
 var config = require('./../lib/database');
 var samples = require('./../lib/data');
 var dbConf = config[driver];
-var UserModel = require('./../lib/User');
+var userModel = require('./../lib/User');
 var Schema = caminte.Schema;
 dbConf.host = process.env.DB_HOST || dbConf.host || '';
 var schema = new Schema(dbConf.driver, dbConf);
-var User = UserModel(schema);
+var User = userModel(schema);
 
 describe(driver + ' - schema hooks:', function () {
     'use strict';
@@ -28,7 +30,7 @@ describe(driver + ' - schema hooks:', function () {
     after(function (done) {
         User.destroyAll(done);
     });
-    
+
     it("#afterInitialize", function (done) {
         User.afterInitialize = function () {
             User.afterInitialize = null;
