@@ -2,7 +2,9 @@
  *  Category Unit Test
  *  Created by caminte-cli script
  **/
-
+/*global
+ describe, before, after, it
+ */
 if (!process.env.NODE_ENV) {
     process.env.NODE_ENV = 'test';
 }
@@ -12,11 +14,11 @@ var caminte = require('../../');
 var config = require('./../lib/database');
 var samples = require('./../lib/data');
 var dbConf = config[driver];
-var CategoryModel = require('./../lib/Category');
+var categoryModel = require('./../lib/Category');
 var Schema = caminte.Schema;
 dbConf.host = process.env.DB_HOST || dbConf.host || '';
 var schema = new Schema(dbConf.driver, dbConf);
-var Category = CategoryModel(schema);
+var Category = categoryModel(schema);
 
 /**
  * Simple tests for the Article model
@@ -26,7 +28,9 @@ describe(driver + ' - Category unit:', function () {
     var category, id, newCategory = samples.categories[0];
 
     before(function (done) {
-        schema.autoupdate(done);
+        schema.autoupdate(function(){
+            return done && done();
+        });
     });
 
     after(function (done) {

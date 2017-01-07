@@ -24,26 +24,30 @@ describe(driver + ' - queries:', function () {
     var newCategories = samples.categories, total = newCategories.length;
 
     before(function (done) {
-        schema.autoupdate(function () {
-            var cnt = newCategories.length;
-            if (!cnt) {
-                done();
-            }
-            newCategories.forEach(function (category) {
-                Category.create(category, function (err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    if (--cnt === 0) {
-                        done();
-                    }
+        setTimeout(function(){
+            schema.autoupdate(function () {
+                var cnt = newCategories.length;
+                if (!cnt) {
+                    return done && done();
+                }
+                newCategories.forEach(function (category) {
+                    Category.create(category, function (err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        if (--cnt === 0) {
+                            return done && done();
+                        }
+                    });
                 });
             });
-        });
+        }, 500);
     });
 
     after(function (done) {
-        Category.destroyAll(done);
+        Category.destroyAll(function(){
+            return done && done();
+        });
     });
 
     describe('#order', function () {

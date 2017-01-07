@@ -31,11 +31,13 @@ describe(driver + ' - schema validation:', function () {
         newUser2 = samples.users[0];
 
     before(function (done) {
-        user1 = new User(newUser1);
-        user2 = new User(newUser2);
-        schema.autoupdate(function(){
-            user1.save(done);
-        });
+        setTimeout(function(){
+            user1 = new User(newUser1);
+            user2 = new User(newUser2);
+            schema.autoupdate(function () {
+                user1.save(done);
+            });
+        }, 500);
     });
 
     after(function (done) {

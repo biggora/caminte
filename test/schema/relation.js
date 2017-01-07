@@ -33,17 +33,21 @@ describe(driver + ' - relation:', function () {
     Article.belongsTo(User, {as: 'author', foreignKey: 'create_id'});
 
     before(function (done) {
-        schema.autoupdate(function () {
-            user = new User(newUser);
-            user.save(function () {
-                done();
+        setTimeout(function(){
+            schema.autoupdate(function () {
+                user = new User(newUser);
+                user.save(function () {
+                    return done && done();
+                });
             });
-        });
+        }, 500);
     });
 
     after(function (done) {
         User.destroyAll(function () {
-            Article.destroyAll(done);
+            Article.destroyAll(function(){
+                return done && done();
+            });
         });
     });
 

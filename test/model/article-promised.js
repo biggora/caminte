@@ -25,7 +25,9 @@ describe(driver + ' - Promised Article model:', function () {
     var id, newArticle = samples.articles[1];
 
     before(function (done) {
-        schema.autoupdate(done);
+        schema.autoupdate(function(){
+            return done && done();
+        });
     });
 
     after(function (done) {

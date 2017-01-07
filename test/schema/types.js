@@ -24,15 +24,17 @@ describe(driver + ' - schema types:', function () {
     var id, article, newArticle = samples.articles[1];
 
     before(function (done) {
-        schema.autoupdate(function () {
-            Article.create(newArticle, function(err, created){
-                id = created.id;
-                Article.findById(id, function(err, found) {
-                    article = found;
-                    done();
+        setTimeout(function(){
+            schema.autoupdate(function () {
+                Article.create(newArticle, function (err, created) {
+                    id = created.id;
+                    Article.findById(id, function (err, found) {
+                        article = found;
+                        return done && done();
+                    });
                 });
             });
-        });
+        }, 500);
     });
 
     after(function (done) {

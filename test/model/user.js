@@ -25,7 +25,11 @@ describe(driver + ' - User model:', function () {
     var id, newUser = samples.users[0];
 
     before(function (done) {
-        schema.autoupdate(done);
+        setTimeout(function() {
+            schema.autoupdate(function () {
+                return done && done();
+            });
+        }, 500);
     });
 
     after(function (done) {

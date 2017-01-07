@@ -24,11 +24,17 @@ describe(driver + ' - schema hooks:', function () {
     var user, nuser, newUser = samples.users[0];
 
     before(function (done) {
-        schema.autoupdate(done);
+        setTimeout(function(){
+            schema.autoupdate(function () {
+                return done && done();
+            });
+        }, 500);
     });
 
     after(function (done) {
-        User.destroyAll(done);
+        User.destroyAll(function(){
+            return done && done();
+        });
     });
 
     it("#afterInitialize", function (done) {

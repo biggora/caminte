@@ -29,14 +29,20 @@ describe(driver + ' - schema scope:', function () {
     var category, newCategory = samples.categories[0];
 
     before(function (done) {
-        category = new Category(newCategory);
-        schema.autoupdate(function () {
-            category.save(done);
-        });
+        setTimeout(function(){
+            category = new Category(newCategory);
+            schema.autoupdate(function () {
+                category.save(function () {
+                    return done && done();
+                });
+            });
+        }, 500);
     });
 
     after(function (done) {
-        Category.destroyAll(done);
+        Category.destroyAll(function(){
+            return done && done();
+        });
     });
 
     describe('#scope', function () {
