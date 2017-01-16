@@ -6,9 +6,10 @@ var schema = require('./lib/schema');
 var pkg = require('./package');
 var abc = require('./lib/abstract-class');
 var vld = require('./lib/validatable');
+var Schema = schema.Schema;
 
-Schema = schema.Schema;
-
+exports.models = {};
+exports.schema = {};
 exports.Schema = Schema;
 exports.AbstractClass = abc.AbstractClass;
 exports.Validatable = vld.Validatable;
