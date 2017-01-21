@@ -1,15 +1,13 @@
 /**
  * Module dependencies
  */
-var fs = require('fs');
 var schema = require('./lib/schema');
 var pkg = require('./package');
 var abc = require('./lib/abstract-class');
 var vld = require('./lib/validatable');
 var Schema = schema.Schema;
 
-exports.models = {};
-exports.schema = {};
+exports.schema = {models:{}};
 exports.Schema = Schema;
 exports.AbstractClass = abc.AbstractClass;
 exports.Validatable = vld.Validatable;
@@ -23,6 +21,10 @@ exports.init = function (trinte) {
     } else {
         trinte.orm = {Schema: exports.Schema, AbstractClass: exports.AbstractClass};
     }
+};
+
+exports.model = function (name){
+    return this.schema.models[name.toLowerCase()];
 };
 
 exports.version = pkg.version;
