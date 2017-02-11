@@ -1,7 +1,7 @@
 *.bak
 *.log
-.idea
-node_modules
-db
-tmp
-coverage
+/.idea/
+/node_modules/
+/db/
+/tmp/
+/coverage/
