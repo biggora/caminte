@@ -1,9 +1,10 @@
 language: node_js
-
+sudo: required
 node_js:
     - 0.10
     - 4.5
     - 6.5
+    - 7.0
 
 env:
     - NEO4J_AUTH="none"
