@@ -78,6 +78,10 @@ Create model:
     # with tests  
     $ caminte -t -m User active:int name email password note:text created:date
     
+Create Tables:
+
+    After created models, you can enable env `AUTOUPDATE` to true, when app initialize, this try create tables structures on database.
+    
 Create model and routes:
 
     $ caminte -c Post published:bool title content:text created:date
