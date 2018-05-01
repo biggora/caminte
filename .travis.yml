@@ -17,7 +17,7 @@ services:
 
 before_script:
     - sudo apt-get update -o Acquire::http::No-Cache=True
-    - sudo apt-get install -y apt-transport-https
+    - sudo apt-get install -y apt-transport-https libgoogle-perftools4
     # configure mysql
     - mysql -e "CREATE USER 'test'@'%' IDENTIFIED BY 'test';" -uroot
     - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
