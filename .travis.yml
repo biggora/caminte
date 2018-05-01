@@ -47,4 +47,4 @@ before_script:
     # - sudo apt-get update -q
     # - sudo apt-get install arangodb=2.8.7 -y
     # start neo4j
-    - which neo4j && sudo neo4j start
+    - sudo $(which neo4j) start
