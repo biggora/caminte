@@ -53,8 +53,5 @@ test: test-redis test-sqlite test-mysql test-mongo
 clear:
 	@rm -rf coverage
 
-update:
-
-
 .PHONY: test
 .PHONY: doc
