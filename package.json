@@ -96,7 +96,12 @@
     },
     "main": "index.js",
     "scripts": {
-        "test": "make test"
+        "test": "make test",
+        "test:mysql": "cross-env CAMINTE_DRIVER=mysql _mocha --timeout 3000 -r should -R spec --exit",
+        "test:sqlite": "cross-env CAMINTE_DRIVER=sqlite _mocha --timeout 3000 -r should -R spec --exit",
+        "test:postgres": "cross-env CAMINTE_DRIVER=postgres _mocha --timeout 3000 -r should -R spec --exit",
+        "test:redis": "cross-env CAMINTE_DRIVER=redis _mocha --timeout 3000 -r should -R spec --exit",
+        "test:mongo": "cross-env CAMINTE_DRIVER=mongo _mocha --timeout 3000 -r should -R spec --exit"
     },
     "engines": {
         "node": ">=4",
@@ -111,11 +116,10 @@
         "async": "^2.6.0",
         "cassandra-driver": "^3.5.0",
         "coffee-script": "^1.12.7",
-        "semicov": "^0.2.0",
-        "should": "^13.2.1",
-        "generic-pool": "^3.4.2",
         "cradle": "^0.7.1",
+        "cross-env": "5.1.4",
         "felix-couchdb": "^1.0.8",
+        "generic-pool": "^3.4.2",
         "istanbul": "^0.4.5",
         "jshint": "2.x",
         "mocha": "^5.1.1",
@@ -128,6 +132,8 @@
         "redis": "^2.8.0",
         "rethinkdb": "^2.3.3",
         "riak-js": "^1.1.0",
+        "semicov": "^0.2.0",
+        "should": "^13.2.1",
         "sqlite3": "^4.0.0",
         "underscore": "^1.9.0"
     },
