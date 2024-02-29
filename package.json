@@ -61,6 +61,10 @@
         {
             "name": "Tyrone Dougherty",
             "email": "email@tyronedougherty.com"
+        },
+        {
+            "name": "Manuel Barkau",
+            "email": "manuelbarkau1@freenet.de"
         }
     ],
     "keywords": [
@@ -124,7 +128,7 @@
         "jshint": "2.x",
         "mocha": "^5.1.1",
         "moment": "^2.22.1",
-        "mongodb": "^3.0.7",
+        "mongodb": "^3.6.3",
         "mongoose": "^5.0.17",
         "mysql": "^2.15.0",
         "node-neo4j": "^2.0.3",
